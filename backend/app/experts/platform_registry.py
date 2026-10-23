@@ -1,6 +1,6 @@
 """
 跨境电商平台注册表 — 欧洲主打平台矩阵
-覆盖：Amazon 欧洲站 / eBay / Cdiscount / Otto / Allegro / eMAG / Fruugo / Walmart / TikTok Shop
+覆盖：Amazon 欧洲站 / eBay / Cdiscount / Otto / Allegro / eMAG / Fruugo / Walmart / Zalando / TikTok Shop
 
 字段说明：
 - title_max / bullets / search_terms_max / description_max：listing 硬性限制
@@ -118,16 +118,18 @@ PLATFORMS: dict = {
             "EAN 是商品主键，缺失无法创建",
         ],
     },
-    # ===== 荷兰/比利时 =====
-    "bol": {
-        "display": "bol.com",
-        "countries": ["NL", "BE"],
-        "language": "nl",
-        "title_max": 120, "bullets": 5, "search_terms_max": 200,
+    # ===== 欧洲（时尚类目主打：德国起家 + 泛欧分销） =====
+    "zalando": {
+        "display": "Zalando",
+        "countries": ["DE", "AT", "CH", "FR", "IT", "ES", "NL", "BE", "PL", "CZ", "SE"],
+        "language": "en",
+        "title_max": 120, "bullets": 5, "search_terms_max": 250,
         "description_max": 3000,
         "notes": [
-            "荷兰语 listing（NL/BE），EAN 是商品唯一键，缺失直接建不了 offer",
-            "荷兰买家重视 Delivery Promise 与 bol 分销服务评分",
+            "仅开放时尚类目（服装/鞋靴/箱包/配饰/美妆），需通过 Zalando Partner 品牌入驻审核（zDirect）",
+            "EAN/GTIN 是商品唯一键，缺失无法创建；尺码网格（size grid）与材质成分必填，缺失直接拒收",
+            "主目录用英语提交，Zalando 平台按站点自动本地化；德区消费者对材质与洗涤说明极敏感",
+            "纺织品类目强制 GPSR + 纤维成分标签（EU 1007/2011），缺欧代与当地语言警示语会被下架",
         ],
     },
     # ===== 自建站/其他（保留原有）=====

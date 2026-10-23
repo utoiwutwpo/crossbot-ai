@@ -104,14 +104,19 @@ def _tree(platform: str) -> List[dict]:
                   help_="toys/beauty 类目建议与 GPSR 警示语一致"),
             _attr("model", "型号 Modell", required="soft", example="KL-330"),
         ],
-        # bol.com：EAN 是硬钥匙，缺了产品根本建不了
-        "bol": [
-            _attr("ean", "EAN 条码", "ean13", required="hard", example="8711234123457",
-                  help_="bol.com 用 EAN 作为产品唯一键，缺失直接无法创建 offer"),
+        # Zalando：EAN + 材质成分 + 尺码网格是硬钥匙，缺了商品直接拒收
+        "zalando": [
+            _attr("ean", "EAN/GTIN 条码", "ean13", required="hard", example="8711234123457",
+                  help_="Zalando 用 EAN 作为商品唯一键，缺失无法创建"),
             common_brand,
-            _attr("model", "型号", required="soft", example="BL-77"),
-            _attr("packaging_language", "包装语言", required="soft", example="nl",
-                  enum=["nl", "fr", "en"], help_="NL/BE 站建议 nl 或 fr"),
+            _attr("material_composition", "材质成分", required="hard",
+                  example="80% Cotton, 20% Polyester",
+                  help_="纺织品类目强制 EU 1007/2011 纤维成分标签"),
+            _attr("size_grid", "尺码网格", required="hard", example="EU 36-46 / US 6-16",
+                  help_="时尚类目必须提交完整尺码网格（size grid）"),
+            _attr("care_instructions", "洗涤/护理说明", required="soft",
+                  example="Machine wash 30°C", help_="德区消费者对护理说明极敏感，建议填写"),
+            _attr("model", "款式/型号", required="soft", example="ZL-2210"),
         ],
     }
     return attrs.get(platform, [
