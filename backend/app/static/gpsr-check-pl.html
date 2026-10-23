@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Darmowy audyt GPSR — czy Twoje oferty na Allegro zostaną usunięte? | CrossBot AI</title>
+<meta name="description" content="Rozporządzenie GPSR (UE 2023/988) obowiązuje od 13 grudnia 2024. Sprawdź w 30 sekund, czy Twoja oferta ma przedstawiciela w UE, ostrzeżenia w języku polskim i oznakowanie CE. Bez podłączania sklepu.">
+<style>
+  :root{
+    --ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --accent:#d97706;--accent-dark:#b45309;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+  a{text-decoration:none;color:inherit}
+  .topbar{background:var(--accent);color:#fff;text-align:center;font-size:13px;padding:8px 16px}
+  .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:14px 32px;max-width:1200px;margin:0 auto}
+  .logo{font-weight:800;font-size:18px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
+  nav .links{display:flex;gap:26px;font-size:14px;color:var(--muted)}
+  .pill-dark{background:var(--ink);color:#fff;border-radius:999px;padding:9px 20px;font-size:14px;font-weight:600;cursor:pointer;border:none}
+  .pill-accent{background:var(--accent);color:#fff;border-radius:999px;padding:12px 28px;font-size:15px;font-weight:700;cursor:pointer;border:none}
+  .pill-accent:hover{background:var(--accent-dark)}
+  .pill-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:12px 28px;font-size:15px;font-weight:600;cursor:pointer}
+  .hero-wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+  .hero{background:radial-gradient(900px 500px at 85% -10%,rgba(217,119,6,.5),transparent 60%),
+        radial-gradient(700px 400px at 0% 110%,rgba(139,92,246,.4),transparent 55%),
+        linear-gradient(120deg,#0b1030 0%,#171040 55%,#2b1467 100%);
+    border-radius:24px;color:#fff;padding:64px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;overflow:hidden}
+  .eyebrow{display:inline-flex;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fde68a;margin-bottom:18px}
+  .hero h1{font-size:42px;line-height:1.18;font-weight:800;margin-bottom:18px}
+  .hero h1 .accent{color:#fbbf24}
+  .hero p.sub{font-size:16px;color:#cbd5e1;max-width:520px;margin-bottom:14px}
+  .hero p.noshop{font-size:13px;color:#94a3b8;margin-bottom:26px}
+  .hero p.noshop b{color:#e2e8f0}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap}
+  .mock{background:#fff;border-radius:16px;color:var(--ink);padding:20px;box-shadow:0 24px 60px rgba(0,0,0,.45);font-size:13px}
+  .mock .mtitle{font-weight:700;font-size:14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+  .risk{display:inline-block;border-radius:999px;padding:2px 12px;font-size:12px;font-weight:700}
+  .risk.high{background:#fee2e2;color:var(--err)}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+  .chip{background:#fff7ed;color:var(--accent);border-radius:999px;padding:2px 10px;font-size:11px;font-weight:600}
+  .mrow{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid var(--border)}
+  .mrow .s{font-weight:700}.mrow .s.ok{color:var(--ok)}.mrow .s.bad{color:var(--err)}
+  .trust{max-width:1200px;margin:0 auto;padding:44px 24px 10px;text-align:center}
+  .trust p{font-size:13px;color:var(--muted);margin-bottom:16px}
+  .trust p b{color:var(--ink)}
+  .logos{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;font-weight:800;font-size:15px;color:#94a3b8}
+  section{max-width:1200px;margin:0 auto;padding:64px 24px}
+  .sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+  .sec-title{font-size:32px;font-weight:800;margin-bottom:12px}
+  .sec-sub{color:var(--muted);font-size:15px;max-width:640px}
+  .solutions{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
+  .visual{background:linear-gradient(160deg,#fef3c7,#ede9fe);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:14px}
+  .stat-card{background:#fff;border-radius:14px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 18px rgba(30,27,75,.08)}
+  .stat-card .k{font-size:13px;color:var(--muted)}
+  .stat-card .v{font-size:20px;font-weight:800;color:var(--accent)}
+  details.feat{border-bottom:1px solid var(--border);padding:6px 0}
+  details.feat summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:17px;font-weight:700;padding:16px 0}
+  details.feat summary::-webkit-details-marker{display:none}
+  details.feat summary::after{content:"+";font-size:22px;color:var(--muted);font-weight:400}
+  details.feat[open] summary::after{content:"–"}
+  details.feat .body{padding:0 0 18px;color:var(--muted);font-size:14px}
+  details.feat .body b{color:var(--ink)}
+  #check .panel{max-width:680px;margin:0 auto;background:var(--soft);border:1px solid var(--border);border-radius:20px;padding:36px}
+  label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+  input,select{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;background:#fff;color:var(--ink)}
+  input:focus,select:focus{outline:2px solid var(--accent);border-color:transparent}
+  .msg{padding:12px 16px;border-radius:10px;font-size:14px;margin-top:16px}
+  .msg.err{background:#fef2f2;color:var(--err);border:1px solid #fecaca}
+  .hint{font-size:12px;color:var(--muted);margin-top:6px}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px}
+  th,td{border-bottom:1px solid var(--border);padding:10px 8px;text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px}
+  .badge{display:inline-block;background:#fff7ed;color:var(--accent);border-radius:999px;padding:2px 12px;font-size:12px;font-weight:600;margin:0 6px 6px 0}
+  pre{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;white-space:pre-wrap;font-size:13px;text-align:left}
+  .nowin{color:var(--err);font-weight:600}.win{color:var(--ok);font-weight:600}
+  .pricing-card{background:radial-gradient(600px 300px at 90% 0%,rgba(217,119,6,.45),transparent 60%),linear-gradient(120deg,#0b1030,#251a5e);border-radius:24px;color:#fff;text-align:center;padding:56px 32px}
+  .pricing-card h2{font-size:30px;font-weight:800;margin-bottom:10px}
+  .pricing-card .price{font-size:44px;font-weight:800;color:#fbbf24;margin:14px 0 6px}
+  .pricing-card .price small{font-size:15px;color:#94a3b8;font-weight:400}
+  .pricing-card p{color:#cbd5e1;font-size:14px}
+  footer{border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--muted);padding:28px 24px;margin-top:24px}
+  @media (max-width:900px){.hero{grid-template-columns:1fr;padding:48px 32px}.hero h1{font-size:30px}.solutions{grid-template-columns:1fr}nav .links{display:none}}
+</style>
+</head>
+<body>
+
+<div class="topbar">⚠️ GPSR (UE 2023/988) obowiązuje — oferty bez zgodności są usuwane <b onclick="location.href='#check'">Darmowy audyt →</b></div>
+
+<nav>
+  <div class="logo"><span class="dot">🤖</span>CrossBot <span style="color:var(--accent)">AI</span></div>
+  <div class="links"><a href="#features">Funkcje</a><a href="#check">Audyt</a><a href="#compare">Porównanie</a><a href="#pricing">Cennik</a></div>
+  <div style="display:flex;gap:14px;align-items:center">
+    <a href="/" style="font-size:14px;color:var(--muted)">Zaloguj</a>
+    <button class="pill-dark" onclick="location.href='#check'">Darmowy audyt</button>
+  </div>
+</nav>
+
+<div class="hero-wrap">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">🛡️ Silnik zgodności GPSR</div>
+      <h1>Każda oferta w Europie —<br><span class="accent">zgodna z przepisami.</span></h1>
+      <p class="sub">Brak przedstawiciela w UE, brak ostrzeżeń w języku lokalnym, brak oznakowania CE —
+      Allegro / Amazon / eBay / Otto mogą usunąć taką ofertę. CrossBot AI generuje blok zgodności razem z treścią oferty.</p>
+      <p class="noshop">✓ Samodzielny panel — <b>bez podłączania sklepu</b> &nbsp;·&nbsp; ✓ Audyt bezpłatny, bez karty</p>
+      <div class="cta-row">
+        <button class="pill-accent" onclick="location.href='#check'">Rozpocznij darmowy audyt</button>
+        <button class="pill-ghost" onclick="location.href='#features'">Jak to działa</button>
+      </div>
+    </div>
+    <div class="mock">
+      <div class="mtitle">📡 Raport GPSR — oferta Allegro <span class="risk high">🔴 Wysokie ryzyko</span></div>
+      <div class="chips"><span class="chip">Zabawka · EN 71</span><span class="chip">Ostrzeżenie: PL</span><span class="chip">Allegro</span></div>
+      <div class="mrow"><span>Producent + przedstawiciel UE</span><span class="s bad">Brak</span></div>
+      <div class="mrow"><span>Polskie ostrzeżenie o zadławieniu</span><span class="s bad">Brak</span></div>
+      <div class="mrow"><span>Oznakowanie CE + DOF</span><span class="s bad">Brak</span></div>
+      <div class="mrow"><span>Identyfikacja produktu</span><span class="s ok">✓ Jest</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="trust">
+  <p>Jedna generacja — <b>9 platform europejskich</b> · panel GPSR dla sprzedawców transgranicznych</p>
+  <div class="logos"><span>Allegro</span><span>Amazon EU</span><span>eBay</span><span>Otto</span><span>eMAG</span><span>Cdiscount</span><span>TikTok Shop</span><span>Fruugo</span></div>
+</div>
+
+<section id="features">
+  <div class="solutions">
+    <div class="visual">
+      <div class="stat-card"><div><div class="k">Rozpoznawanie kategorii CE</div><div class="v">7 zasad</div></div><span>🎯</span></div>
+      <div class="stat-card"><div><div class="k">Ostrzeżenia lokalne</div><div class="v">7 języków</div></div><span>🌍</span></div>
+      <div class="stat-card"><div><div class="k">Produkt → platformy</div><div class="v">9 platform</div></div><span>🚀</span></div>
+    </div>
+    <div>
+      <div class="sec-eyebrow">Funkcje</div>
+      <h2 class="sec-title">Zgodność jako domyślny<br>standard oferty</h2>
+      <p class="sec-sub" style="margin-bottom:16px">To nie kolejne narzędzie „AI pisze teksty". Tekst jest wejściem — zgodność i adaptacja semantyczna to nasza przewaga.</p>
+      <details class="feat" open><summary>Automatyczne rozpoznawanie kategorii CE</summary><div class="body">Zabawki (EN 71) / radio (RED) / elektronika (LVD+EMC+RoHS) / ŚOI / artykuły dziecięce / kontakt z żywnością / kosmetyki — <b>7 bibliotek zasad</b> wskaże właściwe dyrektywy.</div></details>
+      <details class="feat"><summary>Ostrzeżenia w języku polskim</summary><div class="body">Dla Allegro — polski. <b>Blok zgodności do wklejenia</b>: ostrzeżenia + dane przedstawiciela UE + identyfikacja produktu.</div></details>
+      <details class="feat"><summary>Ustawowa lista kontrolna GPSR</summary><div class="body">Producent, przedstawiciel UE, identyfikacja, ostrzeżenia, zdjęcia, instrukcja, CE — <b>punkt po punkcie: wymagane czy zalecane</b>.</div></details>
+      <details class="feat"><summary>9 platform, jedna generacja</summary><div class="body">Allegro / Amazon EU / eBay / Otto / eMAG / Cdiscount / TikTok Shop / Fruugo / Walmart — <b>wszystkie języki automatycznie</b>, z regułami każdej platformy.</div></details>
+    </div>
+  </div>
+</section>
+
+<section id="check" style="padding-top:8px">
+  <div class="sec-eyebrow" style="text-align:center">Bezpłatnie · bez karty · bez limitu</div>
+  <h2 class="sec-title" style="text-align:center">Audyt GPSR w 30 sekund</h2>
+  <p class="sec-sub" style="text-align:center;margin:0 auto 28px">Wpisz produkt — otrzymasz poziom ryzyka, dyrektywy i listę kontrolną. Raport tylko do samokontroli.</p>
+  <div class="panel">
+    <label>Nazwa produktu *</label><input id="g_name" placeholder="np. Zestaw klocków drewnianych dla dzieci">
+    <label>Słowa kluczowe (po przecinku) *</label><input id="g_kw" placeholder="np. klocki, zabawka, dzieci">
+    <label>Platforma</label>
+    <select id="g_platform">
+      <option value="allegro" selected>Allegro</option>
+      <option value="amazon">Amazon EU</option><option value="ebay">eBay</option>
+      <option value="emag">eMAG</option><option value="otto">Otto</option>
+      <option value="cdiscount">Cdiscount</option><option value="tiktok">TikTok Shop</option>
+      <option value="fruugo">Fruugo</option>
+    </select>
+    <button class="pill-accent" id="btnGo" style="width:100%;margin-top:20px">Rozpocznij darmowy audyt →</button>
+    <div class="hint" style="text-align:center;margin-top:10px">Bez rejestracji — 3 darmowe audyty dziennie. Konto pozwala zapisać historię i odblokować blok zgodności.</div>
+    <div id="out"></div>
+  </div>
+</section>
+
+<section id="compare" style="padding-top:8px">
+  <div class="sec-eyebrow">Dlaczego my</div>
+  <h2 class="sec-title">Bez sklepu. Bez €159/mies.</h2>
+  <table>
+    <tr><th></th><th>Narzędzia wymagające sklepu (np. Marqetir)</th><th class="win">CrossBot AI</th></tr>
+    <tr><td><b>Start</b></td><td class="nowin">Wymagane Shopify/Woo</td><td class="win">Bez sklepu — rejestracja i działasz</td></tr>
+    <tr><td><b>Koszt</b></td><td class="nowin">od €159/mies.</td><td class="win">Darmowy audyt + od €29/mies.</td></tr>
+    <tr><td><b>GPSR</b></td><td class="nowin">Brak zgodności</td><td class="win">Blok GPSR w każdej ofercie</td></tr>
+    <tr><td><b>Języki</b></td><td>13 języków</td><td>PL pierwszym językiem</td></tr>
+  </table>
+</section>
+
+<section id="pricing" style="padding-top:8px">
+  <div class="pricing-card">
+    <h2>Audyt pokazuje problemy. Naprawę robi AI.</h2>
+    <p>Po ulepszeniu: blok zgodności GPSR do wklejenia w ofertę —<br>ostrzeżenia po polsku + przedstawiciel UE + identyfikacja produktu.</p>
+    <div class="price">€29<small>/mies. od</small></div>
+    <p>Porównanie: konsultacja od €500 / jedno usunięcie oferty kosztuje więcej niż roczny abonament</p>
+    <button class="pill-accent" style="margin-top:22px" onclick="location.href='/'">Otwórz panel →</button>
+  </div>
+</section>
+
+<footer>CrossBot AI — silnik jakości i zgodności listingów dla platform europejskich · <a href="/" style="color:var(--accent)">Otwórz panel</a><br>
+Raport to pomoc inżynierska, nie porada prawna; zgodność z oficjalnym tekstem UE ma pierwszeństwo.</footer>
+
+<script>
+const API = "/api/v1";
+let TOKEN = localStorage.getItem("cb_token") || "";
+const RISK = {high:"🔴 Wysokie ryzyko (kategoria CE)", medium:"🟡 Średnie ryzyko", low:"🟢 Niskie ryzyko"};
+const REQ = {true:"Wymagane", false:"Zalecane"};
+function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+
+document.getElementById("btnGo").onclick = async () => {
+  const out = document.getElementById("out");
+  const name = document.getElementById("g_name").value.trim();
+  const kws = document.getElementById("g_kw").value.split(",").map(s=>s.trim()).filter(Boolean);
+  if(!name || !kws.length) return out.innerHTML = `<div class="msg err">Podaj nazwę produktu i słowa kluczowe</div>`;
+  const btn = document.getElementById("btnGo"); btn.disabled = true; btn.textContent = "Audytowanie…";
+  try{
+    const r = await fetch(API+"/products/gpsr/check-guest", {method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({product_name:name, keywords:kws, platform:document.getElementById("g_platform").value})});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.detail || "Audyt nieudany");
+    const checklist = d.checklist.map(c=>`<tr><td>${REQ[c.required]||"Zalecane"}</td><td><b>${esc(c.name)}</b><br><span class="hint">${esc(c.detail)}</span></td></tr>`).join("");
+    out.innerHTML = `<div class="msg" style="background:#fff;border:1px solid var(--border)">
+      <span class="badge">${RISK[d.risk_level]||d.risk_level}</span>
+      <span class="badge">${esc(d.matched_categories)}</span>
+      <span class="badge">Języki ostrzeżeń: ${d.required_languages.map(l=>l.toUpperCase()).join(" / ")}</span>
+      ${d.ce_directives.length?`<p style="margin-top:8px"><b>Dyrektywy:</b> ${d.ce_directives.map(esc).join("; ")}</p>`:""}
+      <table><tr><th style="width:90px">Poziom</th><th>Punkt kontrolny</th></tr>${checklist}</table>
+      ${d.gpsr_block
+        ? `<p style="margin-top:12px"><b>✅ Twój blok GPSR (do wklejenia):</b></p><pre>${esc(d.gpsr_block)}</pre>`
+        : (d.upsell_note?`<div class="msg err" style="margin-top:12px">Wykryto wymóg bloku GPSR. Ulepsz plan Starter, aby go odblokować — brak bloku grozi usunięciem oferty.<br><a href="/" style="color:var(--accent);font-weight:600">Otwórz panel i ulepsz →</a></div>`:"")}
+    </div>`;
+  }catch(e){ out.innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
+  btn.disabled = false; btn.textContent = "Rozpocznij darmowy audyt →";
+};
+</script>
+</body>
+</html>

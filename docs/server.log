@@ -1,0 +1,10 @@
+未配置 LLM_API_KEY，运行在 Mock 模式（结果为演示数据）
+未配置 LLM_API_KEY，运行在 Mock 模式（结果为演示数据）
+未配置 LLM_API_KEY，运行在 Mock 模式（结果为演示数据）
+未配置 LLM_API_KEY，运行在 Mock 模式（结果为演示数据）
+INFO:     Started server process [11028]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:65464 - "POST /api/v1/users/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65467 - "POST /api/v1/products/descriptions/generate HTTP/1.1" 200 OK

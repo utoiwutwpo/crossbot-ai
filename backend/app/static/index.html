@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrossBot AI — 跨境电商AI助手</title>
+<style>
+  :root{
+    --bg:#f6f7f9;--card:#ffffff;--border:#e5e7eb;--text:#111827;--muted:#6b7280;
+    --primary:#2563eb;--primary-dark:#1d4ed8;--ok:#059669;--warn:#d97706;--err:#dc2626;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  header{background:var(--card);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+  header h1{font-size:18px}
+  header h1 span{color:var(--primary)}
+  #userbar{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--muted)}
+  nav{display:flex;gap:4px;padding:10px 24px 0;max-width:1080px;margin:0 auto}
+  nav button{border:none;background:transparent;padding:10px 18px;font-size:14px;cursor:pointer;color:var(--muted);border-radius:8px 8px 0 0}
+  nav button.active{background:var(--card);color:var(--primary);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+  main{max-width:1080px;margin:0 auto;padding:20px 24px 48px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-top:16px}
+  .hidden{display:none}
+  label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+  input,select,textarea{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;background:#fff;color:var(--text)}
+  textarea{resize:vertical;min-height:70px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  button.btn{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:14px;font-weight:600;cursor:pointer;margin-top:18px}
+  button.btn:hover{background:var(--primary-dark)}
+  button.btn:disabled{background:#9ca3af;cursor:not-allowed}
+  button.ghost{background:transparent;color:var(--primary);border:1px solid var(--border)}
+  .msg{padding:10px 14px;border-radius:8px;font-size:14px;margin-top:14px}
+  .msg.err{background:#fef2f2;color:var(--err);border:1px solid #fecaca}
+  .msg.ok{background:#ecfdf5;color:var(--ok);border:1px solid #a7f3d0}
+  .result{margin-top:18px;border-top:1px dashed var(--border);padding-top:16px;font-size:14px;line-height:1.7}
+  .result h3{font-size:15px;margin-bottom:8px;color:var(--primary)}
+  .badge{display:inline-block;background:#eff6ff;color:var(--primary);border-radius:999px;padding:2px 10px;font-size:12px;margin-right:6px}
+  .chat-box{display:flex;flex-direction:column;gap:8px;max-height:380px;overflow-y:auto;margin-top:14px}
+  .bubble{max-width:80%;padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap}
+  .bubble.user{align-self:flex-end;background:var(--primary);color:#fff}
+  .bubble.ai{align-self:flex-start;background:#f3f4f6;color:var(--text)}
+  .meta{font-size:12px;color:var(--muted);margin-top:4px}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin-top:14px}
+  th,td{border-bottom:1px solid var(--border);padding:10px 8px;text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px}
+  .price{font-size:26px;font-weight:700}
+  .hint{font-size:12px;color:var(--muted);margin-top:4px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🤖 CrossBot <span>AI</span> — 跨境电商AI助手</h1>
+  <span class="badge" title="对比绑店型工具（如 Marqetir）：注册即用，无需绑定任何商店">独立工作台 · No Shopify required</span>
+  <div id="userbar"></div>
+</header>
+
+<!-- 登录/注册 -->
+<section id="auth" class="card" style="max-width:420px;margin:60px auto">
+  <h2 style="margin-bottom:4px">登录 / 注册</h2>
+  <p class="hint">免费版每天 5 次调用，无需信用卡。</p>
+  <label>邮箱</label><input id="email" type="email" placeholder="you@example.com">
+  <label>密码（≥8位）</label><input id="password" type="password" placeholder="********">
+  <div class="row">
+    <button class="btn" id="btnLogin">登录</button>
+    <button class="btn ghost" id="btnRegister">注册</button>
+  </div>
+  <div id="authMsg"></div>
+</section>
+
+<!-- 主应用 -->
+<div id="app" class="hidden">
+<nav>
+  <button data-tab="desc" class="active">产品描述</button>
+  <button data-tab="gpsr">🛡️ GPSR 合规体检</button>
+  <button data-tab="cs">AI 客服</button>
+  <button data-tab="ad">广告文案</button>
+  <button data-tab="review">🔄 差评改写</button>
+  <button data-tab="bill">订阅</button>
+</nav>
+<main>
+
+  <!-- 产品描述 -->
+  <div id="tab-desc" class="card">
+    <h2>📦 产品描述生成器</h2>
+    <p class="hint">按平台规则生成标题 + 五点描述 + 详情页 + 搜索词，支持 11 种语言。</p>
+    <label>产品名称 *</label><input id="d_name" placeholder="Wireless Noise Cancelling Headphones">
+    <label>核心关键词（逗号分隔）*</label><input id="d_kw" placeholder="wireless, bluetooth, noise cancelling">
+    <div class="row">
+      <div><label>目标平台</label>
+        <select id="d_platform">
+          <option value="amazon">Amazon 欧洲站</option><option value="ebay">eBay</option>
+          <option value="cdiscount">Cdiscount（法国）</option><option value="otto">Otto（德国）</option>
+          <option value="allegro">Allegro（波兰）</option><option value="emag">eMAG（罗马尼亚）</option>
+          <option value="kaufland">Kaufland（德/中东欧）</option><option value="bol">bol.com（荷/比）</option>
+          <option value="walmart">Walmart（美国）</option>
+          <option value="fruugo">Fruugo（泛欧）</option><option value="shopify">Shopify</option>
+          <option value="tiktok">TikTok Shop</option>
+        </select></div>
+      <div><label>目标语言</label>
+        <select id="d_lang">
+          <option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option>
+          <option value="es">Español</option><option value="it">Italiano</option><option value="ar">العربية</option>
+          <option value="tr">Türkçe</option><option value="hi">हिन्दी</option><option value="ta">தமிழ்</option>
+          <option value="te">తెలుగు</option><option value="bn">বাংলা</option>
+        </select></div>
+    </div>
+    <button class="btn" id="btnDesc">生成产品描述</button>
+    <div id="descMsg"></div><div id="descResult"></div>
+
+    <hr style="border:none;border-top:1px dashed var(--border);margin:26px 0 8px">
+    <h3 style="margin-bottom:4px">🌍 欧洲多国矩阵（一次产品 → 多平台多语言）</h3>
+    <p class="hint">每平台各计 1 次用量；Allegro→波兰语、Otto→德语、Cdiscount→法语、eMAG→罗马尼亚语、TikTok Shop→英语自动匹配。</p>
+    <div id="matrixPlatforms" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:13px"></div>
+    <button class="btn" id="btnMatrix">生成多平台矩阵</button>
+    <div id="matrixMsg"></div><div id="matrixResult"></div>
+  </div>
+
+  <!-- GPSR 合规体检 -->
+  <div id="tab-gpsr" class="card hidden">
+    <h2>🛡️ GPSR 合规体检 <span class="badge">免费</span></h2>
+    <p class="hint">EU 2023/988 已强制执行：缺欧代/当地语言警示语的 listing 会被平台下架。
+      输入产品即可获得风险等级、适用指令与法定检查清单。体检免费不消耗额度。</p>
+    <label>产品名称 *</label><input id="g_name" placeholder="Kids Building Blocks Toy">
+    <label>核心关键词（逗号分隔）*</label><input id="g_kw" placeholder="toy, puzzle, kids">
+    <div class="row">
+      <div><label>目标平台</label>
+        <select id="g_platform">
+          <option value="amazon">Amazon 欧洲站</option><option value="ebay">eBay</option>
+          <option value="cdiscount">Cdiscount（法国）</option><option value="otto">Otto（德国）</option>
+          <option value="allegro">Allegro（波兰）</option><option value="emag">eMAG（罗马尼亚）</option>
+          <option value="kaufland">Kaufland（德/中东欧）</option><option value="bol">bol.com（荷/比）</option>
+          <option value="walmart">Walmart（美国）</option>
+          <option value="fruugo">Fruugo（泛欧）</option>
+        </select></div>
+    </div>
+    <button class="btn" id="btnGpsr">开始免费体检</button>
+    <div id="gpsrMsg"></div><div id="gpsrResult"></div>
+  </div>
+
+  <!-- AI客服 -->
+  <div id="tab-cs" class="card hidden">
+    <h2>💬 AI 客服演示</h2>
+    <p class="hint">自动识别意图（物流/退货/投诉/咨询）与情绪，高风险自动建议转人工。</p>
+    <div class="chat-box" id="chatBox"></div>
+    <label>买家消息</label><input id="cs_msg" placeholder="Where is my order #123-4567890-1234567?">
+    <div class="row">
+      <div><label>订单号（可选）</label><input id="cs_order" placeholder="123-4567890-1234567"></div>
+      <div style="align-self:end"><button class="btn" id="btnCs" style="width:100%">发送</button></div>
+    </div>
+  </div>
+
+  <!-- 广告文案 -->
+  <div id="tab-ad" class="card hidden">
+    <h2>📣 广告文案生成器</h2>
+    <p class="hint">Facebook / Google / TikTok 平台字数自动适配。</p>
+    <label>产品名称 *</label><input id="a_name" placeholder="Smart Water Bottle">
+    <div class="row">
+      <div><label>平台</label><select id="a_platform"><option>facebook</option><option>google</option><option>tiktok</option></select></div>
+      <div><label>目标受众 *</label><input id="a_audience" placeholder="fitness enthusiasts"></div>
+    </div>
+    <label>独特卖点 *</label><input id="a_usp" placeholder="Tracks hydration and glows to remind you to drink">
+    <button class="btn" id="btnAd">生成广告文案</button>
+    <div id="adMsg"></div><div id="adResult"></div>
+  </div>
+
+  <!-- 差评改写 + 属性校验 -->
+  <div id="tab-review" class="card hidden">
+    <h2>🔄 差评 → Listing 改写</h2>
+    <p class="hint">粘贴差评原文 → 自动定位 listing 缺口 → 输出可直接粘贴的五点描述修复。每次消耗 1 次生成额度。</p>
+    <label>差评原文（每行一条）*</label>
+    <textarea id="rv_text" style="min-height:110px" placeholder="Battery dies quickly, and it's too small compared to pictures. No instructions included."></textarea>
+    <div class="row">
+      <div><label>平均星级（可选）</label>
+        <select id="rv_rating"><option value="">不填</option><option value="1">⭐</option><option value="2">⭐⭐</option><option value="3">⭐⭐⭐</option></select></div>
+      <div><label>产品材质（可选，用于改写）</label><input id="rv_material" placeholder="ABS + silicone"></div>
+    </div>
+    <button class="btn" id="btnReview">分析差评并生成修复</button>
+    <div id="rvMsg"></div><div id="rvResult"></div>
+
+    <hr style="border:none;border-top:1px dashed var(--border);margin:26px 0 8px">
+    <h3 style="margin-bottom:4px">✅ 平台属性树校验</h3>
+    <p class="hint">类目必填参数缺失/填错 = 审核直接驳回。按平台检查属性完整度。</p>
+    <div class="row">
+      <div><label>平台</label><select id="at_platform">
+        <option value="allegro">Allegro</option><option value="emag">eMAG</option>
+        <option value="tiktok">TikTok Shop</option><option value="kaufland">Kaufland</option>
+        <option value="bol">bol.com</option><option value="amazon">Amazon（通用）</option>
+      </select></div>
+      <div style="align-self:end"><button class="btn ghost" id="btnAttrLoad" style="margin:0;width:100%">加载属性树</button></div>
+    </div>
+    <div id="attrFields" style="margin-top:10px"></div>
+    <button class="btn" id="btnAttrValidate" style="display:none">校验属性完整度</button>
+    <div id="attrResult"></div>
+  </div>
+
+  <!-- 订阅 -->
+  <div id="tab-bill" class="card hidden">
+    <h2>💳 订阅管理</h2>
+    <div id="subInfo" class="result"></div>
+    <table>
+      <tr><th>套餐</th><th>价格/月</th><th>功能</th><th></th></tr>
+      <tr><td><b>Starter</b></td><td class="price">$29</td><td>1 平台 · 产品描述 · 1000次/月</td>
+        <td><button class="btn" data-plan="starter" style="margin:0;padding:6px 14px">选择</button></td></tr>
+      <tr><td><b>Professional</b></td><td class="price">$79</td><td>3 平台 · 全功能 · 无限次</td>
+        <td><button class="btn" data-plan="pro" style="margin:0;padding:6px 14px">选择</button></td></tr>
+      <tr><td><b>Business</b></td><td class="price">$199</td><td>无限平台 · API 接入 · 专属客服</td>
+        <td><button class="btn" data-plan="business" style="margin:0;padding:6px 14px">选择</button></td></tr>
+    </table>
+    <p class="hint">⚠️ 演示模式：未配置 Stripe Key 时升级为本地模拟，仅用于联调。</p>
+  </div>
+
+</main>
+</div>
+
+<script>
+const API = "/api/v1";
+let TOKEN = localStorage.getItem("cb_token") || "";
+let ME = null;
+
+function setMsg(id, text, cls){ const el=document.getElementById(id); el.innerHTML = text?`<div class="msg ${cls}">${text}</div>`:""; }
+function authHeaders(){ return {"Authorization":"Bearer "+TOKEN, "Content-Type":"application/json"}; }
+async function api(path, opts={}){
+  const r = await fetch(API+path, {...opts, headers:{...authHeaders(), ...(opts.headers||{})}});
+  const data = await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(data.detail || r.statusText);
+  return data;
+}
+
+function showApp(){
+  document.getElementById("auth").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+}
+function renderUserbar(){
+  const el = document.getElementById("userbar");
+  el.innerHTML = ME ? `<span>${ME.email} · ${ME.plan.toUpperCase()}</span>
+    <button class="btn ghost" style="margin:0;padding:4px 12px" onclick="logout()">退出</button>` : "";
+}
+function logout(){ localStorage.removeItem("cb_token"); location.reload(); }
+
+async function auth(path){
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("password").value;
+  if(!email||!password) return setMsg("authMsg","请输入邮箱和密码","err");
+  try{
+    const d = await api(path,{method:"POST",body:JSON.stringify({email,password})});
+    TOKEN=d.access_token; localStorage.setItem("cb_token",TOKEN);
+    ME = await api("/users/me");
+    document.getElementById("userbar").innerHTML=`<span>${ME.email} · ${ME.plan.toUpperCase()}（今日 ${d.usage_today}/${d.daily_limit}）</span> <button class="btn ghost" style="margin:0;padding:4px 12px" onclick="logout()">退出</button>`;
+    showApp(); loadSubscription();
+  }catch(e){ setMsg("authMsg", e.message, "err"); }
+}
+document.getElementById("btnLogin").onclick=()=>auth("/users/login");
+document.getElementById("btnRegister").onclick=()=>auth("/users/register");
+
+// tabs
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  ["desc","gpsr","cs","ad","review","bill"].forEach(t=>document.getElementById("tab-"+t).classList.toggle("hidden", t!==b.dataset.tab));
+});
+
+// 产品描述
+document.getElementById("btnDesc").onclick=async()=>{
+  setMsg("descMsg",""); document.getElementById("descResult").innerHTML="";
+  const body={
+    product_name:document.getElementById("d_name").value.trim(),
+    keywords:document.getElementById("d_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
+    platform:document.getElementById("d_platform").value,
+    language:document.getElementById("d_lang").value,
+  };
+  if(!body.product_name||!body.keywords.length) return setMsg("descMsg","请填写产品名称和关键词","err");
+  const btn=document.getElementById("btnDesc"); btn.disabled=true; btn.textContent="生成中…";
+  try{
+    const d=await api("/products/descriptions/generate",{method:"POST",body:JSON.stringify(body)});
+    document.getElementById("descResult").innerHTML=renderDescCard(d);
+  }catch(e){ setMsg("descMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="生成产品描述";
+};
+
+// 欧洲多国矩阵
+const MATRIX_DEFAULTS = ["amazon","ebay","cdiscount","otto","allegro","emag","tiktok","fruugo"];
+(function initMatrix(){
+  const box = document.getElementById("matrixPlatforms");
+  fetch(API+"/products/platforms").then(r=>r.json()).then(reg=>{
+    box.innerHTML = Object.entries(reg).map(([k,v])=>{
+      const checked = MATRIX_DEFAULTS.includes(k) ? "checked" : "";
+      return `<label style="display:flex;align-items:center;gap:4px;border:1px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer">
+        <input type="checkbox" value="${k}" ${checked}> ${v.display} <span class="hint">(${v.language}, ≤${v.title_max})</span></label>`;
+    }).join("");
+  });
+})();
+function renderDescCard(d){
+  return `<div class="result">
+    <span class="badge">${d.platform}</span><span class="badge">${(d.language||"").toUpperCase()}</span>
+    <span class="badge">优化分 ${d.optimization_score}</span>
+    <span class="badge">${d.platform_compliant?"✅ 平台合规":"⚠️ "+(d.violations||[]).join("；")}</span>
+    ${d.gpsr_risk_level?`<span class="badge">🛡️ GPSR ${d.gpsr_risk_level}</span>`:""}
+    <h3>标题（${d.character_count} 字符）</h3><p>${d.title}</p>
+    <h3>五点描述</h3><ol>${d.bullet_points.map(b=>`<li><b>${b.heading}</b> — ${b.content}</li>`).join("")}</ol>
+    <h3>详情页描述</h3><p>${d.description}</p>
+    <h3>后台搜索词</h3><p>${d.search_terms}</p>
+    ${d.gpsr_block?`<h3>🛡️ GPSR 合规块（随 listing 一并发布）</h3><pre style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px;white-space:pre-wrap;font-size:13px">${d.gpsr_block}</pre>`:""}</div>`;
+}
+document.getElementById("btnMatrix").onclick=async()=>{
+  setMsg("matrixMsg",""); document.getElementById("matrixResult").innerHTML="";
+  const platforms=[...document.querySelectorAll("#matrixPlatforms input:checked")].map(i=>i.value);
+  if(!platforms.length) return setMsg("matrixMsg","至少勾选一个平台","err");
+  const name=document.getElementById("d_name").value.trim();
+  const keywords=document.getElementById("d_kw").value.split(",").map(s=>s.trim()).filter(Boolean);
+  if(!name||!keywords.length) return setMsg("matrixMsg","请先填写上方产品名称和关键词","err");
+  const btn=document.getElementById("btnMatrix"); btn.disabled=true; btn.textContent="生成中…";
+  try{
+    const d=await api("/products/descriptions/market-matrix",{method:"POST",body:JSON.stringify({
+      product_name:name, keywords, platforms})});
+    document.getElementById("matrixResult").innerHTML=
+      `<div class="msg ok">完成：${d.succeeded}/${d.requested} 个平台生成成功${d.errors.length?"，"+d.errors.map(e=>e.platform+": "+e.error).join("；"):""}</div>`
+      + d.results.map(renderDescCard).join("");
+  }catch(e){ setMsg("matrixMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="生成多平台矩阵";
+};
+
+// GPSR 合规体检
+const RISK_LABEL = {high:"🔴 高风险（CE 类目）", medium:"🟡 中风险", low:"🟢 低风险"};
+document.getElementById("btnGpsr").onclick=async()=>{
+  setMsg("gpsrMsg",""); document.getElementById("gpsrResult").innerHTML="";
+  const body={
+    product_name:document.getElementById("g_name").value.trim(),
+    keywords:document.getElementById("g_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
+    platform:document.getElementById("g_platform").value,
+  };
+  if(!body.product_name||!body.keywords.length) return setMsg("gpsrMsg","请填写产品名称和关键词","err");
+  const btn=document.getElementById("btnGpsr"); btn.disabled=true; btn.textContent="体检中…";
+  try{
+    const d=await api("/products/gpsr/check",{method:"POST",body:JSON.stringify(body)});
+    const checklist = d.checklist.map(c=>
+      `<tr><td>${c.required?"必查":"建议"}</td><td><b>${c.name}</b><br><span class="hint">${c.detail}</span></td></tr>`).join("");
+    document.getElementById("gpsrResult").innerHTML=`<div class="result">
+      <span class="badge">${RISK_LABEL[d.risk_level]||d.risk_level}</span>
+      <span class="badge">${d.matched_categories}</span>
+      <span class="badge">警示语语言：${d.required_languages.map(l=>l.toUpperCase()).join(" / ")}</span>
+      ${d.ce_directives.length?`<h3>适用指令</h3><p>${d.ce_directives.join("<br>")}</p>`:""}
+      ${d.category_notes?`<h3>类目要点</h3><p>${d.category_notes}</p>`:""}
+      <h3>法定检查清单</h3><table><tr><th>级别</th><th>项目</th></tr>${checklist}</table>
+      ${d.gpsr_block
+        ? `<h3>✅ 可粘贴的 GPSR 合规块</h3><pre style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px;white-space:pre-wrap;font-size:13px">${d.gpsr_block}</pre>`
+        : (d.upsell_note?`<div class="msg err">${d.upsell_note}<br><button class="btn" onclick="document.querySelector('[data-tab=bill]').click()" style="padding:6px 16px">升级解锁 →</button></div>`:"")}
+    </div>`;
+  }catch(e){ setMsg("gpsrMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="开始免费体检";
+};
+
+// AI 客服
+function addBubble(text, who, meta){
+  const box=document.getElementById("chatBox");
+  const div=document.createElement("div");
+  div.className="bubble "+who;
+  div.textContent=text;
+  if(meta){ const m=document.createElement("div"); m.className="meta"; m.textContent=meta; div.appendChild(m); }
+  box.appendChild(div); box.scrollTop=box.scrollHeight;
+}
+document.getElementById("btnCs").onclick=async()=>{
+  const msg=document.getElementById("cs_msg").value.trim();
+  if(!msg) return;
+  addBubble(msg,"user"); document.getElementById("cs_msg").value="";
+  addBubble("思考中…","ai");
+  try{
+    const d=await api("/customer-service/messages",{method:"POST",body:JSON.stringify({
+      customer_message:msg, order_id:document.getElementById("cs_order").value.trim()||null})});
+    const box=document.getElementById("chatBox"); box.lastChild.remove();
+    const meta=`意图:${d.intent} · 情绪:${d.sentiment}${d.needs_escalation?" · ⚠️ 建议转人工":""}`;
+    addBubble(d.reply,"ai",meta);
+  }catch(e){ document.getElementById("chatBox").lastChild.textContent="❌ "+e.message; }
+};
+
+// 广告文案
+document.getElementById("btnAd").onclick=async()=>{
+  setMsg("adMsg",""); document.getElementById("adResult").innerHTML="";
+  const body={
+    product_name:document.getElementById("a_name").value.trim(),
+    platform:document.getElementById("a_platform").value,
+    target_audience:document.getElementById("a_audience").value.trim(),
+    unique_selling_point:document.getElementById("a_usp").value.trim(),
+  };
+  if(!body.product_name||!body.target_audience||!body.unique_selling_point)
+    return setMsg("adMsg","请填写完整必填项","err");
+  try{
+    const d=await api("/ads/generate",{method:"POST",body:JSON.stringify(body)});
+    document.getElementById("adResult").innerHTML=`
+      <div class="result">
+        <h3>主文案（${d.character_counts.primary_text} 字符）</h3><p>${d.primary_text}</p>
+        <h3>标题（${d.character_counts.headline}）</h3><p>${d.headline}</p>
+        <h3>描述（${d.character_counts.description}）</h3><p>${d.description}</p>
+        <p><b>CTA:</b> ${d.cta} &nbsp; ${d.hashtags.join(" ")}</p>
+      </div>`;
+  }catch(e){ setMsg("adMsg", e.message, "err"); }
+};
+
+// 差评 → Listing 改写
+document.getElementById("btnReview").onclick=async()=>{
+  setMsg("rvMsg",""); document.getElementById("rvResult").innerHTML="";
+  const reviews=document.getElementById("rv_text").value.split("\n").map(s=>s.trim()).filter(Boolean);
+  if(!reviews.length) return setMsg("rvMsg","请粘贴至少一条差评","err");
+  const rating=document.getElementById("rv_rating").value;
+  const btn=document.getElementById("btnReview"); btn.disabled=true; btn.textContent="分析中…";
+  try{
+    const d=await api("/products/review-insights",{method:"POST",body:JSON.stringify({
+      reviews,
+      rating: rating?parseInt(rating):null,
+      material: document.getElementById("rv_material").value.trim()||null,
+    })});
+    const sevLabel={critical:"🔴 致命",high:"🟠 高",medium:"🟡 中",low:"🟢 低"};
+    document.getElementById("rvResult").innerHTML=`<div class="result">
+      <span class="badge">分析 ${d.reviews_analyzed} 条</span>
+      <span class="badge">情绪 ${d.sentiment}</span>
+      <p style="margin-top:8px">${d.summary}</p>
+      ${d.themes.map(t=>`
+        <div style="border:1px solid var(--border);border-radius:10px;padding:14px;margin-top:10px">
+          <b>${sevLabel[t.severity]||t.severity} ${t.theme}</b>
+          <span class="hint"> 证据：${t.evidence_keywords.join("、")}</span>
+          <p style="margin-top:6px">📌 ${t.listing_action}</p>
+          <p style="margin-top:6px;background:#f8fafc;border-radius:8px;padding:8px 12px">
+            ✍️ 五点修复：<b>${t.bullet_fix.heading}</b> — ${t.bullet_fix.content}</p>
+        </div>`).join("")}
+    </div>`;
+  }catch(e){ setMsg("rvMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="分析差评并生成修复";
+};
+
+// 平台属性树校验
+document.getElementById("btnAttrLoad").onclick=async()=>{
+  const platform=document.getElementById("at_platform").value;
+  setMsg("attrResult","");
+  try{
+    const d=await api(`/products/attributes/${platform}`);
+    document.getElementById("attrFields").innerHTML=d.attributes.map(a=>`
+      <div style="margin-top:8px">
+        <label>${a.label} ${a.required==="hard"?'<span style="color:var(--err)">*</span>':""}
+          <span class="hint">${a.help||""}${a.example?`（示例：${a.example}）`:""}</span></label>
+        <input data-akey="${a.key}" placeholder="${a.example||a.type}">
+      </div>`).join("");
+    const vb=document.getElementById("btnAttrValidate");
+    vb.style.display="inline-block"; vb.dataset.platform=platform;
+  }catch(e){ setMsg("attrResult", e.message, "err"); }
+};
+document.getElementById("btnAttrValidate").onclick=async()=>{
+  const platform=document.getElementById("at_platform").value;
+  const attributes={};
+  document.querySelectorAll("#attrFields input[data-akey]").forEach(i=>{
+    if(i.value.trim()) attributes[i.dataset.akey]=i.value.trim();
+  });
+  try{
+    const d=await api("/products/attributes/validate",{method:"POST",body:JSON.stringify({
+      platform, category:"generic", attributes})});
+    document.getElementById("attrResult").innerHTML=`<div class="result">
+      <span class="badge">${d.ready_to_list?"✅ 可以上传":"🚫 有硬阻断"}</span>
+      <span class="badge">完整度 ${d.completeness}%</span>
+      <span class="badge">已查 ${d.checked_total} 项</span>
+      ${d.blockers.length?`<h3 style="color:var(--err)">🚫 硬阻断（不修复会被驳回）</h3><p>${d.blockers.join("<br>")}</p>`:""}
+      ${d.invalid.length?`<h3>格式错误</h3><p>${d.invalid.map(i=>`${i.label}：${i.error}`).join("<br>")}</p>`:""}
+      ${d.missing.filter(m=>m.severity==="soft").length?`<h3>建议补齐</h3><p>${d.missing.filter(m=>m.severity==="soft").map(m=>m.label).join("、")}</p>`:""}
+    </div>`;
+  }catch(e){ setMsg("attrResult", e.message, "err"); }
+};
+
+// 订阅
+async function loadSubscription(){
+  try{
+    const s=await api("/billing/subscription");
+    document.getElementById("subInfo").innerHTML=
+      `<p>当前套餐：<b>${s.plan.toUpperCase()}</b>（$${s.monthly_price_usd}/月） · 状态：${s.stripe_status||"-"}<br>
+       今日用量：${s.usage_today} / ${s.daily_limit} · 月度上限：${s.monthly_limit??"无限"}</p>`;
+  }catch(e){}
+}
+document.querySelectorAll("[data-plan]").forEach(b=>b.onclick=async()=>{
+  try{
+    await api("/billing/subscription",{method:"POST",body:JSON.stringify({plan:b.dataset.plan})});
+    ME.plan=b.dataset.plan; renderUserbar(); loadSubscription();
+    setMsg("subInfo","已切换到 "+b.dataset.plan,"ok"); loadSubscription();
+  }catch(e){ setMsg("subInfo", e.message, "err"); }
+});
+
+// 自动恢复登录态
+if(TOKEN){ api("/users/me").then(u=>{ ME=u; showApp(); renderUserbar(); loadSubscription(); })
+  .catch(()=>{ TOKEN=""; localStorage.removeItem("cb_token"); }); }
+</script>
+</body>
+</html>

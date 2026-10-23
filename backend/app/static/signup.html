@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>注册 CrossBot AI — 免费开始</title>
+<style>
+  :root{--blue:#1a6bff;--blue-dark:#1557d0;--ink:#1a2b4c;--muted:#7a8699;--border:#d9dfe8;--err:#dc2626}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,sans-serif;background:#fff;color:var(--ink);
+       min-height:100vh;display:flex;flex-direction:column;line-height:1.6}
+  a{text-decoration:none;color:var(--blue)}
+  main{flex:1;display:flex;flex-direction:column;align-items:center;padding:56px 20px 40px}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:20px;margin-bottom:26px}
+  .logo .dot{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#2563eb,#8b5cf6);
+       display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+  h1{font-family:Georgia,"Times New Roman",serif;font-size:30px;font-weight:700;color:#123c7d;margin-bottom:10px;text-align:center}
+  .sub{text-align:center;font-size:14px;color:var(--muted);margin-bottom:26px}
+  .card{width:100%;max-width:400px}
+  .btn-google{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;
+       border:1px solid var(--blue);border-radius:6px;padding:13px 16px;font-size:15px;font-weight:600;
+       color:var(--blue);cursor:pointer;transition:background .15s}
+  .btn-google:hover{background:#f4f8ff}
+  .divider{border-top:1px solid #e7ebf1;margin:26px 0}
+  label{display:block;font-size:14px;color:#3c4a63;margin:16px 0 6px}
+  input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:5px;
+       font-size:14px;color:var(--ink);background:#fff}
+  input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,107,255,.12)}
+  .hint{font-size:12px;color:var(--muted);margin-top:4px}
+  .agree{display:flex;align-items:flex-start;gap:8px;margin:20px 0 4px;font-size:13px;color:#3c4a63}
+  .agree input{width:15px;height:15px;accent-color:var(--blue);margin-top:3px}
+  .btn-primary{width:100%;background:var(--blue);color:#fff;border:none;border-radius:6px;padding:14px;
+       font-size:15px;font-weight:700;letter-spacing:.06em;cursor:pointer;margin-top:18px}
+  .btn-primary:hover{background:var(--blue-dark)}
+  .btn-primary:disabled{background:#9dbef0;cursor:not-allowed}
+  .msg{padding:11px 14px;border-radius:6px;font-size:13px;margin-top:14px;display:none}
+  .msg.err{display:block;background:#fef2f2;color:var(--err);border:1px solid #fecaca}
+  .msg.info{display:block;background:#eff6ff;color:var(--blue-dark);border:1px solid #bfdbfe}
+  .below{text-align:center;font-size:14px;margin-top:22px;color:#3c4a63}
+  .perks{text-align:center;font-size:12px;color:var(--muted);margin-top:14px}
+  footer{border-top:1px solid #eef1f5;padding:18px 24px;display:flex;justify-content:space-between;
+       flex-wrap:wrap;gap:8px;font-size:12px;color:var(--muted)}
+  footer a{color:var(--muted);margin:0 6px}
+</style>
+</head>
+<body>
+<main>
+  <div class="logo"><span class="dot">🤖</span>CrossBot <span style="color:var(--blue)">AI</span></div>
+  <h1>创建免费账号</h1>
+  <p class="sub">免费版每天 5 次生成 · GPSR 体检不限注册 · 无需信用卡</p>
+  <div class="card">
+    <button class="btn-google" id="btnGoogle" onclick="googleFlow()">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.7-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-1.3-.1-2.7-.4-3.9z"/></svg>
+      使用 Google 注册
+    </button>
+    <div class="divider"></div>
+    <form id="form">
+      <label>邮箱 *</label>
+      <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+      <label>密码 *</label>
+      <input type="password" id="pass" placeholder="至少 8 位" autocomplete="new-password" minlength="8" required>
+      <label>确认密码 *</label>
+      <input type="password" id="pass2" placeholder="再输入一次密码" autocomplete="new-password" minlength="8" required>
+      <div class="agree"><input type="checkbox" id="tos" required>
+        <span>我已阅读并同意 <a href="#" onclick="return false">服务条款</a> 与 <a href="#" onclick="return false">隐私政策</a>，理解体检报告为工程辅助建议而非法律意见。</span></div>
+      <button class="btn-primary" id="btnGo" type="submit">免费注册</button>
+    </form>
+    <div class="msg" id="msg"></div>
+    <p class="below">已有账号？<a href="/signin">直接登录</a></p>
+    <p class="perks">注册即得：5 次/天 AI 生成 · 多平台矩阵 · GPSR 风险报告</p>
+  </div>
+</main>
+<footer>
+  <div><a href="#">隐私政策</a>|<a href="#">服务条款</a></div>
+  <div>CrossBot AI © 2026</div>
+</footer>
+
+<script>
+const API = "/api/v1";
+const msg = document.getElementById("msg");
+function show(t, cls){ msg.className = "msg "+cls; msg.textContent = t; }
+
+document.getElementById("form").onsubmit = async (e) => {
+  e.preventDefault();
+  const pass = document.getElementById("pass").value, pass2 = document.getElementById("pass2").value;
+  if(pass !== pass2) return show("两次输入的密码不一致", "err");
+  const btn = document.getElementById("btnGo");
+  btn.disabled = true; btn.textContent = "注册中…";
+  try{
+    // UTM 归因：URL 参数优先，其次落地页记忆的 localStorage
+    let q = new URLSearchParams(location.search);
+    if(!q.get("utm_source")){
+      try{ const saved = JSON.parse(localStorage.getItem("cb_utm")||"{}");
+        if(saved.utm_source) q = new URLSearchParams(saved);
+      }catch(e){}
+    }
+    const utm = ["utm_source","utm_medium","utm_campaign"]
+      .filter(k=>q.get(k)).map(k=>`${k}=${encodeURIComponent(q.get(k))}`).join("&");
+    const r = await fetch(API+"/users/register"+(utm?"?"+utm:""), {method:"POST", headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({email:document.getElementById("email").value.trim(), password:pass})});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.detail || "注册失败");
+    localStorage.setItem("cb_token", d.access_token);
+    location.href = "/";
+  }catch(err){ show(err.message, "err"); }
+  btn.disabled = false; btn.textContent = "免费注册";
+};
+
+let gReady = false;
+async function googleFlow(){
+  const cfg = await (await fetch(API+"/users/google-config")).json();
+  if(!cfg.enabled){
+    show("Google 注册尚未启用：在 backend/.env 填入 GOOGLE_CLIENT_ID 即可开启（步骤见 README）。先用邮箱注册。", "info");
+    return;
+  }
+  if(gReady) return;
+  gReady = true;
+  const s = document.createElement("script");
+  s.src = "https://accounts.google.com/gsi/client"; s.async = true; s.defer = true;
+  s.onload = () => google.accounts.id.initialize({
+    client_id: cfg.client_id,
+    callback: async (resp) => {
+      try{
+        const r = await fetch(API+"/users/google", {method:"POST", headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({credential: resp.credential})});
+        const d = await r.json();
+        if(!r.ok) throw new Error(d.detail || "Google 注册失败");
+        localStorage.setItem("cb_token", d.access_token);
+        location.href = "/";
+      }catch(err){ show(err.message, "err"); }
+    },
+  });
+  s.onerror = () => show("Google 服务加载失败，请检查网络或用邮箱注册。", "err");
+  document.head.appendChild(s);
+  document.getElementById("btnGoogle").style.display = "none";
+}
+</script>
+</body>
+</html>
