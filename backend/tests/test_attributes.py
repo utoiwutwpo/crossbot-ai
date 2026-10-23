@@ -1,21 +1,34 @@
-"""属性树校验 + Kaufland/Zalando 注册表"""
+"""属性树校验 + Kaufland/Zalando/bol.com 注册表"""
 from fastapi.testclient import TestClient
 
 
 def _auth(client: TestClient) -> dict:
     r = client.post("/api/v1/users/register", json={
         "email": "attr@test.com", "password": "Passw0rd!123"})
+    if r.status_code == 409:   # 同一测试会话内已注册过 → 直接登录
+        r = client.post("/api/v1/users/login", json={
+            "email": "attr@test.com", "password": "Passw0rd!123"})
     return {"Authorization": f"Bearer {r.json()['access_token']}"}
 
 
 # ---------- 注册表 ----------
-def test_registry_contains_kaufland_and_zalando(client):
+def test_registry_contains_kaufland_zalando_bol(client):
     r = client.get("/api/v1/products/platforms")
     assert r.status_code == 200
     reg = r.json()
-    assert "kaufland" in reg and "zalando" in reg
+    assert "kaufland" in reg and "zalando" in reg and "bol" in reg
     assert reg["zalando"]["language"] == "en"
     assert reg["kaufland"]["language"] == "de"
+    assert reg["bol"]["language"] == "nl"
+
+
+def test_bol_language_nl_generates(client):
+    h = _auth(client)
+    r = client.post("/api/v1/products/descriptions/generate", headers=h, json={
+        "product_name": "Bike Phone Mount", "keywords": ["bike", "phone"],
+        "platform": "bol", "language": None})
+    assert r.status_code == 200
+    assert r.json()["language"] == "nl"   # bol 默认荷兰语
 
 
 def test_zalando_generates_with_english_default(client):
@@ -41,6 +54,24 @@ def test_zalando_missing_ean_blocks_listing(client):
     d = r.json()
     assert d["ready_to_list"] is False
     assert any("EAN" in b for b in d["blockers"])
+
+
+def test_bol_missing_ean_blocks_listing(client):
+    r = client.post("/api/v1/products/attributes/validate", json={
+        "platform": "bol", "attributes": {"brand": "X"}})
+    d = r.json()
+    assert d["ready_to_list"] is False
+    assert any("EAN" in b for b in d["blockers"])
+
+
+def test_bol_valid_full_passes(client):
+    r = client.post("/api/v1/products/attributes/validate", json={
+        "platform": "bol",
+        "attributes": {"ean": "8712345678906", "brand": "X",
+                       "model": "BL-77", "packaging_language": "nl"}})
+    d = r.json()
+    assert d["ready_to_list"] is True
+    assert d["completeness"] == 100.0
 
 
 def test_zalando_missing_material_composition_blocks(client):

@@ -7,8 +7,8 @@ from pydantic import BaseModel, EmailStr, Field
 
 PlanType = Literal["free", "starter", "pro", "business"]
 PlatformType = Literal[
-    "amazon", "shopify", "tiktok", "ebay", "walmart",
-    "cdiscount", "otto", "allegro", "emag", "fruugo", "kaufland", "zalando",
+    "amazon", "tiktok", "ebay", "walmart",
+    "cdiscount", "otto", "allegro", "emag", "fruugo", "kaufland", "zalando", "bol",
 ]
 LanguageType = Literal[
     "en", "de", "fr", "es", "it", "ar", "tr", "hi", "ta", "te", "bn",
