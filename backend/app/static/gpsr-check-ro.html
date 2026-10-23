@@ -94,7 +94,7 @@
   <div class="logo"><span class="dot">🤖</span>CrossBot <span style="color:var(--accent)">AI</span></div>
   <div class="links"><a href="#features">Funcții</a><a href="#check">Audit</a><a href="#compare">Comparație</a><a href="#pricing">Prețuri</a></div>
   <div style="display:flex;gap:14px;align-items:center">
-    <a href="/" style="font-size:14px;color:var(--muted)">Autentificare</a>
+    <a href="/signin" style="font-size:14px;color:var(--muted)">Autentificare</a>
     <button class="pill-dark" onclick="location.href='#check'">Audit gratuit</button>
   </div>
 </nav>
@@ -186,11 +186,11 @@
     <p>După upgrade: blocul de conformitate GPSR gata de lipit —<br>avertismente în română + reprezentant UE + identificarea produsului.</p>
     <div class="price">€29<small>/lună de la</small></div>
     <p>Comparație: consultanță de la €500 / un anunț șters costă mai mult decât abonamentul anual</p>
-    <button class="pill-accent" style="margin-top:22px" onclick="location.href='/'">Deschide panoul →</button>
+    <button class="pill-accent" style="margin-top:22px" onclick="location.href='/app'">Deschide panoul →</button>
   </div>
 </section>
 
-<footer>CrossBot AI — motor de calitate și conformitate pentru platformele europene · <a href="/" style="color:var(--accent)">Deschide panoul</a><br>
+<footer>CrossBot AI — motor de calitate și conformitate pentru platformele europene · <a href="/app" style="color:var(--accent)">Deschide panoul</a> · <a href="/pricing" style="color:var(--accent)">Prețuri</a><br>
 Raportul este un ajutor inginieresc, nu consultanță juridică; textul oficial UE are prioritate.</footer>
 
 <script>
@@ -221,7 +221,7 @@ document.getElementById("btnGo").onclick = async () => {
       <table><tr><th style="width:110px">Nivel</th><th>Punct de control</th></tr>${checklist}</table>
       ${d.gpsr_block
         ? `<p style="margin-top:12px"><b>✅ Blocul tău GPSR (gata de lipit):</b></p><pre>${esc(d.gpsr_block)}</pre>`
-        : (d.upsell_note?`<div class="msg err" style="margin-top:12px">S-a detectat necesitatea blocului GPSR. Faceți upgrade la Starter pentru a-l debloca — fără bloc există risc de ștergere.<br><a href="/" style="color:var(--accent);font-weight:600">Deschideți panoul și faceți upgrade →</a></div>`:"")}
+        : (d.upsell_note?`<div class="msg err" style="margin-top:12px">S-a detectat necesitatea blocului GPSR. Faceți upgrade la Starter pentru a-l debloca — fără bloc există risc de ștergere.<br><a href="/app" style="color:var(--accent);font-weight:600">Deschideți panoul și faceți upgrade →</a></div>`:"")}
     </div>`;
   }catch(e){ out.innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
   btn.disabled = false; btn.textContent = "Începe auditul gratuit →";

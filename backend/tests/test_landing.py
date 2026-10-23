@@ -11,6 +11,19 @@ def test_landing_routes_served(client):
         assert "GPSR" in r.text
 
 
+def test_site_structure_routes(client):
+    """/ 营销主页、/app 工作台、/pricing 定价页三段式站点结构"""
+    r = client.get("/")
+    assert r.status_code == 200
+    assert "免费开始" in r.text and "/gpsr-check" in r.text   # 营销主页，不强制登录
+    r = client.get("/app")
+    assert r.status_code == 200
+    assert "独立工作台" in r.text                              # 工作台
+    r = client.get("/pricing")
+    assert r.status_code == 200
+    assert "€29" in r.text and "€79" in r.text                # 定价页含档位
+
+
 def test_gpsr_check_accepts_asin(client):
     headers = register_and_login(client, "asin1@test.com")
     r = client.post("/api/v1/products/gpsr/check", headers=headers, json={

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrossBot AI — 跨境电商 AI Listing 工作台 | 欧洲多平台 · GPSR 合规内嵌</title>
+<meta name="description" content="一次输入，12 平台批量生成本地化 Listing（Amazon EU/eBay/Allegro/Otto/Cdiscount/eMAG/TikTok Shop/Fruugo/Walmart/Kaufland/Zalando/Shopify）。GPSR 合规块内嵌每份 listing，属性树硬阻断拦截，差评自动改写。免费开始，无需信用卡，无需绑定店铺。">
+<style>
+  :root{
+    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
+    --bar:#1a5cf0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+  a{text-decoration:none;color:inherit}
+
+  /* ---- 公告条 ---- */
+  .topbar{background:var(--bar);color:#fff;text-align:center;font-size:13.5px;padding:9px 16px}
+  .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+
+  /* ---- 导航 ---- */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .menu{display:flex;gap:6px}
+  .navitem{position:relative}
+  .navitem>a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:8px;cursor:pointer}
+  .navitem>a.solo::after{display:none}
+  .navitem>a::after{content:"";width:7px;height:7px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(45deg) translateY(-2px);transition:transform .15s}
+  .navitem:hover>a{background:#f1f5f9}
+  .navitem:hover>a::after{transform:rotate(-135deg) translateY(-1px)}
+  .dropdown{position:absolute;top:100%;left:8px;min-width:260px;background:#fff;border-radius:12px;
+    box-shadow:0 18px 50px rgba(15,23,42,.16);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s}
+  .navitem:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+  .dropdown a{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:600;color:#334155;padding:11px 14px;border-radius:8px}
+  .dropdown a:hover{background:#eff6ff;color:var(--blue)}
+  .dropdown a::after{content:"›";color:#cbd5e1;font-size:16px}
+  .dropdown a small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
+  nav .right{display:flex;gap:14px;align-items:center}
+  .login-link{font-size:14px;color:var(--muted)}
+  .login-link:hover{color:var(--ink)}
+  .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
+  .pill-nav:hover{background:var(--blue-dark)}
+  .pill-nav.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
+  .pill-nav.ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+  /* ---- Hero ---- */
+  .hero-wrap{background:radial-gradient(1100px 600px at 78% 30%,rgba(124,58,237,.45),transparent 62%),
+       radial-gradient(900px 500px at 10% 100%,rgba(29,78,216,.35),transparent 55%),
+       linear-gradient(115deg,#0a0f2e 0%,#141040 48%,#3b1a86 100%);
+    position:relative;overflow:hidden}
+  .hero{position:relative;max-width:1240px;margin:0 auto;padding:84px 32px 96px;display:grid;
+    grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;color:#fff;z-index:2}
+  .orbits{position:absolute;inset:0;pointer-events:none;z-index:1}
+  .orbit{position:absolute;top:50%;right:-180px;width:760px;height:760px;margin-top:-380px;border:1px solid rgba(255,255,255,.10);border-radius:50%}
+  .orbit.o2{width:560px;height:560px;margin-top:-280px;right:-80px}
+  .orbit.o3{width:380px;height:380px;margin-top:-190px;right:20px}
+  .spin{position:absolute;inset:0;animation:rot linear infinite}
+  .orbit.o1 .spin{animation-duration:26s}
+  .orbit.o2 .spin{animation-duration:18s;animation-direction:reverse}
+  .orbit.o3 .spin{animation-duration:12s}
+  .spin i{position:absolute;top:-5px;left:50%;width:10px;height:10px;border-radius:50%}
+  .orbit.o1 .spin i{background:#4ade80;box-shadow:0 0 18px 4px rgba(74,222,128,.65)}
+  .orbit.o2 .spin i{background:#60a5fa;box-shadow:0 0 18px 4px rgba(96,165,250,.65)}
+  .orbit.o3 .spin i{background:#c084fc;box-shadow:0 0 16px 4px rgba(192,132,252,.7)}
+  @keyframes rot{to{transform:rotate(360deg)}}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;margin-bottom:18px}
+  .hero h1{font-size:46px;line-height:1.2;font-weight:800;letter-spacing:-.01em;margin-bottom:18px}
+  .hero h1 .accent{color:#a5b4fc}
+  .hero p.sub{font-size:16px;color:#d3d9ea;max-width:520px;margin-bottom:30px}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap}
+  .pill-blue{background:var(--blue-light);color:#fff;border-radius:999px;padding:13px 32px;font-size:15.5px;font-weight:700;cursor:pointer;border:none;box-shadow:0 10px 28px rgba(59,130,246,.45);display:inline-block}
+  .pill-blue:hover{background:var(--blue-dark)}
+  .pill-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;padding:12px 30px;font-size:15.5px;font-weight:600;cursor:pointer;display:inline-block}
+  .pill-ghost:hover{border-color:#fff;background:rgba(255,255,255,.07)}
+  .hero .tiny{margin-top:20px;font-size:12.5px;color:#9aa6c4}
+  .hero .tiny b{color:#e2e8f0}
+
+  /* Hero 右侧：Listing 生成预览卡 */
+  .gen{background:#fff;border-radius:16px;color:var(--ink);width:100%;max-width:420px;margin-left:auto;
+    box-shadow:0 30px 80px rgba(0,0,0,.5);font-size:13px;overflow:hidden}
+  .gen .head{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border)}
+  .gen .head .cdot{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+  .gen .head b{font-size:13.5px}
+  .gen .head .win{margin-left:auto;color:#94a3b8;font-size:12px;letter-spacing:3px}
+  .gen .body{padding:14px 16px 16px}
+  .gen .plat{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+  .gen .plat span{border:1px solid var(--border);border-radius:999px;padding:3px 11px;font-size:11.5px;color:#475569;background:#f8fafc}
+  .gen .plat span.on{background:#eff6ff;border-color:var(--blue);color:var(--blue);font-weight:700}
+  .gen h4{font-size:14px;margin-bottom:6px}
+  .gen .line{background:#f1f5f9;border-radius:8px;height:10px;margin-bottom:7px}
+  .gen .line.w60{width:60%}.gen .line.w80{width:80%}.gen .line.w90{width:90%}.gen .line.w45{width:45%}
+  .gen .ok-row{display:flex;align-items:center;gap:7px;font-size:12.5px;color:#065f46;margin-top:10px}
+  .gen .ok-row .tk{width:16px;height:16px;border-radius:50%;background:#dcfce7;color:var(--ok);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800}
+  .gen .langs{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)}
+  .gen .langs span{background:#eef4ff;color:#1e3a8a;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700}
+  .gen .foot{border-top:1px solid var(--border);padding:10px 16px;display:flex;gap:8px;font-size:11px;color:#94a3b8}
+  .gen .foot span{border:1px solid var(--border);border-radius:999px;padding:3px 10px}
+
+  /* ---- 统计带 ---- */
+  .stats{max-width:1240px;margin:0 auto;padding:56px 24px 8px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center}
+  .stat .n{font-size:38px;font-weight:800;color:var(--blue)}
+  .stat .l{font-size:13px;color:var(--muted)}
+
+  /* ---- 区块通用 ---- */
+  section{max-width:1240px;margin:0 auto;padding:72px 24px}
+  .sec-head{text-align:center;margin-bottom:36px}
+  .sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+  .sec-title{font-size:32px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+  .sec-sub{color:var(--muted);font-size:15px}
+
+  /* ---- 平台品牌墙 ---- */
+  .sites{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+  .site{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px;transition:.15s}
+  .site:hover{border-color:var(--blue);box-shadow:0 8px 26px rgba(37,99,235,.10);transform:translateY(-2px)}
+  .site .mark{flex:0 0 auto;display:flex;align-items:center}
+  .site .meta{font-size:12px;color:var(--muted);line-height:1.5}
+  .site .meta b{display:block;font-size:13.5px;color:var(--ink)}
+  .mark-note{text-align:center;font-size:11.5px;color:#94a3b8;margin-top:18px}
+
+  /* ---- 功能卡 ---- */
+  .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .feat{background:#fff;border:1px solid var(--border);border-radius:14px;padding:26px 24px;transition:.15s}
+  .feat:hover{border-color:var(--blue);box-shadow:0 10px 30px rgba(37,99,235,.10);transform:translateY(-3px)}
+  .feat .ico{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#eff6ff,#f5f3ff);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px}
+  .feat h3{font-size:16.5px;font-weight:700;margin-bottom:8px}
+  .feat p{font-size:13.5px;color:var(--muted)}
+  .feat .tag{display:inline-block;margin-top:12px;background:#eff6ff;color:var(--blue);border-radius:999px;padding:2px 12px;font-size:11.5px;font-weight:700}
+
+  /* ---- 差异化三连 ---- */
+  .diffs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .diff{border-radius:14px;padding:26px 24px;color:#fff;position:relative;overflow:hidden}
+  .diff.d1{background:linear-gradient(135deg,#1d4ed8,#7c3aed)}
+  .diff.d2{background:linear-gradient(135deg,#0e7490,#2563eb)}
+  .diff.d3{background:linear-gradient(135deg,#6d28d9,#c026d3)}
+  .diff .medal{font-size:26px}
+  .diff h3{font-size:17px;font-weight:800;margin:10px 0 8px}
+  .diff p{font-size:13px;color:rgba(255,255,255,.85)}
+
+  /* ---- 工作原理 ---- */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;counter-reset:step}
+  .step{background:var(--soft);border:1px solid var(--border);border-radius:14px;padding:26px 24px}
+  .step .no{width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+  .step h3{font-size:16px;margin-bottom:8px}
+  .step p{font-size:13.5px;color:var(--muted)}
+
+  /* ---- 定价预览 ---- */
+  .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .plan{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px 22px;display:flex;flex-direction:column}
+  .plan.hot{border-color:var(--blue);box-shadow:0 14px 40px rgba(37,99,235,.16);position:relative}
+  .plan .hot-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;border-radius:999px;padding:2px 14px;font-size:11px;font-weight:800}
+  .plan h3{font-size:15px;margin-bottom:4px}
+  .plan .price{font-size:32px;font-weight:800;margin:6px 0 2px}
+  .plan .price small{font-size:13px;color:var(--muted);font-weight:400}
+  .plan ul{list-style:none;margin:14px 0 18px;flex:1}
+  .plan li{font-size:13px;color:#334155;padding:4px 0 4px 22px;position:relative}
+  .plan li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800}
+  .plan .go{display:block;text-align:center;border-radius:999px;padding:10px 0;font-size:13.5px;font-weight:700;border:1.5px solid var(--border);color:var(--ink)}
+  .plan .go:hover{border-color:var(--blue);color:var(--blue)}
+  .plan.hot .go{background:var(--blue);border-color:var(--blue);color:#fff}
+  .plan.hot .go:hover{background:var(--blue-dark)}
+
+  /* ---- FAQ ---- */
+  .faq{max-width:820px;margin:0 auto}
+  .faq details{border:1px solid var(--border);border-radius:12px;margin-bottom:12px;background:#fff;overflow:hidden}
+  .faq summary{padding:16px 20px;font-size:14.5px;font-weight:700;cursor:pointer;list-style:none}
+  .faq summary::after{content:"+";float:right;color:var(--muted);font-weight:400}
+  .faq details[open] summary::after{content:"–"}
+  .faq .a{padding:0 20px 16px;font-size:13.5px;color:var(--muted)}
+
+  /* ---- 底部 CTA ---- */
+  .cta-band{background:linear-gradient(115deg,#0a0f2e,#3b1a86);border-radius:20px;max-width:1240px;margin:0 auto 72px;padding:56px 40px;text-align:center;color:#fff}
+  .cta-band h2{font-size:30px;font-weight:800;margin-bottom:12px}
+  .cta-band p{color:#c7d0e8;margin-bottom:26px;font-size:15px}
+
+  footer{border-top:1px solid var(--border);background:var(--soft);padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+  footer .cols{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+  footer a:hover{color:var(--blue)}
+
+  @media(max-width:980px){
+    .hero{grid-template-columns:1fr;padding:60px 24px 72px}
+    .gen{margin:0 auto}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .feats,.diffs,.steps{grid-template-columns:1fr}
+    .plans{grid-template-columns:repeat(2,1fr)}
+    .menu{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">🛡️ EU 2023/988 GPSR 已强制执行 — <b onclick="location.href='/gpsr-check'">30 秒免费合规体检，缺欧代/警示语会被下架</b></div>
+
+<nav>
+  <a class="logo" href="/"><span class="dot">🤖</span>CrossBot <span style="color:var(--blue)">AI</span></a>
+  <div class="menu">
+    <div class="navitem">
+      <a>产品</a>
+      <div class="dropdown">
+        <a href="/gpsr-check"><span>🛡️ GPSR 合规引擎<small>CE 类目 → 指令 → 当地语言警示语 → 合规块</small></span></a>
+        <a href="/app"><span>📦 Listing 生成器<small>标题 + 五点 + 详情 + 搜索词，按平台规则</small></span></a>
+        <a href="/app"><span>🌍 多平台矩阵<small>一次输入 → 12 平台批量本地化</small></span></a>
+        <a href="/app"><span>🔄 差评改写<small>差评 → 主题定位 → 五点修复</small></span></a>
+        <a href="/app"><span>🚨 AI 客服红线层<small>威胁/勒索识别 → 安抚 + 转人工留证</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a class="solo" href="#sites">覆盖平台</a></div>
+    <div class="navitem"><a class="solo" href="/pricing">定价</a></div>
+    <div class="navitem"><a class="solo" href="/gpsr-check">免费体检</a></div>
+  </div>
+  <div class="right">
+    <a class="login-link" href="/signin">登录</a>
+    <a href="/app"><button class="pill-nav ghost">打开工作台</button></a>
+    <a href="/signup"><button class="pill-nav">免费注册</button></a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero-wrap">
+  <div class="orbits">
+    <div class="orbit o1"><div class="spin"><i></i></div></div>
+    <div class="orbit o2"><div class="spin"><i></i></div></div>
+    <div class="orbit o3"><div class="spin"><i></i></div></div>
+  </div>
+  <div class="hero">
+    <div>
+      <div class="eyebrow">✦ 欧洲多平台 · GPSR 合规内嵌</div>
+      <h1>一次输入，<span class="accent">12 平台</span> Listing<br>批量生成 · 合规过审</h1>
+      <p class="sub">跨境电商 AI 助手：按平台规则生成本地化标题、五点描述、详情页与搜索词，GPSR 合规块内嵌每份 listing。独立工作台 — <b>无需绑定店铺，注册即用</b>。</p>
+      <div class="cta-row">
+        <a href="/signup"><button class="pill-blue">免费开始 — 每天 5 次</button></a>
+        <a href="/gpsr-check"><button class="pill-ghost">先做免费合规体检 →</button></a>
+      </div>
+      <p class="tiny">✓ 无需信用卡 &nbsp;·&nbsp; ✓ 免费体检不消耗额度 &nbsp;·&nbsp; ✓ 对标 Helium 10，价格 <b>1/10</b></p>
+    </div>
+    <div class="gen fade-in">
+      <div class="head"><span class="cdot">🤖</span><b>CrossBot AI — 矩阵生成</b><span class="win">— □ ✕</span></div>
+      <div class="body">
+        <div class="plat">
+          <span class="on">Amazon EU</span><span class="on">Allegro</span><span class="on">Otto</span><span>Zalando</span><span>+8 平台</span>
+        </div>
+        <h4>Wireless Noise Cancelling Headphones</h4>
+        <div class="line w90"></div><div class="line w80"></div><div class="line w60"></div><div class="line w45"></div>
+        <div class="ok-row"><span class="tk">✓</span>标题字数全部达标（Otto 70 / Allegro 75 / Amazon 200）</div>
+        <div class="ok-row"><span class="tk">✓</span>语言自动匹配：pl / de / en / fr / ro</div>
+        <div class="ok-row"><span class="tk">✓</span>GPSR 合规块内嵌 · 欧代 + 当地语言警示语</div>
+        <div class="langs"><span>EN</span><span>DE</span><span>FR</span><span>PL</span><span>RO</span><span>+11 语言</span></div>
+      </div>
+      <div class="foot"><span>⚡ 12/12 平台成功</span><span>🛡️ 合规校验通过</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 统计 -->
+<div class="stats">
+  <div class="stat"><div class="n">12</div><div class="l">平台规则内置</div></div>
+  <div class="stat"><div class="n">7</div><div class="l">CE 类目规则库</div></div>
+  <div class="stat"><div class="n">16</div><div class="l">listing 生成语言</div></div>
+  <div class="stat"><div class="n">1/10</div><div class="l">对标工具的价格</div></div>
+</div>
+
+<!-- 覆盖平台 -->
+<section id="sites">
+  <div class="sec-head">
+    <div class="sec-eyebrow">覆盖平台</div>
+    <h2 class="sec-title">欧洲 11 大平台 + 自建站，规则全部内置</h2>
+    <p class="sec-sub">标题字数、语言、合规要求按各平台卖家中心文档持续维护</p>
+  </div>
+  <div class="sites">
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 122 40" width="118" height="39" role="img" aria-label="Amazon"><text x="0" y="21" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="23" letter-spacing="-1.2" fill="#232F3E">amazon</text><path d="M6 27 C 34 38, 76 38, 100 25" stroke="#FF9900" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M100 25 l -0.5 7 M100 25 l -8 -0.5" stroke="#FF9900" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg>
+    </span><span class="meta"><b>欧洲站</b>英/德/法/意/西 等 9 国 · en</span></div>
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 104 40" width="96" height="37" role="img" aria-label="eBay"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-style="italic" font-size="30" letter-spacing="-1"><tspan fill="#E53238">e</tspan><tspan fill="#0064D2">b</tspan><tspan fill="#F5AF02">a</tspan><tspan fill="#86B817">y</tspan></text></svg>
+    </span><span class="meta"><b>eBay</b>英/德/法/意/西 · en</span></div>
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 110 40" width="104" height="38" role="img" aria-label="Allegro"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="28" letter-spacing="-1" fill="#FF5A00">allegro</text></svg>
+    </span><span class="meta"><b>Allegro</b>🇵🇱 波兰/捷克/匈牙利 · pl</span></div>
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 96 40" width="92" height="38" role="img" aria-label="Otto"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="28" letter-spacing="2.5" fill="#D4021D">OTTO</text></svg>
+    </span><span class="meta"><b>Otto</b>🇩🇪 德国 · de</span></div>
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 128 40" width="122" height="38" role="img" aria-label="Cdiscount"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="26" letter-spacing="-0.5"><tspan fill="#FFCF00">C</tspan><tspan fill="#004890">discount</tspan></text></svg>
+    </span><span class="meta"><b>Cdiscount</b>🇫🇷 法国 · fr</span></div>
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 100 40" width="96" height="38" role="img" aria-label="eMAG"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="27" letter-spacing="-0.5"><tspan fill="#F26722">e</tspan><tspan fill="#005B94">MAG</tspan></text></svg>
+    </span><span class="meta"><b>eMAG</b>🇷🇴 罗马尼亚/匈/保 · ro</span></div>
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 120 40" width="106" height="38" role="img" aria-label="TikTok Shop"><g transform="translate(2,6)"><rect x="0" y="0" width="28" height="28" rx="7" fill="#010101"/><path d="M15.5 6.5 h3.1 c.3 2.1 1.7 3.6 3.9 3.9 v3 c-1.5 0-2.8-.5-3.9-1.3 v5.6 c0 2.9-2.3 5.2-5.2 5.2 s-5.2-2.3-5.2-5.2 2.3-5.2 5.2-5.2 c.3 0 .7 0 1 .1 v3.1 c-.3-.1-.6-.2-1-.2-1.3 0-2.3 1-2.3 2.3 s1 2.3 2.3 2.3 2.3-1 2.3-2.3 Z" fill="#25F4EE" transform="translate(-0.8,-0.8)"/><path d="M15.5 6.5 h3.1 c.3 2.1 1.7 3.6 3.9 3.9 v3 c-1.5 0-2.8-.5-3.9-1.3 v5.6 c0 2.9-2.3 5.2-5.2 5.2 s-5.2-2.3-5.2-5.2 2.3-5.2 5.2-5.2 c.3 0 .7 0 1 .1 v3.1 c-.3-.1-.6-.2-1-.2-1.3 0-2.3 1-2.3 2.3 s1 2.3 2.3 2.3 2.3-1 2.3-2.3 Z" fill="#FE2C55" transform="translate(0.8,0.8)"/><path d="M15.5 6.5 h3.1 c.3 2.1 1.7 3.6 3.9 3.9 v3 c-1.5 0-2.8-.5-3.9-1.3 v5.6 c0 2.9-2.3 5.2-5.2 5.2 s-5.2-2.3-5.2-5.2 2.3-5.2 5.2-5.2 c.3 0 .7 0 1 .1 v3.1 c-.3-.1-.6-.2-1-.2-1.3 0-2.3 1-2.3 2.3 s1 2.3 2.3 2.3 2.3-1 2.3-2.3 Z" fill="#fff"/></g><text x="36" y="26" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="19" letter-spacing="-0.5" fill="#010101">TikTok</text></svg>
+    </span><span class="meta"><b>TikTok Shop</b>🇬🇧🇺🇸 英美 + 🇪🇸🇮🇹🇩🇪🇫🇷 欧盟 · en</span></div>
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 106 40" width="100" height="38" role="img" aria-label="Fruugo"><text x="0" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="27" letter-spacing="-0.5"><tspan fill="#94C11F">fru</tspan><tspan fill="#5FA02E">ugo</tspan></text></svg>
+    </span><span class="meta"><b>Fruugo</b>泛欧 20+ 国 · en</span></div>
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 106 40" width="100" height="38" role="img" aria-label="Walmart"><text x="0" y="26" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="24" letter-spacing="-0.5" fill="#0071CE">Walmart</text><g transform="translate(92,19)"><g fill="#FFC220"><rect x="-2" y="-10" width="4" height="7.2" rx="2"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(60)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(120)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(180)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(240)"/><rect x="-2" y="-10" width="4" height="7.2" rx="2" transform="rotate(300)"/></g></g></svg>
+    </span><span class="meta"><b>Walmart</b>🇺🇸 美国 · en</span></div>
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 150 40" width="132" height="36" role="img" aria-label="Kaufland"><rect x="0" y="4" width="32" height="32" rx="4" fill="#E10911"/><text x="16" y="29" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="22" fill="#FFFFFF">K</text><text x="38" y="28" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="24" fill="#E10911">Kaufland</text></svg>
+    </span><span class="meta"><b>Kaufland</b>🇩🇪 德/奥/捷/斯 · de</span></div>
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 130 40" width="118" height="36" role="img" aria-label="Zalando"><text x="0" y="29" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="30" fill="#FF6900" font-style="italic">zalando</text></svg>
+    </span><span class="meta"><b>Zalando</b>🇪🇺 欧洲时尚 · en→多语言</span></div>
+    <div class="site"><span class="mark">
+      <svg viewBox="0 0 120 40" width="110" height="37" role="img" aria-label="Shopify"><path d="M22 8 c-1 0-2 .6-3 1.2 C17.6 7 15.6 5 13.4 5 9.3 5 5.6 10 4.4 15.6 L1 16.7 3 33 l 22 3.4 L28.6 10.6 26 10.2 C25.6 9.2 24 8 22 8 Z" fill="#95BF47" transform="translate(1,0)"/><text x="34" y="28" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="24" fill="#5E8E3E">shopify</text></svg>
+    </span><span class="meta"><b>Shopify</b>🌍 全球自建站 · 按需</span></div>
+  </div>
+  <p class="mark-note">* 平台标识为品牌色风格化字标（说明用途），商标权利归属各平台所有者；上线时替换为官方授权素材。</p>
+</section>
+
+<!-- 功能矩阵 -->
+<section id="features" style="padding-top:24px">
+  <div class="sec-head">
+    <div class="sec-eyebrow">六大功能</div>
+    <h2 class="sec-title">一个工作台，覆盖 Listing 全生命周期</h2>
+    <p class="sec-sub">从生成 → 合规 → 上架校验 → 差评修复 → 客服兜底</p>
+  </div>
+  <div class="feats">
+    <div class="feat"><div class="ico">📦</div><h3>产品描述生成器</h3><p>按平台规则生成标题 + 五点描述 + 详情页 + 搜索词，16 种语言，标题字数/语言自动校验评分。</p><span class="tag">免费版可用</span></div>
+    <div class="feat"><div class="ico">🛡️</div><h3>GPSR 合规引擎</h3><p>CE 类目识别 → 适用指令 → 当地语言警示语 → 法定检查清单 → 可直接粘贴的合规块。</p><span class="tag">差异化核心</span></div>
+    <div class="feat"><div class="ico">🌍</div><h3>多平台矩阵生成</h3><p>一次产品输入 → 12 平台批量本地化，语言按平台自动匹配，单平台失败不影响其余。</p><span class="tag">省 90% 时间</span></div>
+    <div class="feat"><div class="ico">🌳</div><h3>属性树校验</h3><p>EAN 校验位、品牌、材质、尺码网格 —— 硬性必填缺失直接拦截，完整度评分，上架前排雷。</p><span class="tag">防拒审</span></div>
+    <div class="feat"><div class="ico">🔄</div><h3>差评 → Listing 闭环</h3><p>粘贴差评，自动定位 8 类主题并按严重度排序，输出可直接替换的五点修复建议。</p><span class="tag">独家</span></div>
+    <div class="feat"><div class="ico">🚨</div><h3>AI 客服红线层</h3><p>退款勒索 / 伤害索赔 / 差评威胁自动识别 —— 只安抚不承诺，强制转人工并留证。</p><span class="tag">Pro 专属</span></div>
+  </div>
+</section>
+
+<!-- 差异化 -->
+<section id="why" style="padding-top:8px">
+  <div class="sec-head">
+    <div class="sec-eyebrow">为什么选 CrossBot AI</div>
+    <h2 class="sec-title">竞品都在做「写文案」，我们把合规也做完了</h2>
+  </div>
+  <div class="diffs">
+    <div class="diff d1"><div class="medal">🥇</div><h3>GPSR × Listing 一体化</h3><p>市面上没有工具在生成 listing 的同时内嵌 GPSR 合规块。EU 2023/988 强制执行后，缺欧代/警示语 = 直接下架。我们是唯一闭环。</p></div>
+    <div class="diff d2"><div class="medal">🥈</div><h3>属性树硬阻断</h3><p>不是「建议填写」，而是像平台审核一样硬拦截：EAN 校验位错误、材质成分缺失直接标记 ready_to_list = false。</p></div>
+    <div class="diff d3"><div class="medal">🥉</div><h3>语义搜索适配</h3><p>面向 Rufus / iZi 等 AI 购物助手优化：8 类买家问题语义覆盖度评分，让 AI 导购也推荐你的产品。</p></div>
+  </div>
+</section>
+
+<!-- 工作原理 -->
+<section id="how" style="padding-top:8px">
+  <div class="sec-head">
+    <div class="sec-eyebrow">工作原理</div>
+    <h2 class="sec-title">三步上线，平均节省 90% 运营时间</h2>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="no">1</div><h3>输入产品信息</h3><p>产品名称 + 核心关键词，可选填属性（品牌/EAN/材质）。独立工作台，无需绑定任何店铺。</p></div>
+    <div class="step"><div class="no">2</div><h3>选择平台生成</h3><p>单平台精修或 12 平台矩阵批量生成。语言、字数、规则自动匹配，GPSR 合规块内嵌输出。</p></div>
+    <div class="step"><div class="no">3</div><h3>校验后直接上架</h3><p>属性树硬阻断排查 + 完整度评分，复制粘贴到平台卖家中心，全程 5 分钟。</p></div>
+  </div>
+</section>
+
+<!-- 定价预览 -->
+<section id="pricing" style="padding-top:8px">
+  <div class="sec-head">
+    <div class="sec-eyebrow">定价</div>
+    <h2 class="sec-title">比主流工具便宜一个量级</h2>
+    <p class="sec-sub">免费开始，随时升级，随时取消</p>
+  </div>
+  <div class="plans">
+    <div class="plan"><h3>Free</h3><div class="price">€0<small>/月</small></div><ul><li>每天 5 次生成</li><li>产品描述生成器</li><li>免费 GPSR 体检</li></ul><a class="go" href="/signup">免费注册</a></div>
+    <div class="plan hot"><span class="hot-badge">最受欢迎</span><h3>Starter</h3><div class="price">€29<small>/月</small></div><ul><li>每天 50 次 / 月 1000 次</li><li>解锁 GPSR 合规块</li><li>属性树校验</li></ul><a class="go" href="/signup?plan=starter">开始使用</a></div>
+    <div class="plan"><h3>Pro</h3><div class="price">€79<small>/月</small></div><ul><li>每天 200 次</li><li>AI 客服 + 广告文案</li><li>3 平台矩阵</li></ul><a class="go" href="/pricing">查看详情</a></div>
+    <div class="plan"><h3>Business</h3><div class="price">€199<small>/月</small></div><ul><li>每天 1000 次</li><li>无限平台矩阵</li><li>全功能 + 优先支持</li></ul><a class="go" href="/pricing">查看详情</a></div>
+  </div>
+  <p style="text-align:center;margin-top:22px"><a href="/pricing" style="color:var(--blue);font-weight:600">查看完整功能对比表 →</a></p>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="padding-top:8px">
+  <div class="sec-head">
+    <div class="sec-eyebrow">常见问题</div>
+    <h2 class="sec-title">你可能想问</h2>
+  </div>
+  <div class="faq">
+    <details><summary>需要绑定我的店铺吗？</summary><div class="a">不需要。CrossBot AI 是独立工作台 — 注册即用，生成的 listing 复制粘贴到任何平台卖家中心即可。我们不会请求你的店铺 API 权限。</div></details>
+    <details><summary>GPSR 合规块是什么？</summary><div class="a">EU 2023/988（通用产品安全法规）已于 2024 年 12 月强制执行：欧盟市场销售的非食品类产品必须有欧盟责任人（欧代）、当地语言安全警示语和合规的制造商信息。CrossBot AI 按产品类目自动识别适用指令，生成含欧代占位与当地语言警示语的可粘贴合规块。</div></details>
+    <details><summary>生成质量如何保证？</summary><div class="a">每个平台的标题字数、语言、结构化要求内置为硬校验（如 Otto 70 字符、Allegro 75 字符），生成后自动评分并标记违规项；属性树对 EAN 校验位等做硬阻断，上架前就能发现会被拒审的问题。</div></details>
+    <details><summary>免费版和付费版差别？</summary><div class="a">免费版每天 5 次生成 + 免费合规体检（只报问题）。付费版解锁合规块全文、属性树校验、多平台矩阵，Pro 起含 AI 客服与广告文案。详见<a href="/pricing" style="color:var(--blue)">定价页</a>。</div></details>
+    <details><summary>支持哪些语言？</summary><div class="a">Listing 生成支持 16 种语言，GPSR 警示语内置 7 种（德/法/意/西/波/罗/英）。语言按平台自动匹配，也可手动指定。</div></details>
+  </div>
+</section>
+
+<!-- 底部 CTA -->
+<div class="cta-band">
+  <h2>先体检，再注册 — 30 秒知道你的 listing 会不会被下架</h2>
+  <p>免注册免费体检 · 无需信用卡 · 无需绑定店铺</p>
+  <a href="/gpsr-check"><button class="pill-blue">开始免费体检 →</button></a>
+</div>
+
+<footer>
+  <div class="cols">
+    <a href="/">首页</a><a href="/pricing">定价</a><a href="/gpsr-check">免费体检</a>
+    <a href="/app">工作台</a><a href="/signin">登录</a><a href="/signup">注册</a>
+  </div>
+  <div>CrossBot AI — 欧洲全平台 Listing 质量 + 合规引擎 · © 2026</div>
+</footer>
+
+<script>
+(function(){
+  try{
+    var API = "/api/v1";
+    var q = new URLSearchParams(location.search);
+    var utm = {};
+    ["utm_source","utm_medium","utm_campaign"].forEach(function(k){ if(q.get(k)) utm[k]=q.get(k); });
+    if(Object.keys(utm).length) localStorage.setItem("cb_utm", JSON.stringify(utm));
+    fetch(API+"/analytics/track",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(Object.assign({event_type:"landing_view", platform:null, meta:{page:"home"}}, utm))}).catch(function(){});
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

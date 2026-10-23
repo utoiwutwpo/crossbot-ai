@@ -50,7 +50,20 @@ app.include_router(analytics.router, prefix=f"{API_PREFIX}/analytics", tags=["an
 
 @app.get("/", include_in_schema=False)
 def index():
+    """营销主页（H10 风格：Hero + 平台墙 + 功能 + 定价预览 + FAQ）"""
+    return FileResponse(Path(__file__).parent / "static" / "home.html")
+
+
+@app.get("/app", include_in_schema=False)
+def app_workbench():
+    """工作台（登录后使用：生成/体检/客服/广告/差评改写/订阅）"""
     return FileResponse(Path(__file__).parent / "static" / "index.html")
+
+
+@app.get("/pricing", include_in_schema=False)
+def pricing_page():
+    """定价页（四档套餐 + 功能对比表 + 计费 FAQ）"""
+    return FileResponse(Path(__file__).parent / "static" / "pricing.html")
 
 
 @app.get("/signin", include_in_schema=False)

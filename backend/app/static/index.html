@@ -15,6 +15,7 @@
   header h1{font-size:18px}
   header h1 span{color:var(--primary)}
   #userbar{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--muted)}
+  #sitelinks{display:flex;gap:14px;align-items:center;font-size:13px}
   nav{display:flex;gap:4px;padding:10px 24px 0;max-width:1080px;margin:0 auto}
   nav button{border:none;background:transparent;padding:10px 18px;font-size:14px;cursor:pointer;color:var(--muted);border-radius:8px 8px 0 0}
   nav button.active{background:var(--card);color:var(--primary);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.05)}
@@ -49,8 +50,13 @@
 </head>
 <body>
 <header>
-  <h1>🤖 CrossBot <span>AI</span> — 跨境电商AI助手</h1>
+  <h1><a href="/" style="text-decoration:none;color:inherit">🤖 CrossBot <span>AI</span></a> — 跨境电商AI助手</h1>
   <span class="badge" title="对比绑店型工具（如 Marqetir）：注册即用，无需绑定任何商店">独立工作台 · No Shopify required</span>
+  <div id="sitelinks">
+    <a href="/" class="hint" style="text-decoration:none">首页</a>
+    <a href="/pricing" class="hint" style="text-decoration:none">定价</a>
+    <a href="/gpsr-check" class="hint" style="text-decoration:none">免费体检落地页</a>
+  </div>
   <div id="userbar"></div>
 </header>
 

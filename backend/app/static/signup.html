@@ -101,7 +101,7 @@ document.getElementById("form").onsubmit = async (e) => {
     const d = await r.json();
     if(!r.ok) throw new Error(d.detail || "注册失败");
     localStorage.setItem("cb_token", d.access_token);
-    location.href = "/";
+    location.href = "/app";
   }catch(err){ show(err.message, "err"); }
   btn.disabled = false; btn.textContent = "免费注册";
 };
@@ -126,7 +126,7 @@ async function googleFlow(){
         const d = await r.json();
         if(!r.ok) throw new Error(d.detail || "Google 注册失败");
         localStorage.setItem("cb_token", d.access_token);
-        location.href = "/";
+        location.href = "/app";
       }catch(err){ show(err.message, "err"); }
     },
   });

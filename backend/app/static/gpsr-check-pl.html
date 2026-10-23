@@ -94,7 +94,7 @@
   <div class="logo"><span class="dot">🤖</span>CrossBot <span style="color:var(--accent)">AI</span></div>
   <div class="links"><a href="#features">Funkcje</a><a href="#check">Audyt</a><a href="#compare">Porównanie</a><a href="#pricing">Cennik</a></div>
   <div style="display:flex;gap:14px;align-items:center">
-    <a href="/" style="font-size:14px;color:var(--muted)">Zaloguj</a>
+    <a href="/signin" style="font-size:14px;color:var(--muted)">Zaloguj</a>
     <button class="pill-dark" onclick="location.href='#check'">Darmowy audyt</button>
   </div>
 </nav>
@@ -186,11 +186,11 @@
     <p>Po ulepszeniu: blok zgodności GPSR do wklejenia w ofertę —<br>ostrzeżenia po polsku + przedstawiciel UE + identyfikacja produktu.</p>
     <div class="price">€29<small>/mies. od</small></div>
     <p>Porównanie: konsultacja od €500 / jedno usunięcie oferty kosztuje więcej niż roczny abonament</p>
-    <button class="pill-accent" style="margin-top:22px" onclick="location.href='/'">Otwórz panel →</button>
+    <button class="pill-accent" style="margin-top:22px" onclick="location.href='/app'">Otwórz panel →</button>
   </div>
 </section>
 
-<footer>CrossBot AI — silnik jakości i zgodności listingów dla platform europejskich · <a href="/" style="color:var(--accent)">Otwórz panel</a><br>
+<footer>CrossBot AI — silnik jakości i zgodności listingów dla platform europejskich · <a href="/app" style="color:var(--accent)">Otwórz panel</a> · <a href="/pricing" style="color:var(--accent)">Cennik</a><br>
 Raport to pomoc inżynierska, nie porada prawna; zgodność z oficjalnym tekstem UE ma pierwszeństwo.</footer>
 
 <script>
@@ -221,7 +221,7 @@ document.getElementById("btnGo").onclick = async () => {
       <table><tr><th style="width:90px">Poziom</th><th>Punkt kontrolny</th></tr>${checklist}</table>
       ${d.gpsr_block
         ? `<p style="margin-top:12px"><b>✅ Twój blok GPSR (do wklejenia):</b></p><pre>${esc(d.gpsr_block)}</pre>`
-        : (d.upsell_note?`<div class="msg err" style="margin-top:12px">Wykryto wymóg bloku GPSR. Ulepsz plan Starter, aby go odblokować — brak bloku grozi usunięciem oferty.<br><a href="/" style="color:var(--accent);font-weight:600">Otwórz panel i ulepsz →</a></div>`:"")}
+        : (d.upsell_note?`<div class="msg err" style="margin-top:12px">Wykryto wymóg bloku GPSR. Ulepsz plan Starter, aby go odblokować — brak bloku grozi usunięciem oferty.<br><a href="/app" style="color:var(--accent);font-weight:600">Otwórz panel i ulepsz →</a></div>`:"")}
     </div>`;
   }catch(e){ out.innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
   btn.disabled = false; btn.textContent = "Rozpocznij darmowy audyt →";
