@@ -21,7 +21,7 @@ def test_site_structure_routes(client):
     assert "独立工作台" in r.text                              # 工作台
     r = client.get("/pricing")
     assert r.status_code == 200
-    assert "€29" in r.text and "€79" in r.text                # 定价页含档位
+    assert "€29" in r.text and "€49" in r.text                # 定价页含档位（卡 €29-49 空档）
     r = client.get("/skills")
     assert r.status_code == 200
     assert "MIT" in r.text and "gpsr-compliance-checker" in r.text  # 开源 Skills 页

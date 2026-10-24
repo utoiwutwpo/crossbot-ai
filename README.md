@@ -139,8 +139,11 @@ cd backend && ../.venv/Scripts/python -m pytest tests/ -v
 | 套餐 | 全球基准 | 欧洲 | 印度 | 中东 |
 |------|---------|------|------|------|
 | Starter | $29 | €29 | ₹299 | AED 99 |
-| Professional | $79 | €79 | ₹799 | AED 249 |
-| Business | $199 | €199 | ₹1,999 | AED 599 |
+| Pro | $49 | €49 | ₹499 | AED 179 |
+| Business | $149 | €149 | ₹1,499 | AED 549 |
+
+> 定价策略（竞品扫描 §6）：Helium 10 涨价弃守低价档、AVASK/hellotax 从 €93 起步——
+> Pro 卡 **€49** 主力档，Starter €29 入门档，完全覆盖 €29-49 无人竞争价位段。
 
 ## 上线路线
 

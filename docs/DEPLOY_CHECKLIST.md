@@ -49,14 +49,26 @@
 1. dashboard.stripe.com → 注册（可只做测试模式先跑通）
 2. **创建产品与价格**（Products → Add product，三个 monthly recurring 价格）：
    - Starter：€29/月 → 复制 price_id（`price_...`）
-   - Pro：€79/月 → price_id
-   - Business：€199/月 → price_id
+   - Pro：€49/月 → price_id
+   - Business：€149/月 → price_id
 3. **创建 Webhook 端点**（Developers → Webhooks → Add endpoint）：
    - URL：`https://<你的域名>/api/v1/billing/webhook`
    - 事件勾选：`checkout.session.completed`、`customer.subscription.deleted`、`invoice.payment_failed`
    - 复制 Signing secret（`whsec_...`）
 4. 复制 Secret key（`sk_live_...` 或测试模式 `sk_test_...`）
 5. 把 `sk_... / whsec_... / 三个 price_id` 发我或按 §5 填入
+
+## 4b. 🔑 PayPal 收款（可选第二通道，代码已就绪）
+
+1. developer.paypal.com → 创建 Sandbox/Live App → 复制 Client ID + Secret
+2. PayPal 后台创建三个订阅计划（对应 €29/€49/€149）→ 复制 Plan ID（`P-...`）
+3. Developers → Webhooks → Add endpoint：`https://<域名>/api/v1/billing/paypal/webhook`，
+   事件勾选 `BILLING.SUBSCRIPTION.ACTIVATED / CANCELLED / SUSPENDED / EXPIRED`、`PAYMENT.SALE.COMPLETED`
+4. 填入 `PAYPAL_CLIENT_ID / PAYPAL_CLIENT_SECRET / PAYPAL_WEBHOOK_ID / PAYPAL_PLAN_*`
+5. 验证：工作台订阅页选择套餐 → 跳 PayPal 批准页 → 回跳后 webhook 自动开通
+
+> 两通道并存策略：Stripe 为主（欧洲卡支付），PayPal 覆盖偏好 PayPal 的买家
+> （尤其德国——PayPal 在 DE 市占极高）。二者共用同一套 User.plan 字段。
 
 ## 5. 🔑 环境变量汇总（Railway Variables + 本地 .env）
 
@@ -69,6 +81,13 @@ STRIPE_WEBHOOK_SECRET=whsec_xxx
 STRIPE_PRICE_STARTER=price_xxx
 STRIPE_PRICE_PRO=price_xxx
 STRIPE_PRICE_BUSINESS=price_xxx
+PAYPAL_CLIENT_ID=（可选第二通道）
+PAYPAL_CLIENT_SECRET=
+PAYPAL_WEBHOOK_ID=
+PAYPAL_ENV=sandbox
+PAYPAL_PLAN_STARTER=P-xxx
+PAYPAL_PLAN_PRO=P-xxx
+PAYPAL_PLAN_BUSINESS=P-xxx
 SMTP_HOST=（可选，风险日报邮件）
 SMTP_USER= / SMTP_PASSWORD=
 ```

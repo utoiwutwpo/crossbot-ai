@@ -39,6 +39,15 @@ class Settings(BaseSettings):
     stripe_price_pro: str = ""
     stripe_price_business: str = ""
 
+    # ===== 支付（PayPal，上线时填；与 Stripe 并行提供）=====
+    paypal_client_id: str = ""
+    paypal_client_secret: str = ""
+    paypal_webhook_id: str = ""
+    paypal_env: str = "sandbox"          # sandbox / live
+    paypal_plan_starter: str = ""
+    paypal_plan_pro: str = ""
+    paypal_plan_business: str = ""
+
     # ===== Listing 监控（Phase 1：每日定时体检 + 风险日报）=====
     watch_scheduler_enabled: bool = True   # 上线后如用外部 cron 可关闭
     watch_daily_hour: int = 8              # 每日体检时间（UTC 小时）

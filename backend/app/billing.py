@@ -29,14 +29,14 @@ PLANS: dict = {
         "features": ["product_desc"],
     },
     "pro": {
-        "monthly_price_usd": 79,
+        "monthly_price_usd": 49,
         "daily_limit": 200,
         "monthly_calls": None,         # 无限（仍有日限流保护）
         "platforms": 3,
         "features": ["product_desc", "customer_service", "ad_copy"],
     },
     "business": {
-        "monthly_price_usd": 199,
+        "monthly_price_usd": 149,
         "daily_limit": 1000,
         "monthly_calls": None,
         "platforms": None,             # 无限

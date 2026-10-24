@@ -77,6 +77,12 @@ def skills_page():
     return FileResponse(Path(__file__).parent / "static" / "skills.html")
 
 
+@app.get("/rules", include_in_schema=False)
+def rules_page():
+    """免费平台规则速查页（13 平台 SEO/社群获客资产，数据来自注册表 API）"""
+    return FileResponse(Path(__file__).parent / "static" / "rules.html")
+
+
 @app.get("/signin", include_in_schema=False)
 def signin_page():
     """登录页（H10 风格：Google 登录 + 邮箱密码）"""

@@ -16,6 +16,7 @@ from ..schemas import (
 from ..auth import get_current_user
 from ..experts.product_description import ProductDescriptionExpert
 from ..experts.platform_registry import PLATFORMS, platform_config
+from ..experts.gpsr import required_languages
 from ..experts.gpsr import check as gpsr_check
 from ..experts.attributes import required_attributes, validate_attributes, detect_category
 from ..experts.review_loop import ReviewLoopExpert
@@ -55,6 +56,7 @@ def list_platforms():
             "search_terms_max": cfg["search_terms_max"],
             "description_max": cfg["description_max"],
             "notes": cfg["notes"],
+            "gpsr_languages": required_languages(key),
         }
         for key, cfg in PLATFORMS.items()
     }

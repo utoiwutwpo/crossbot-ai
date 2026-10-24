@@ -129,3 +129,63 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
 @router.delete("/subscription", summary="取消订阅（降回免费版）")
 def cancel_subscription(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     return downgrade_to_free(db, user)
+
+
+# ============ PayPal（与 Stripe 并行的支付通道） ============
+
+@router.post("/paypal/subscription", summary="PayPal 订阅：返回 PayPal 批准支付链接")
+async def paypal_create_subscription(
+    body: SubscriptionCreate,
+    request: Request,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    from .. import paypal_service
+    if not paypal_service.configured():
+        raise HTTPException(status_code=501,
+                            detail="PayPal not configured（未配置 PAYPAL_CLIENT_ID/SECRET）")
+    if body.plan == "free":
+        return downgrade_to_free(db, user)
+    try:
+        origin = str(request.base_url).rstrip("/")
+        sess = await paypal_service.create_subscription(user, body.plan, origin)
+    except ValueError as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    track_event(db, "upgrade", user_id=user.id, platform=None,
+                meta={"plan": body.plan, "mode": "paypal"})
+    return {"success": True, "mode": "paypal",
+            "subscription_id": sess["id"], "approve_url": sess["approve_url"]}
+
+
+@router.post("/paypal/webhook", summary="PayPal webhook（订阅开通/取消自动同步）")
+async def paypal_webhook(request: Request, db: Session = Depends(get_db)):
+    import json as _json
+    from .. import paypal_service
+
+    body = await request.body()
+    try:
+        event = _json.loads(body)
+    except Exception:
+        raise HTTPException(status_code=400, detail="invalid json")
+
+    verified = await paypal_service.verify_webhook(
+        dict(request.headers), body)
+    if paypal_service.configured() and settings.paypal_webhook_id and not verified:
+        raise HTTPException(status_code=400, detail="webhook signature invalid")
+
+    etype = event.get("event_type", "")
+    resource = event.get("resource", {})
+    # custom_id 携带 user_id（创建订阅时写入）
+    uid = resource.get("custom_id", "")
+    user = db.query(User).filter(User.id == uid).first() if uid else None
+    if user is None and resource.get("subscriber", {}).get("email_address"):
+        user = db.query(User).filter(
+            User.email == resource["subscriber"]["email_address"]).first()
+
+    action = paypal_service.apply_event(db, user, etype, resource)
+    if action == "activated" and user:
+        track_event(db, "upgrade_paid", user_id=user.id, platform=None,
+                    meta={"mode": "paypal_webhook",
+                          "plan": user.plan})
+    return {"received": True, "type": etype, "action": action,
+            "verified": verified, "user_found": bool(user)}

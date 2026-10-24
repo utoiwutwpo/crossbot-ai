@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>欧洲电商平台规则速查表（免费）— 13 平台标题字数/语言/GPSR 要求 | CrossBot AI</title>
+<meta name="description" content="免费查询 13 个欧洲及欧美电商平台的上架规则：Amazon 欧洲站/美国站、eBay、Allegro、Otto、Cdiscount、eMAG、Kaufland、Zalando、bol.com、TikTok Shop、Fruugo、Walmart 的标题字数上限、必需语言、GPSR 合规要点。Allegro 必须波兰语、Otto 要德语、bol 缺 EAN 建不了 offer——写 listing 前先查规则，避免拒审返工。">
+<style>
+  :root{
+    --ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-dark:#1d4ed8;--purple:#8b5cf6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+  a{text-decoration:none;color:inherit}
+  .topbar{background:#1a5cf0;color:#fff;text-align:center;font-size:13.5px;padding:9px 16px}
+  .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .menu{display:flex;gap:6px}
+  .menu a{font-size:14.5px;font-weight:600;padding:12px 14px;border-radius:8px;color:var(--ink)}
+  .menu a:hover{background:#f1f5f9}
+  .menu a.on{color:var(--blue)}
+  .right{display:flex;gap:14px;align-items:center}
+  .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
+  .pill-nav:hover{background:var(--blue-dark)}
+  .pill-nav.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
+  .pill-nav.ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+  .hero{background:linear-gradient(115deg,#0a0f2e,#1d1660);color:#fff;text-align:center;padding:60px 24px}
+  .hero h1{font-size:34px;font-weight:800;margin-bottom:12px}
+  .hero h1 .accent{color:#a5b4fc}
+  .hero p{color:#c7cee4;max-width:680px;margin:0 auto;font-size:15px}
+  .hero .tiny{margin-top:16px;font-size:12.5px;color:#8e9bc0}
+
+  section{max-width:1100px;margin:0 auto;padding:48px 24px}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:30px}
+  .toolbar button{border:1.5px solid var(--border);background:#fff;border-radius:999px;padding:8px 20px;font-size:13.5px;font-weight:600;color:#334155;cursor:pointer}
+  .toolbar button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(480px,1fr));gap:18px}
+  @media(max-width:1080px){.grid{grid-template-columns:1fr}}
+  .pcard{border:1px solid var(--border);border-radius:14px;padding:22px 24px;transition:.15s}
+  .pcard:hover{border-color:var(--blue);box-shadow:0 8px 26px rgba(37,99,235,.10)}
+  .pcard h3{font-size:17px;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+  .pcard h3 .flag{font-size:15px;font-weight:400}
+  .pcard .countries{font-size:12px;color:var(--muted);margin-bottom:12px}
+  .specs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+  .spec{background:var(--soft);border-radius:10px;padding:8px 12px;text-align:center}
+  .spec .v{font-size:17px;font-weight:800;color:var(--blue)}
+  .spec .k{font-size:11px;color:var(--muted)}
+  .gpsr{display:inline-block;background:#ecfdf5;color:#065f46;border-radius:999px;padding:2px 12px;font-size:11.5px;font-weight:700;margin-bottom:10px}
+  .gpsr.no{background:#fef2f2;color:#991b1b}
+  .pcard ul{list-style:none;font-size:12.5px;color:#334155}
+  .pcard ul li{padding:3px 0 3px 20px;position:relative}
+  .pcard ul li::before{content:"→";position:absolute;left:0;color:var(--blue);font-size:12px}
+  .pcard .lang{color:var(--blue);font-weight:700}
+
+  .cta{text-align:center;background:var(--soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:52px 24px}
+  .cta h2{font-size:24px;margin-bottom:10px}
+  .cta p{color:var(--muted);margin-bottom:22px;font-size:14.5px}
+  .pill-blue{background:var(--blue);color:#fff;border-radius:999px;padding:12px 28px;font-size:14.5px;font-weight:700;display:inline-block}
+  .pill-blue:hover{background:var(--blue-dark)}
+  .pill-ghost{border:1.5px solid var(--border);border-radius:999px;padding:11px 26px;font-size:14.5px;font-weight:600;display:inline-block;margin-left:8px;color:var(--ink)}
+  .pill-ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+  footer{border-top:1px solid var(--border);background:var(--soft);padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+  footer .cols{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+  footer a:hover{color:var(--blue)}
+</style>
+</head>
+<body>
+
+<div class="topbar">📋 本页规则与 CrossBot 线上引擎同源 — <b onclick="location.href='/gpsr-check'">30 秒免费合规体检（免注册）</b></div>
+
+<nav>
+  <a class="logo" href="/"><span class="dot">🤖</span>CrossBot <span style="color:var(--blue)">AI</span></a>
+  <div class="menu">
+    <a href="/">首页</a>
+    <a href="/rules" class="on">平台规则速查</a>
+    <a href="/pricing">定价</a>
+    <a href="/skills">开源 Skills</a>
+  </div>
+  <div class="right">
+    <a href="/signin" style="font-size:14px;color:var(--muted)">登录</a>
+    <a href="/signup"><button class="pill-nav">免费注册</button></a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>欧洲 13 平台<span class="accent">上架规则速查表</span></h1>
+  <p>标题字数上限 · 必需语言 · GPSR 合规要点。Allegro 必须波兰语、Otto 要德语、bol.com 缺 EAN 直接建不了 offer——写 listing 前先查这张表，避免拒审返工。</p>
+  <p class="tiny">数据与 CrossBot AI 生成引擎同源 · 免费公开 · 可随意引用（注明来源即可）</p>
+</div>
+
+<section>
+  <div class="toolbar">
+    <button class="on" data-f="all">全部 13 平台</button>
+    <button data-f="eu">欧洲本土平台</button>
+    <button data-f="us">美国/全球</button>
+    <button data-f="gpsr">需 GPSR 合规</button>
+  </div>
+  <div class="grid" id="cards"><p style="grid-column:1/-1;text-align:center;color:var(--muted)">加载中…</p></div>
+</section>
+
+<div class="cta">
+  <h2>查完规则，下一步是生成和合规</h2>
+  <p>CrossBot AI 按这张表自动生成各平台 listing，GPSR 合规块内嵌输出，属性树硬阻断排雷。</p>
+  <a href="/signup"><span class="pill-blue">免费开始 — 每天 5 次</span></a>
+  <a href="/gpsr-check"><span class="pill-ghost">先做 30 秒免费合规体检 →</span></a>
+</div>
+
+<footer>
+  <div class="cols">
+    <a href="/">首页</a><a href="/rules">平台规则速查</a><a href="/pricing">定价</a><a href="/gpsr-check">免费体检</a><a href="/skills">开源 Skills</a>
+  </div>
+  CrossBot AI — 欧洲全平台 Listing 质量 + 合规引擎
+</footer>
+
+<script>
+let REG=null;
+function flagOf(c){return {US:"🇺🇸",GB:"🇬🇧",DE:"🇩🇪",FR:"🇫🇷",IT:"🇮🇹",ES:"🇪🇸",NL:"🇳🇱",SE:"🇸🇪",PL:"🇵🇱",BE:"🇧🇪",AT:"🇦🇹",CZ:"🇨🇿",SK:"🇸🇰",RO:"🇷🇴",CH:"🇨🇭",Global:"🌍"}[c]||"•";}
+function gpsrOk(p){const n=(p.notes||[]).join(" ");return /GPSR|警示语|合规/.test(n);}
+function groupOf(p){const cs=(p.countries||[]).join(",");return /US|Global/.test(cs)&&!/(DE|FR|PL|RO)/.test(cs)?"us":"eu";}
+function render(f){
+  const box=document.getElementById("cards");
+  const items=Object.entries(REG).filter(([k,v])=>{
+    if(f==="gpsr")return gpsrOk(v);
+    if(f==="eu")return groupOf(v)==="eu";
+    if(f==="us")return groupOf(v)==="us";
+    return true;});
+  box.innerHTML=items.map(([k,v])=>{
+    const cs=(v.countries||[]).map(flagOf).join(" ");
+    const gpsr=gpsrOk(v)
+      ?'<span class="gpsr">✓ 需 GPSR 合规块（欧代+当地语言警示语）</span>'
+      :'<span class="gpsr no">✗ 无 GPSR 强制（注意 FTC/类目审核）</span>';
+    return `<div class="pcard">
+      <h3>${v.display} <span class="flag">${cs}</span></h3>
+      <div class="countries">${(v.countries||[]).join(" / ")}</div>
+      ${gpsr}
+      <div class="specs">
+        <div class="spec"><div class="v">${v.title_max}</div><div class="k">标题字符上限</div></div>
+        <div class="spec"><div class="v">${v.bullets}</div><div class="k">五点描述条数</div></div>
+        <div class="spec"><div class="v">${v.search_terms_max}</div><div class="k">搜索词字符</div></div>
+      </div>
+      <ul>${(v.notes||[]).map(n=>`<li>${n}</li>`).join("")}
+        <li>Listing 语言：<span class="lang">${v.language}</span>${(v.gpsr_languages||[]).length?`（GPSR 还需：${v.gpsr_languages.join(" / ")}）`:""}</li>
+      </ul>
+    </div>`;}).join("");
+}
+document.querySelectorAll(".toolbar button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".toolbar button").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on");render(b.dataset.f);});
+fetch("/api/v1/products/platforms").then(r=>r.json()).then(d=>{REG=d;render("all");})
+  .catch(()=>{document.getElementById("cards").innerHTML="<p style='grid-column:1/-1;text-align:center;color:var(--err)'>加载失败，请刷新重试</p>";});
+</script>
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CrossBot AI — 跨境电商 AI Listing 工作台 | 欧洲多平台 · GPSR 合规内嵌</title>
+<title>CrossBot AI — 欧洲全平台 Listing 质量 + 合规引擎 | 13 平台本地化 · GPSR 合规内嵌</title>
 <meta name="description" content="一次输入，13 平台批量生成本地化 Listing（Amazon 欧洲站+美国站/eBay/Allegro/Otto/Cdiscount/eMAG/TikTok Shop/Fruugo/Walmart/Kaufland/Zalando/bol.com）。GPSR 合规块内嵌每份 listing，属性树硬阻断拦截，差评自动改写。免费开始，无需信用卡，无需绑定店铺。">
 <style>
   :root{
@@ -129,6 +129,24 @@
   .feat p{font-size:13.5px;color:var(--muted)}
   .feat .tag{display:inline-block;margin-top:12px;background:#eff6ff;color:var(--blue);border-radius:999px;padding:2px 12px;font-size:11.5px;font-weight:700}
 
+  /* ---- 四层产品结构（按付费理由排序） ---- */
+  .layer{display:grid;grid-template-columns:260px 1fr;gap:0;background:#fff;border:1px solid var(--border);
+    border-radius:16px;overflow:hidden;margin-bottom:18px}
+  .layer .head{padding:28px 26px;color:#fff;display:flex;flex-direction:column;justify-content:center}
+  .layer .head .no{font-size:12px;font-weight:800;letter-spacing:.14em;opacity:.85;margin-bottom:8px}
+  .layer .head h3{font-size:19px;font-weight:800;margin-bottom:6px}
+  .layer .head .why{font-size:12px;opacity:.9}
+  .layer.l1 .head{background:linear-gradient(150deg,#1d4ed8,#7c3aed)}
+  .layer.l2 .head{background:linear-gradient(150deg,#0e7490,#2563eb)}
+  .layer.l3 .head{background:linear-gradient(150deg,#6d28d9,#c026d3)}
+  .layer.l4 .head{background:linear-gradient(150deg,#475569,#64748b)}
+  .layer .body{padding:22px 26px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .layer .cap{font-size:12px;color:var(--muted);margin-right:6px}
+  .chip{border:1px solid var(--border);border-radius:999px;padding:7px 16px;font-size:13px;font-weight:600;color:#334155;background:var(--soft)}
+  .chip b{color:var(--blue)}
+  .chip.hot{background:#eff6ff;border-color:#bfdbfe}
+  @media(max-width:900px){.layer{grid-template-columns:1fr}.layer .head{padding:20px 22px}.layer .body{padding:16px 22px}}
+
   /* ---- 差异化三连 ---- */
   .diffs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
   .diff{border-radius:14px;padding:26px 24px;color:#fff;position:relative;overflow:hidden}
@@ -207,9 +225,15 @@
       </div>
     </div>
     <div class="navitem"><a class="solo" href="#sites">覆盖平台</a></div>
+    <div class="navitem">
+      <a>免费工具</a>
+      <div class="dropdown">
+        <a href="/gpsr-check"><span>🛡️ GPSR 合规体检<small>免注册 30 秒，只报问题不收费</small></span></a>
+        <a href="/rules"><span>📋 平台规则速查表<small>13 平台字数/语言/GPSR 要点</small></span></a>
+        <a href="/skills"><span>🎁 开源 Skills<small>GPSR 检查器 + 规则库，MIT 免费</small></span></a>
+      </div>
+    </div>
     <div class="navitem"><a class="solo" href="/pricing">定价</a></div>
-    <div class="navitem"><a class="solo" href="/gpsr-check">免费体检</a></div>
-    <div class="navitem"><a class="solo" href="/skills">开源 Skills</a></div>
   </div>
   <div class="right">
     <a class="login-link" href="/signin">登录</a>
@@ -227,9 +251,9 @@
   </div>
   <div class="hero">
     <div>
-      <div class="eyebrow">✦ 欧洲多平台 · GPSR 合规内嵌</div>
-      <h1>一次输入，<span class="accent">13 平台</span> Listing<br>批量生成 · 合规过审</h1>
-      <p class="sub">跨境电商 AI 助手：按平台规则生成本地化标题、五点描述、详情页与搜索词，GPSR 合规块内嵌每份 listing。独立工作台 — <b>无需绑定店铺，注册即用</b>。</p>
+      <div class="eyebrow">✦ 欧洲全平台 Listing 质量 + 合规引擎</div>
+      <h1>文案只是入口，<br><span class="accent">合规与质量</span>才是付费理由</h1>
+      <p class="sub">CrossBot AI：一次输入 → 13 平台本地化 Listing + GPSR 合规块内嵌输出。不与免费官方工具拼写文案，专打 <b>合规 × 本地平台 × 语义评分</b>三个竞品空位。独立工作台，无需绑定店铺。</p>
       <div class="cta-row">
         <a href="/signup"><button class="pill-blue">免费开始 — 每天 5 次</button></a>
         <a href="/gpsr-check"><button class="pill-ghost">先做免费合规体检 →</button></a>
@@ -310,21 +334,51 @@
   <p class="mark-note">* 平台标识为品牌色风格化字标（说明用途），商标权利归属各平台所有者；上线时替换为官方授权素材。</p>
 </section>
 
-<!-- 功能矩阵 -->
+<!-- 四层产品结构（按付费理由排序） -->
 <section id="features" style="padding-top:24px">
   <div class="sec-head">
-    <div class="sec-eyebrow">六大功能</div>
-    <h2 class="sec-title">一个工作台，覆盖 Listing 全生命周期</h2>
-    <p class="sec-sub">从生成 → 合规 → 上架校验 → 差评修复 → 客服兜底</p>
+    <div class="sec-eyebrow">产品布局 · 四层结构</div>
+    <h2 class="sec-title">按付费理由排序的四层产品</h2>
+    <p class="sec-sub">文案只是入口，合规块和语义评分才是付费理由 —— 每一层都在对着一个竞品空位打</p>
   </div>
-  <div class="feats">
-    <div class="feat"><div class="ico">📦</div><h3>产品描述生成器</h3><p>按平台规则生成标题 + 五点描述 + 详情页 + 搜索词，16 种语言，标题字数/语言自动校验评分。</p><span class="tag">免费版可用</span></div>
-    <div class="feat"><div class="ico">🛡️</div><h3>GPSR 合规引擎</h3><p>CE 类目识别 → 适用指令 → 当地语言警示语 → 法定检查清单 → 可直接粘贴的合规块。</p><span class="tag">差异化核心</span></div>
-    <div class="feat"><div class="ico">🌍</div><h3>多平台矩阵生成</h3><p>一次产品输入 → 13 平台批量本地化，语言按平台自动匹配，单平台失败不影响其余。</p><span class="tag">省 90% 时间</span></div>
-    <div class="feat"><div class="ico">🌳</div><h3>属性树校验</h3><p>EAN 校验位、品牌、材质、尺码网格 —— 硬性必填缺失直接拦截，完整度评分，上架前排雷。</p><span class="tag">防拒审</span></div>
-    <div class="feat"><div class="ico">🔄</div><h3>差评 → Listing 闭环</h3><p>粘贴差评，自动定位 8 类主题并按严重度排序，输出可直接替换的五点修复建议。</p><span class="tag">独家</span></div>
-    <div class="feat"><div class="ico">📡</div><h3>7x24 Listing 监控</h3><p>Listing 存入监控仓库，引擎每天自动体检 GPSR 合规与平台规则——风险恶化立即进日报（可邮件推送），像运营专员一样盯着，不休息。</p><span class="tag">新上线</span></div>
-    <div class="feat"><div class="ico">🚨</div><h3>AI 客服红线层</h3><p>退款勒索 / 伤害索赔 / 差评威胁自动识别 —— 只安抚不承诺，强制转人工并留证。</p><span class="tag">Pro 专属</span></div>
+  <div class="layer l1">
+    <div class="head"><span class="no">第 1 层 · 付费理由 ①</span><h3>🛡️ 合规引擎</h3><span class="why">恐惧驱动 · 下架即损失 · 愿付溢价</span></div>
+    <div class="body">
+      <span class="cap">对标空位：SellSafe 管文档不管文案，文案工具不管合规 →</span>
+      <span class="chip hot"><b>GPSR</b> 合规块生成</span>
+      <span class="chip hot"><b>属性树</b>硬阻断校验</span>
+      <span class="chip hot"><b>7x24 监控</b>+风险日报</span>
+      <span class="chip">安全事件预警（15 天上报）</span>
+    </div>
+  </div>
+  <div class="layer l2">
+    <div class="head"><span class="no">第 2 层 · 付费理由 ②</span><h3>🌍 多平台本地化矩阵</h3><span class="why">不绑店 · 独立工作台 · 一次输入全平台</span></div>
+    <div class="body">
+      <span class="cap">对标空位：Marqetir 逼你绑店，H10 不碰本土平台 →</span>
+      <span class="chip hot"><b>13 平台</b>规则内置</span>
+      <span class="chip hot">矩阵<b>批量本地化</b></span>
+      <span class="chip">16 语言生成</span>
+      <span class="chip">平台规则速查（免费）</span>
+    </div>
+  </div>
+  <div class="layer l3">
+    <div class="head"><span class="no">第 3 层 · 续费理由</span><h3>📈 质量与转化闭环</h3><span class="why">周频使用 · 直接关联转化</span></div>
+    <div class="body">
+      <span class="cap">对标空位：Rufus 适配行业刚意识到，工具层为零 →</span>
+      <span class="chip hot"><b>语义评分</b>（Rufus/iZi 适配）</span>
+      <span class="chip hot"><b>差评→Listing</b> 改写闭环</span>
+      <span class="chip">8 类主题定位 + 修复建议</span>
+    </div>
+  </div>
+  <div class="layer l4">
+    <div class="head"><span class="no">第 4 层 · 入口与信任</span><h3>🤝 效率与信任兜底</h3><span class="why">获客入口 · 建立信任 · 免费开场</span></div>
+    <div class="body">
+      <span class="cap">产品自己获客：免费工具 → 注册 → 升级 →</span>
+      <span class="chip"><b>AI 客服</b>红线层</span>
+      <span class="chip"><b>广告文案</b>生成</span>
+      <span class="chip hot"><b>开源 Skills</b>（MIT 免费）</span>
+      <span class="chip hot"><b>免费体检</b>（免注册）</span>
+    </div>
   </div>
 </section>
 
@@ -364,8 +418,8 @@
   <div class="plans">
     <div class="plan"><h3>Free</h3><div class="price">€0<small>/月</small></div><ul><li>每天 5 次生成</li><li>产品描述生成器</li><li>免费 GPSR 体检</li></ul><a class="go" href="/signup">免费注册</a></div>
     <div class="plan hot"><span class="hot-badge">最受欢迎</span><h3>Starter</h3><div class="price">€29<small>/月</small></div><ul><li>每天 50 次 / 月 1000 次</li><li>解锁 GPSR 合规块</li><li>属性树校验</li></ul><a class="go" href="/signup?plan=starter">开始使用</a></div>
-    <div class="plan"><h3>Pro</h3><div class="price">€79<small>/月</small></div><ul><li>每天 200 次</li><li>AI 客服 + 广告文案</li><li>3 平台矩阵</li></ul><a class="go" href="/pricing">查看详情</a></div>
-    <div class="plan"><h3>Business</h3><div class="price">€199<small>/月</small></div><ul><li>每天 1000 次</li><li>无限平台矩阵</li><li>全功能 + 优先支持</li></ul><a class="go" href="/pricing">查看详情</a></div>
+    <div class="plan"><h3>Pro</h3><div class="price">€49<small>/月</small></div><ul><li>每天 200 次</li><li>AI 客服 + 广告文案</li><li>3 平台矩阵</li></ul><a class="go" href="/pricing">查看详情</a></div>
+    <div class="plan"><h3>Business</h3><div class="price">€149<small>/月</small></div><ul><li>每天 1000 次</li><li>无限平台矩阵</li><li>全功能 + 优先支持</li></ul><a class="go" href="/pricing">查看详情</a></div>
   </div>
   <p style="text-align:center;margin-top:22px"><a href="/pricing" style="color:var(--blue);font-weight:600">查看完整功能对比表 →</a></p>
 </section>
@@ -394,7 +448,7 @@
 
 <footer>
   <div class="cols">
-    <a href="/">首页</a><a href="/pricing">定价</a><a href="/gpsr-check">免费体检</a><a href="/skills">开源 Skills</a>
+    <a href="/">首页</a><a href="/rules">规则速查</a><a href="/pricing">定价</a><a href="/gpsr-check">免费体检</a><a href="/skills">开源 Skills</a>
     <a href="/app">工作台</a><a href="/signin">登录</a><a href="/signup">注册</a>
   </div>
   <div>CrossBot AI — 欧洲全平台 Listing 质量 + 合规引擎 · © 2026</div>

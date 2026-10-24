@@ -1,7 +1,7 @@
-"""Stripe 收款集成测试（无真实 Key：测纯函数 + 本地模式 + webhook 联调路径）"""
+"""Stripe + PayPal 收款集成测试（无真实 Key：测纯函数 + 本地模式 + webhook 联调路径）"""
 import json
 
-from app import stripe_service
+from app import stripe_service, paypal_service
 from app.config import settings
 
 
@@ -85,3 +85,63 @@ def test_webhook_subscription_deleted_downgrades(client):
     sub = client.get("/api/v1/billing/subscription", headers=headers).json()
     assert sub["plan"] == "free"
     assert sub["stripe_status"] == "canceled"
+
+
+# ---------- PayPal ----------
+
+def test_paypal_map_plan_id(monkeypatch):
+    monkeypatch.setattr(settings, "paypal_plan_pro", "P-PRO-1")
+    assert paypal_service.map_plan_id_to_plan("P-PRO-1") == "pro"
+    assert paypal_service.map_plan_id_to_plan("P-UNKNOWN") is None
+    assert paypal_service.map_plan_id_to_plan("") is None
+
+
+def test_paypal_requires_config(monkeypatch):
+    monkeypatch.setattr(settings, "paypal_client_id", "")
+    assert paypal_service.configured() is False
+
+
+def test_paypal_subscription_endpoint_501_without_config(client, monkeypatch):
+    """未配置 PayPal：端点返回 501（引导走 Stripe/本地模式）"""
+    from tests.conftest import register_and_login
+    monkeypatch.setattr(settings, "paypal_client_id", "")
+    headers = register_and_login(client, "pay4@test.com")
+    r = client.post("/api/v1/billing/paypal/subscription", headers=headers,
+                    json={"plan": "starter"})
+    assert r.status_code == 501
+
+
+def test_paypal_webhook_debug_mode_activates(client, monkeypatch):
+    """未配置 webhook_id：联调模式直接解析事件并开通套餐"""
+    from tests.conftest import register_and_login
+    monkeypatch.setattr(settings, "paypal_client_id", "")
+    monkeypatch.setattr(settings, "paypal_plan_pro", "P-PRO-9")
+    headers = register_and_login(client, "pay5@test.com")
+    me = client.get("/api/v1/users/me", headers=headers).json()
+    r = client.post("/api/v1/billing/paypal/webhook", json={
+        "event_type": "BILLING.SUBSCRIPTION.ACTIVATED",
+        "resource": {"custom_id": me["id"], "id": "I-TEST",
+                     "plan_id": "P-PRO-9",
+                     "subscriber": {"payer_id": "PAYPALU1"}}})
+    assert r.status_code == 200
+    assert r.json()["action"] == "activated"
+    sub = client.get("/api/v1/billing/subscription", headers=headers).json()
+    assert sub["plan"] == "pro"
+    assert sub["stripe_status"] == "active"
+
+
+def test_paypal_webhook_cancel_downgrades(client, monkeypatch):
+    from tests.conftest import register_and_login
+    monkeypatch.setattr(settings, "paypal_client_id", "")
+    headers = register_and_login(client, "pay6@test.com")
+    me = client.get("/api/v1/users/me", headers=headers).json()
+    client.post("/api/v1/billing/paypal/webhook", json={
+        "event_type": "BILLING.SUBSCRIPTION.ACTIVATED",
+        "resource": {"custom_id": me["id"], "plan_id": "P-X",
+                     "subscriber": {}}})
+    r = client.post("/api/v1/billing/paypal/webhook", json={
+        "event_type": "BILLING.SUBSCRIPTION.CANCELLED",
+        "resource": {"custom_id": me["id"]}})
+    assert r.status_code == 200
+    sub = client.get("/api/v1/billing/subscription", headers=headers).json()
+    assert sub["plan"] == "free"
