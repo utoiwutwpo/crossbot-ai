@@ -40,6 +40,24 @@ def test_zalando_generates_with_english_default(client):
     assert r.json()["language"] == "en"   # zalando 主目录默认英语
 
 
+def test_amazon_us_generates_english(client):
+    h = _auth(client)
+    r = client.post("/api/v1/products/descriptions/generate", headers=h, json={
+        "product_name": "Bike Phone Mount", "keywords": ["bike", "phone"],
+        "platform": "amazon_us", "language": None})
+    assert r.status_code == 200
+    assert r.json()["language"] == "en"   # 美国站默认英语
+
+
+def test_amazon_us_registry_rules(client):
+    r = client.get("/api/v1/products/platforms")
+    assert r.status_code == 200
+    reg = r.json()
+    assert "amazon_us" in reg
+    assert reg["amazon_us"]["countries"] == ["US"]
+    assert reg["amazon_us"]["title_max"] == 200
+
+
 # ---------- 属性树引擎 ----------
 def test_allegro_tree_has_hard_requirements(client):
     r = client.get("/api/v1/products/attributes/allegro")

@@ -1,6 +1,6 @@
 """
 跨境电商平台注册表 — 欧洲主打平台矩阵
-覆盖：Amazon 欧洲站 / eBay / Cdiscount / Otto / Allegro / eMAG / Fruugo / Walmart / Zalando / bol.com / TikTok Shop
+覆盖：Amazon 欧洲站 + 美国站 / eBay / Cdiscount / Otto / Allegro / eMAG / Fruugo / Walmart / Zalando / bol.com / TikTok Shop
 
 字段说明：
 - title_max / bullets / search_terms_max / description_max：listing 硬性限制
@@ -22,6 +22,19 @@ PLATFORMS: dict = {
             "标题前 3 个词包含核心关键词；德国站标题须为德语",
             "五点描述：痛点→功能→场景→品质→售后",
             "后台搜索词（generic keywords）不重复标题已有关键词，禁用竞品品牌名",
+        ],
+    },
+    "amazon_us": {
+        "display": "Amazon 美国站",
+        "countries": ["US"],
+        "language": "en",
+        "title_max": 200, "bullets": 5, "search_terms_max": 249,
+        "description_max": 2000,
+        "notes": [
+            "标题前 3 个词包含核心关键词，禁促销词（free shipping / best seller / guarantee）与全大写单词",
+            "五点描述：痛点→功能→场景→品质→售后，每条首词大写（大写开头短语式）",
+            "后台搜索词（generic keywords）不重复标题已有关键词，禁竞品品牌名与 ASIN",
+            "美国站无 GPSR 强制要求，合规重心为 FTC 产品声明与类目审核（FDA/UL/FCC 类目需资质）",
         ],
     },
     "ebay": {
