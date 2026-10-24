@@ -9,6 +9,7 @@ import re
 from typing import Dict, List, Optional
 
 from ..schemas import BulletPoint, ReviewInsightRequest, ReviewInsightResponse
+from .safety_gate import scan_reviews as safety_scan
 
 # 主题识别：主题 → (关键词, 严重度基线, 修复模板)
 THEMES: Dict[str, dict] = {
@@ -140,6 +141,7 @@ class ReviewLoopExpert:
             summary = ("未命中已知差评主题。若为好评，建议把用户自发的使用场景关键词"
                        "沉淀进五点描述与后台搜索词。")
 
+        scan = safety_scan(reviews=req.reviews)
         return ReviewInsightResponse(
             reviews_analyzed=total,
             sentiment=("very_negative" if (rating is not None and rating <= 2)
@@ -149,4 +151,5 @@ class ReviewLoopExpert:
                 BulletPoint(**t["bullet_fix"]) for t in themes_hit
             ],
             summary=summary,
+            safety_alert=scan if scan["incident_detected"] else None,
         )

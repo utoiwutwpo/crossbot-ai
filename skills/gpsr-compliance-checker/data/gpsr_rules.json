@@ -1,0 +1,350 @@
+{
+  "version": "2026-10-24",
+  "regulation": "GPSR (EU) 2023/988 — General Product Safety Regulation",
+  "ce_categories": [
+    {
+      "category": "toys",
+      "label": "玩具",
+      "trigger_keywords": [
+        "toy",
+        "doll",
+        "puzzle",
+        "plush",
+        "lego",
+        "building block",
+        "spielzeug",
+        "jouet",
+        "giocattolo",
+        "juguete",
+        "zabawka",
+        "rc car",
+        "teddy",
+        "figurine toy",
+        "kids game",
+        "儿童",
+        "玩具"
+      ],
+      "directives": [
+        "2009/48/EC Toy Safety Directive (EN 71-1/2/3)"
+      ],
+      "risk": "high",
+      "extra_requirements": "必须标注适用年龄；含小零件须有窒息警示（36 个月以下不适用）",
+      "warnings_by_language": {
+        "en": "WARNING: Not suitable for children under 36 months. Small parts. Choking hazard.",
+        "de": "ACHTUNG: Nicht geeignet für Kinder unter 36 Monaten. Kleinteile. Erstickungsgefahr.",
+        "fr": "AVERTISSEMENT ! Ne convient pas aux enfants de moins de 36 mois. Petits éléments. Danger d'étouffement.",
+        "es": "ADVERTENCIA: No adecuado para menores de 36 meses. Piezas pequeñas. Peligro de asfixia.",
+        "it": "AVVERTENZA: Non adatto a bambini di età inferiore a 36 mesi. Parti piccole. Rischio di soffocamento.",
+        "pl": "OSTRZEŻENIE: Nieodpowiednie dla dzieci poniżej 36 miesięcy. Małe części. Ryzyko zadławienia.",
+        "ro": "AVERTIZARE: Nu este potrivit pentru copiii sub 36 de luni. Piese mici. Pericol de sufocare."
+      }
+    },
+    {
+      "category": "radio_equipment",
+      "label": "无线电设备",
+      "trigger_keywords": [
+        "bluetooth",
+        "wifi",
+        "wi-fi",
+        "wireless",
+        "smart",
+        "tracker",
+        "gps",
+        "remote control",
+        "4g",
+        "5g",
+        "nfc",
+        "蓝牙",
+        "无线"
+      ],
+      "directives": [
+        "2014/53/EU Radio Equipment Directive (RED)"
+      ],
+      "risk": "high",
+      "extra_requirements": "须声明频段与最大发射功率；SRD/蓝牙模块可用 RED 符合性声明",
+      "warnings_by_language": {
+        "en": "This device operates in compliance with EU radio spectrum regulations (2014/53/EU). Frequency band and max transmit power stated in the user manual.",
+        "de": "Dieses Gerät entspricht den EU-Funkbestimmungen (2014/53/EU). Frequenzband und maximale Sendeleistung stehen in der Bedienungsanleitung.",
+        "fr": "Cet appareil est conforme à la réglementation radioélectrique de l'UE (2014/53/EU). Bande de fréquences et puissance maximale indiquées dans le manuel.",
+        "es": "Este dispositivo cumple la normativa de radio de la UE (2014/53/EU). Banda de frecuencia y potencia máxima indicadas en el manual.",
+        "it": "Questo dispositivo è conforme alla normativa radio UE (2014/53/EU). Banda di frequenza e potenza massima indicate nel manuale.",
+        "pl": "Urządzenie jest zgodne z przepisami radiowymi UE (2014/53/EU). Pasmo częstotliwości i maksymalna moc podano w instrukcji.",
+        "ro": "Acest dispozitiv respectă reglementările radio UE (2014/53/EU). Banda de frecvență și puterea maximă sunt indicate în manual."
+      }
+    },
+    {
+      "category": "electronics",
+      "label": "电气电子",
+      "trigger_keywords": [
+        "charger",
+        "usb",
+        "adapter",
+        "cable",
+        "earbud",
+        "headphone",
+        "speaker",
+        "lamp",
+        "led",
+        "battery",
+        "power bank",
+        "plug",
+        "electronic",
+        "electric",
+        "mask",
+        "heater",
+        "fan",
+        "充电",
+        "电子",
+        "灯"
+      ],
+      "directives": [
+        "2014/35/EU Low Voltage Directive (LVD)",
+        "2014/30/EU EMC Directive",
+        "2011/65/EU RoHS"
+      ],
+      "risk": "high",
+      "extra_requirements": "插头须符合目标国制式（DE/FR 为 Schuko，IT 为 CEI 23-50）；含电池须有 WEEE/电池回收标识",
+      "warnings_by_language": {
+        "en": "Electrical safety: do not immerse in water; indoor use only unless stated. WEEE: dispose of at designated collection points, not household waste.",
+        "de": "Elektrische Sicherheit: nicht in Wasser tauchen; nur für Innenbereiche, sofern nicht anders angegeben. WEEE: Bei Sammelstellen entsorgen, nicht in den Hausmüll.",
+        "fr": "Sécurité électrique : ne pas immerger dans l'eau ; usage intérieur sauf indication contraire. DEEE : à déposer en point de collecte, pas aux ordures ménagères.",
+        "es": "Seguridad eléctrica: no sumergir en agua; solo uso interior salvo indicación. RAEE: depositar en punto de limpieza, no en basura doméstica.",
+        "it": "Sicurezza elettrica: non immergere in acqua; solo uso interno salvo indicazione. RAEE: conferire presso i punti di raccolta, non nei rifiuti domestici.",
+        "pl": "Bezpieczeństwo elektryczne: nie zanurzać w wodzie; tylko do użytku wewnętrznego, chyba że wskazano inaczej. Zużyty sprzęt usuwać do punktów zbiórki, nie do odpadów domowych.",
+        "ro": "Siguranță electrică: nu se scufundă în apă; doar uz interior, dacă nu se indică altfel. EEE uzat: predat la punctele de colectare, nu la deșeurile menajere."
+      }
+    },
+    {
+      "category": "ppe",
+      "label": "个人防护装备",
+      "trigger_keywords": [
+        "helmet",
+        "glove",
+        "goggle",
+        "respirator",
+        "safety vest",
+        "earplug",
+        "safety shoe",
+        "knee pad",
+        "头盔",
+        "防护"
+      ],
+      "directives": [
+        "2016/425 Personal Protective Equipment Regulation (PPE)"
+      ],
+      "risk": "high",
+      "extra_requirements": "须标注防护级别与标准号（如 EN 166）；用户说明书为强制文件",
+      "warnings_by_language": {
+        "en": "PPE: read the user instructions before use. Protection level and applicable standard (e.g. EN 166) marked on the product.",
+        "de": "PSA: Vor Gebrauch Gebrauchsanweisung lesen. Schutzstufe und Norm (z. B. EN 166) auf dem Produkt angegeben.",
+        "fr": "EPI : lire la notice avant utilisation. Niveau de protection et norme (ex. EN 166) indiqués sur le produit.",
+        "es": "EPI: leer las instrucciones antes de usar. Nivel de protección y norma (p. ej. EN 166) marcados en el producto.",
+        "it": "DPI: leggere le istruzioni prima dell'uso. Livello di protezione e norma (es. EN 166) indicati sul prodotto.",
+        "pl": "ŚOI: Przed użyciem przeczytać instrukcję. Poziom ochrony i norma (np. EN 166) podane na produkcie.",
+        "ro": "EIP: Citiți instrucțiunile înainte de utilizare. Nivelul de protecție și standardul (ex. EN 166) sunt marcate pe produs."
+      }
+    },
+    {
+      "category": "childcare",
+      "label": "母婴用品",
+      "trigger_keywords": [
+        "baby",
+        "infant",
+        "pacifier",
+        "stroller",
+        "crib",
+        "bottle feeder",
+        "toddler",
+        "nipple",
+        "哺乳",
+        "婴儿",
+        "宝宝"
+      ],
+      "directives": [
+        "EN 1466 / EN 1888 等婴童用品标准 + GPSR 一般安全要求"
+      ],
+      "risk": "high",
+      "extra_requirements": "与食品接触部件须符合 1935/2004/EC；须有看护人陪同警示",
+      "warnings_by_language": {
+        "en": "WARNING: Never leave your child unattended. Always use under the direct supervision of an adult.",
+        "de": "ACHTUNG: Kind niemals unbeaufsichtigt lassen. Immer unter Aufsicht eines Erwachsenen verwenden.",
+        "fr": "AVERTISSEMENT : Ne jamais laisser l'enfant sans surveillance. Toujours utiliser sous la surveillance d'un adulte.",
+        "es": "ADVERTENCIA: Nunca dejar al niño sin vigilancia. Usar siempre bajo la supervisión de un adulto.",
+        "it": "AVVERTENZA: Non lasciare mai il bambino incustodito. Usare sempre sotto la supervisione di un adulto.",
+        "pl": "OSTRZEŻENIE: Nigdy nie zostawiać dziecka bez nadzoru. Zawsze używać pod nadzorem osoby dorosłej.",
+        "ro": "AVERTIZARE: Nu lăsați niciodată copilul nesupravegheat. Utilizați întotdeauna sub supravegherea unui adult."
+      }
+    },
+    {
+      "category": "food_contact",
+      "label": "食品接触材料",
+      "trigger_keywords": [
+        "kitchen",
+        "cookware",
+        "bottle",
+        "mug",
+        "cutlery",
+        "container",
+        "lunch box",
+        "water bottle",
+        "餐",
+        "厨"
+      ],
+      "directives": [
+        "1935/2004/EC Food Contact Materials"
+      ],
+      "risk": "medium",
+      "extra_requirements": "须有酒杯/叉子符号或 'for food use' 标注；标注可耐受温度",
+      "warnings_by_language": {
+        "en": "Food contact safe per 1935/2004/EC. Check max temperature before dishwasher/microwave use.",
+        "de": "Lebensmittelecht gemäß 1935/2004/EG. Maximaltemperatur vor Spülmaschine/Mikrowelle prüfen.",
+        "fr": "Contact alimentaire conforme au règlement 1935/2004/CE. Vérifier la température max avant lave-vaisselle/micro-ondes.",
+        "es": "Apto para contacto alimentario según 1935/2004/CE. Comprobar temperatura máxima antes de lavavajillas/microondas.",
+        "it": "A contatto con alimenti secondo il regolamento 1935/2004/CE. Verificare la temperatura massima prima di lavastoviglie/microonde.",
+        "pl": "Kontakt z żywnością zgodny z 1935/2004/WE. Sprawdzić maksymalną temperaturę przed użyciem w zmywarce/mikrofalówce.",
+        "ro": "Contact alimentar conform 1935/2004/CE. Verificați temperatura maximă înainte de utilizarea mașinii de spălat/cuptorului cu microunde."
+      }
+    },
+    {
+      "category": "cosmetics",
+      "label": "化妆品",
+      "trigger_keywords": [
+        "cosmetic",
+        "serum",
+        "cream",
+        "shampoo",
+        "lotion",
+        "makeup",
+        "化妆品"
+      ],
+      "directives": [
+        "1223/2009/EC Cosmetics Regulation（需 CPNP 通报 + EU RP 为强制）"
+      ],
+      "risk": "high",
+      "extra_requirements": "成分表(INCI)、PIF 档案与 CPNP 通报为强制；欧代不可省略",
+      "warnings_by_language": {
+        "en": "For external use only. Avoid contact with eyes. Discontinue use if irritation occurs. See packaging for full INCI ingredients.",
+        "de": "Nur zur äußeren Anwendung. Kontakt mit Augen vermeiden. Bei Reizung Anwendung einstellen. Vollständige INCI-Aufzählung auf der Verpackung.",
+        "fr": "Usage externe uniquement. Éviter le contact avec les yeux. Cesser l'utilisation en cas d'irritation. Liste INCI complète sur l'emballage.",
+        "es": "Solo para uso externo. Evitar el contacto con los ojos. Suspender el uso si hay irritación. Lista INCI completa en el envase.",
+        "it": "Solo per uso esterno. Evitare il contatto con gli occhi. Sospendere l'uso in caso di irritazione. Elenco INCI completo sulla confezione.",
+        "pl": "Wyłącznie do użytku zewnętrznego. Unikać kontaktu z oczami. W przypadku podrażnienia zaprzestać użycia. Pełny skład INCI na opakowaniu.",
+        "ro": "Doar pentru uz extern. Evitați contactul cu ochii. Întrerupeți utilizarea în caz de iritație. Lista INCI completă pe ambalaj."
+      }
+    }
+  ],
+  "country_to_warning_language": {
+    "UK": "en",
+    "US": "en",
+    "DE": "de",
+    "FR": "fr",
+    "IT": "it",
+    "ES": "es",
+    "PL": "pl",
+    "RO": "ro",
+    "NL": "nl",
+    "SE": "sv",
+    "BG": "bg",
+    "CZ": "cs",
+    "HU": "hu",
+    "BE": "fr",
+    "Global": "en",
+    "Nordics": "en"
+  },
+  "warning_language_headers": {
+    "en": "Safety & Compliance Information",
+    "de": "Sicherheitshinweise",
+    "fr": "Informations de sécurité",
+    "es": "Información de seguridad",
+    "it": "Informazioni di sicurezza",
+    "pl": "Informacje dotyczące bezpieczeństwa",
+    "ro": "Informații de siguranță",
+    "nl": "Veiligheidsinformatie",
+    "sv": "Säkerhetsinformation",
+    "cs": "Bezpečnostní informace",
+    "hu": "Biztonsági információ",
+    "bg": "Информация за безопасност"
+  },
+  "safety_incident_lexicon": {
+    "fire_thermal": [
+      "fire",
+      "caught fire",
+      "flames",
+      "burn",
+      "burned",
+      "burnt",
+      "smoke",
+      "overheated",
+      "overheating",
+      "over heat",
+      "melted",
+      "exploded",
+      "爆炸",
+      "起火",
+      "烧",
+      "冒烟",
+      "过热",
+      "融化"
+    ],
+    "electrical": [
+      "electric shock",
+      "shock",
+      "sparking",
+      "sparked",
+      "short circuit",
+      "electrocut",
+      "漏电",
+      "触电",
+      "短路",
+      "电人"
+    ],
+    "choking_ingestion": [
+      "choke",
+      "choking",
+      "choked",
+      "swallow",
+      "swallowed",
+      "ingest",
+      "ingested",
+      "mouthed",
+      "窒息",
+      "误吞",
+      "吞",
+      "卡喉"
+    ],
+    "mechanical": [
+      "cut",
+      "laceration",
+      "bleeding",
+      "sharp edge",
+      "sharp corner",
+      "pinched",
+      "finger trapped",
+      "broke apart",
+      "shattered",
+      "割伤",
+      "划伤",
+      "割破",
+      "破碎",
+      "夹伤",
+      "碎片"
+    ],
+    "chemical_allergy": [
+      "allergic",
+      "allergic reaction",
+      "rash",
+      "itching skin",
+      "burn skin",
+      "poison",
+      "toxic",
+      "poisoning",
+      "ingested chemical",
+      "过敏",
+      "红疹",
+      "皮疹",
+      "中毒",
+      "毒性"
+    ]
+  },
+  "disclaimer": "工程辅助工具，不构成法律意见；具体类目适用指令以欧盟官方文本与认证机构意见为准。"
+}

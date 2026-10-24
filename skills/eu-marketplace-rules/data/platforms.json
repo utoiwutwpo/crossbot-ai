@@ -1,0 +1,250 @@
+{
+  "version": "2026-10-24",
+  "platforms": {
+    "amazon": {
+      "display": "Amazon 欧洲站",
+      "countries": [
+        "UK",
+        "DE",
+        "FR",
+        "IT",
+        "ES",
+        "NL",
+        "SE",
+        "PL",
+        "BE"
+      ],
+      "language": "en",
+      "title_max": 200,
+      "bullets": 5,
+      "search_terms_max": 249,
+      "description_max": 2000,
+      "notes": [
+        "标题前 3 个词包含核心关键词；德国站标题须为德语",
+        "五点描述：痛点→功能→场景→品质→售后",
+        "后台搜索词（generic keywords）不重复标题已有关键词，禁用竞品品牌名"
+      ]
+    },
+    "amazon_us": {
+      "display": "Amazon 美国站",
+      "countries": [
+        "US"
+      ],
+      "language": "en",
+      "title_max": 200,
+      "bullets": 5,
+      "search_terms_max": 249,
+      "description_max": 2000,
+      "notes": [
+        "标题前 3 个词包含核心关键词，禁促销词（free shipping / best seller / guarantee）与全大写单词",
+        "五点描述：痛点→功能→场景→品质→售后，每条首词大写（大写开头短语式）",
+        "后台搜索词（generic keywords）不重复标题已有关键词，禁竞品品牌名与 ASIN",
+        "美国站无 GPSR 强制要求，合规重心为 FTC 产品声明与类目审核（FDA/UL/FCC 类目需资质）"
+      ]
+    },
+    "ebay": {
+      "display": "eBay",
+      "countries": [
+        "UK",
+        "DE",
+        "FR",
+        "IT",
+        "ES"
+      ],
+      "language": "en",
+      "title_max": 80,
+      "bullets": 5,
+      "search_terms_max": 500,
+      "description_max": 4000,
+      "notes": [
+        "标题 80 字符是硬限制，关键词前置",
+        "描述支持 HTML；必填 Item Specifics（品牌/型号/兼容性）在结构化字段中单独填写"
+      ]
+    },
+    "fruugo": {
+      "display": "Fruugo（泛欧）",
+      "countries": [
+        "UK",
+        "DE",
+        "FR",
+        "IT",
+        "ES",
+        "NL",
+        "PL",
+        "Nordics"
+      ],
+      "language": "en",
+      "title_max": 100,
+      "bullets": 5,
+      "search_terms_max": 300,
+      "description_max": 3000,
+      "notes": [
+        "主目录用英语提交，Fruugo 平台自动翻译成各国语言",
+        "属性（颜色/尺码/材质）必须结构化填写，否则无法翻译分发"
+      ]
+    },
+    "walmart": {
+      "display": "Walmart",
+      "countries": [
+        "US"
+      ],
+      "language": "en",
+      "title_max": 100,
+      "bullets": 5,
+      "search_terms_max": 500,
+      "description_max": 4000,
+      "notes": [
+        "标题格式：品牌 + 型号 + 商品名 + 关键属性，禁促销词与特殊字符",
+        "Key Features 恰好 3-10 条（工程上统一生成 5 条）"
+      ]
+    },
+    "cdiscount": {
+      "display": "Cdiscount",
+      "countries": [
+        "FR"
+      ],
+      "language": "fr",
+      "title_max": 120,
+      "bullets": 5,
+      "search_terms_max": 300,
+      "description_max": 3000,
+      "notes": [
+        "全法语 listing，禁英语混杂",
+        "描述需包含技术参数表；法国消费者重视保修与退换条款"
+      ]
+    },
+    "otto": {
+      "display": "Otto",
+      "countries": [
+        "DE"
+      ],
+      "language": "de",
+      "title_max": 70,
+      "bullets": 5,
+      "search_terms_max": 250,
+      "description_max": 2500,
+      "notes": [
+        "纯德语 listing，语法拼写要求高（德国用户敏感）",
+        "Otto 对品质描述与材质说明要求严格，避免绝对化宣传用语"
+      ]
+    },
+    "allegro": {
+      "display": "Allegro",
+      "countries": [
+        "PL",
+        "CZ",
+        "HU"
+      ],
+      "language": "pl",
+      "title_max": 75,
+      "bullets": 5,
+      "search_terms_max": 300,
+      "description_max": 8000,
+      "notes": [
+        "波兰语 listing；标题 75 字符硬限制",
+        "描述支持 HTML；波兰买家重视配送时效与 Allegro Smart 兼容性"
+      ]
+    },
+    "emag": {
+      "display": "eMAG",
+      "countries": [
+        "RO",
+        "HU",
+        "BG"
+      ],
+      "language": "ro",
+      "title_max": 150,
+      "bullets": 5,
+      "search_terms_max": 300,
+      "description_max": 4000,
+      "notes": [
+        "罗马尼亚语 listing",
+        "必填品类特定结构化字段（家族/品牌/型号），否则审核被拒"
+      ]
+    },
+    "kaufland": {
+      "display": "Kaufland Global",
+      "countries": [
+        "DE",
+        "AT",
+        "CZ",
+        "SK"
+      ],
+      "language": "de",
+      "title_max": 150,
+      "bullets": 5,
+      "search_terms_max": 250,
+      "description_max": 4000,
+      "notes": [
+        "德语 listing（德区为主），拼写语法要求与 Otto 同级",
+        "制造商信息必须与 GPSR 欧代/制造商一致",
+        "EAN 是商品主键，缺失无法创建"
+      ]
+    },
+    "bol": {
+      "display": "bol.com",
+      "countries": [
+        "NL",
+        "BE"
+      ],
+      "language": "nl",
+      "title_max": 120,
+      "bullets": 5,
+      "search_terms_max": 200,
+      "description_max": 3000,
+      "notes": [
+        "荷兰语 listing（NL/BE），EAN 是商品唯一键，缺失直接建不了 offer",
+        "荷兰买家重视 Delivery Promise 与 bol 分销服务评分"
+      ]
+    },
+    "zalando": {
+      "display": "Zalando",
+      "countries": [
+        "DE",
+        "AT",
+        "CH",
+        "FR",
+        "IT",
+        "ES",
+        "NL",
+        "BE",
+        "PL",
+        "CZ",
+        "SE"
+      ],
+      "language": "en",
+      "title_max": 120,
+      "bullets": 5,
+      "search_terms_max": 250,
+      "description_max": 3000,
+      "notes": [
+        "仅开放时尚类目（服装/鞋靴/箱包/配饰/美妆），需通过 Zalando Partner 品牌入驻审核（zDirect）",
+        "EAN/GTIN 是商品唯一键，缺失无法创建；尺码网格（size grid）与材质成分必填，缺失直接拒收",
+        "主目录用英语提交，Zalando 平台按站点自动本地化；德区消费者对材质与洗涤说明极敏感",
+        "纺织品类目强制 GPSR + 纤维成分标签（EU 1007/2011），缺欧代与当地语言警示语会被下架"
+      ]
+    },
+    "tiktok": {
+      "display": "TikTok Shop",
+      "countries": [
+        "UK",
+        "US",
+        "ES",
+        "IT",
+        "DE",
+        "FR"
+      ],
+      "language": "en",
+      "title_max": 255,
+      "bullets": 5,
+      "search_terms_max": 200,
+      "description_max": 3000,
+      "notes": [
+        "标题可带 emoji，前 20 字符抓眼球（信息流场景）；描述侧重短视频种草场景与使用瞬间",
+        "欧盟站点（ES/IT/DE/FR）同样强制 GPSR/CE 合规：缺欧代与当地语言警示语会被下架",
+        "合规红线：禁医妆类夸大功效词（治疗/治愈/瘦身特效）、禁绝对化用语、认证类目须上传资质",
+        "搜索词字段用于商品关键词/话题标签（#hashtag），不重复标题"
+      ]
+    }
+  }
+}

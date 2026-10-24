@@ -189,6 +189,7 @@ class ReviewInsightResponse(BaseModel):
     themes: List[Dict] = []          # theme/evidence/severity/listing_action/bullet_fix
     improved_bullets: List[BulletPoint] = []
     summary: str
+    safety_alert: Optional[Dict] = None   # GPSR 安全事件预警（安全词命中时非空）
 
 
 # ========== 埋点 ==========

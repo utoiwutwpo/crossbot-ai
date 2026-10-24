@@ -444,10 +444,18 @@ document.getElementById("btnReview").onclick=async()=>{
       material: document.getElementById("rv_material").value.trim()||null,
     })});
     const sevLabel={critical:"🔴 致命",high:"🟠 高",medium:"🟡 中",low:"🟢 低"};
+    const sAlert = d.safety_alert && d.safety_alert.incident_detected ? `
+      <div style="border:2px solid #c0392b;border-radius:10px;padding:14px;margin-top:10px;background:#fdf0ef">
+        <b style="color:#c0392b">🚨 GPSR 安全事件预警 — 检测到安全相关差评（${d.safety_alert.hits.length} 处命中：${d.safety_alert.categories_hit.join("、")}）</b>
+        <p style="margin:8px 0 4px">${d.safety_alert.deadline_note}</p>
+        <ol style="margin:6px 0 0 18px">${d.safety_alert.action_steps.map(s=>`<li style="margin:4px 0">${s}</li>`).join("")}</ol>
+        <p class="hint" style="margin-top:6px">命中证据：${d.safety_alert.hits.map(h=>`"${h.word}"`).slice(0,8).join("、")}</p>
+      </div>`:"";
     document.getElementById("rvResult").innerHTML=`<div class="result">
       <span class="badge">分析 ${d.reviews_analyzed} 条</span>
       <span class="badge">情绪 ${d.sentiment}</span>
       <p style="margin-top:8px">${d.summary}</p>
+      ${sAlert}
       ${d.themes.map(t=>`
         <div style="border:1px solid var(--border);border-radius:10px;padding:14px;margin-top:10px">
           <b>${sevLabel[t.severity]||t.severity} ${t.theme}</b>

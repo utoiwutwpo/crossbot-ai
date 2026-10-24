@@ -16,6 +16,8 @@
 | 🚨 **客服政策安全红线层（差异化）** | ✅ 已完成 | 差评威胁/退款勒索/伤害索赔识别 → 只安抚不承诺 + 强制转人工留证 |
 | 📈 **验证闭环埋点** | ✅ 已完成 | landing_view→guest_check→signup→generate→upgrade 漏斗 + UTM 归因 + /analytics/summary |
 | 📡 **7x24 Listing 监控 + 风险日报（Phase 1）** | ✅ 已完成 | Listing 仓库（手动导入，按套餐限条数）→ 每日定时自动体检（APScheduler，确定性规则零 token 成本）→ 风险等级恶化进日报 + 可选 SMTP 邮件推送；工作台「📡 Listing 监控」标签页 |
+| 🚨 **GPSR 安全事件预警（全网零竞品）** | ✅ 已完成 | 差评安全词扫描（69 词/5 类伤害）→ Art.35「知晓即计时」15 天 Safety Gate 上报预警 + 行动清单；接入差评改写页 |
+| 📦 **开源 Agent Skills（获客渠道）** | ✅ 已完成 | `skills/`：GPSR 合规体检 Skill + 欧洲 13 平台规则库 Skill（SKILL.md + JSON 数据由引擎导出同步，MIT 许可），可装进 Claude Code/Cursor 等 Agent |
 | 🔍 **Rufus/iZi 语义搜索适配评分** | ✅ 已完成 | 8 类买家高频问题覆盖度检测 → 语义分 + 缺口清单（全网零竞品） |
 | AI 客服专家 | ✅ 已完成 | 意图分类 + 情绪检测 + 红线层 + 高风险转人工 |
 | 广告文案专家 | ✅ 已完成 | Facebook/Google/TikTok 字数硬校验 |
