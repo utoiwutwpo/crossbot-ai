@@ -12,7 +12,7 @@ def test_landing_routes_served(client):
 
 
 def test_site_structure_routes(client):
-    """/ 营销主页、/app 工作台、/pricing 定价页三段式站点结构"""
+    """/ 营销主页、/app 工作台、/pricing 定价页、/skills 开源页四段式站点结构"""
     r = client.get("/")
     assert r.status_code == 200
     assert "免费开始" in r.text and "/gpsr-check" in r.text   # 营销主页，不强制登录
@@ -22,6 +22,9 @@ def test_site_structure_routes(client):
     r = client.get("/pricing")
     assert r.status_code == 200
     assert "€29" in r.text and "€79" in r.text                # 定价页含档位
+    r = client.get("/skills")
+    assert r.status_code == 200
+    assert "MIT" in r.text and "gpsr-compliance-checker" in r.text  # 开源 Skills 页
 
 
 def test_gpsr_check_accepts_asin(client):

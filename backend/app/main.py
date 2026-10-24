@@ -71,6 +71,12 @@ def pricing_page():
     return FileResponse(Path(__file__).parent / "static" / "pricing.html")
 
 
+@app.get("/skills", include_in_schema=False)
+def skills_page():
+    """开源 Skills 展示页（GPSR 检查器 + 欧洲平台规则库，MIT）"""
+    return FileResponse(Path(__file__).parent / "static" / "skills.html")
+
+
 @app.get("/signin", include_in_schema=False)
 def signin_page():
     """登录页（H10 风格：Google 登录 + 邮箱密码）"""

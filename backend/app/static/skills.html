@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrossBot AI 开源 Skills — GPSR 合规检查器 & 欧洲平台规则库 | 免费装进你的 AI</title>
+<meta name="description" content="两个免费开源（MIT）的跨境电商 Agent Skill：GPSR 合规检查器（7 类 CE 类目 + 多语言警示语 + 合规块生成）和欧洲 13 平台规则库（标题字数/必需语言/高频踩坑）。可直接安装到 Claude Code / Cursor / Codex 等 Agent。">
+<style>
+  :root{
+    --navy:#0b1030;--ink:#0f172a;--muted:#64748b;--border:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;
+    --blue:#2563eb;--blue-light:#3b82f6;--blue-dark:#1d4ed8;--purple:#8b5cf6;--ok:#059669;--err:#dc2626;
+    --bar:#1a5cf0;--code:#0f172a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+  a{text-decoration:none;color:inherit}
+
+  .topbar{background:var(--bar);color:#fff;text-align:center;font-size:13.5px;padding:9px 16px}
+  .topbar b{cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:12px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:60}
+  .logo{font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+  .menu{display:flex;gap:6px}
+  .navitem>a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;color:var(--ink);padding:12px 14px;border-radius:8px;cursor:pointer}
+  .navitem>a:hover{background:#f1f5f9}
+  nav .right{display:flex;gap:14px;align-items:center}
+  .login-link{font-size:14px;color:var(--muted)}
+  .login-link:hover{color:var(--ink)}
+  .pill-nav{background:var(--blue);color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:700;cursor:pointer;border:none}
+  .pill-nav:hover{background:var(--blue-dark)}
+  .pill-nav.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
+  .pill-nav.ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+  /* ---- Hero ---- */
+  .hero-wrap{background:radial-gradient(900px 480px at 80% 20%,rgba(124,58,237,.40),transparent 60%),
+       radial-gradient(800px 420px at 8% 100%,rgba(29,78,216,.35),transparent 55%),
+       linear-gradient(115deg,#0a0f2e 0%,#141040 55%,#2a1560 100%);
+    position:relative;overflow:hidden}
+  .hero{position:relative;max-width:1240px;margin:0 auto;padding:72px 32px 80px;text-align:center;color:#fff;z-index:2}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;margin-bottom:18px}
+  .hero h1{font-size:42px;line-height:1.22;font-weight:800;letter-spacing:-.01em;margin-bottom:16px}
+  .hero h1 .accent{color:#a5b4fc}
+  .hero p.sub{font-size:16px;color:#d3d9ea;max-width:640px;margin:0 auto 28px}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .pill-blue{background:var(--blue-light);color:#fff;border-radius:999px;padding:13px 32px;font-size:15.5px;font-weight:700;cursor:pointer;border:none;box-shadow:0 10px 28px rgba(59,130,246,.45);display:inline-block}
+  .pill-blue:hover{background:var(--blue-dark)}
+  .pill-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;padding:12px 30px;font-size:15.5px;font-weight:600;cursor:pointer;display:inline-block}
+  .pill-ghost:hover{border-color:#fff;background:rgba(255,255,255,.07)}
+  .hero .tiny{margin-top:20px;font-size:12.5px;color:#9aa6c4}
+  .hero .tiny b{color:#e2e8f0}
+
+  section{max-width:1240px;margin:0 auto;padding:64px 24px}
+  .sec-head{text-align:center;margin-bottom:36px}
+  .sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+  .sec-title{font-size:30px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+  .sec-sub{color:var(--muted);font-size:15px}
+
+  /* ---- Skill 卡片 ---- */
+  .skill{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;background:#fff;border:1px solid var(--border);
+    border-radius:18px;padding:32px;margin-bottom:28px;transition:.15s}
+  .skill:hover{border-color:var(--blue);box-shadow:0 14px 44px rgba(37,99,235,.10)}
+  .skill .ico{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--purple));
+    display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:14px}
+  .skill h3{font-size:22px;font-weight:800;margin-bottom:4px}
+  .skill .path{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--muted);margin-bottom:14px}
+  .skill p.desc{font-size:14px;color:#334155;margin-bottom:16px}
+  .skill ul.feat{list-style:none;font-size:13.5px}
+  .skill ul.feat li{padding:5px 0 5px 26px;position:relative;color:#334155}
+  .skill ul.feat li::before{content:"✓";position:absolute;left:0;top:5px;width:18px;height:18px;border-radius:50%;
+    background:#dcfce7;color:var(--ok);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .badges span{border:1px solid var(--border);border-radius:999px;padding:4px 12px;font-size:11.5px;color:#475569;background:var(--soft)}
+  .badges span.hot{background:#eff6ff;border-color:var(--blue);color:var(--blue);font-weight:700}
+
+  pre{background:var(--code);color:#e2e8f0;border-radius:12px;padding:18px 20px;font-family:ui-monospace,Consolas,monospace;
+    font-size:12.5px;line-height:1.8;overflow-x:auto;margin-top:8px}
+  pre .c{color:#94a3b8}
+  pre .g{color:#4ade80}
+  pre .y{color:#fbbf24}
+  .codecap{font-size:12px;color:var(--muted);margin-top:8px}
+
+  /* ---- 为什么开源 ---- */
+  .why{background:var(--soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .wcard{background:#fff;border:1px solid var(--border);border-radius:14px;padding:26px}
+  .wcard .ico{font-size:26px;margin-bottom:10px}
+  .wcard h4{font-size:16px;margin-bottom:8px}
+  .wcard p{font-size:13.5px;color:var(--muted)}
+
+  /* ---- 路线图 ---- */
+  .road{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .rcard{border:1.5px dashed var(--border);border-radius:14px;padding:24px;color:var(--muted)}
+  .rcard .tag{display:inline-block;background:#f1f5f9;border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:700;margin-bottom:12px}
+  .rcard h4{color:var(--ink);font-size:15.5px;margin-bottom:6px}
+  .rcard p{font-size:13px}
+
+  /* ---- 底部 CTA ---- */
+  .cta-final{text-align:center;padding:64px 24px 84px}
+  .cta-final h2{font-size:28px;font-weight:800;margin-bottom:12px}
+  .cta-final p{color:var(--muted);margin-bottom:26px}
+
+  footer{border-top:1px solid var(--border);background:var(--soft);padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+  footer .cols{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+  footer a:hover{color:var(--blue)}
+
+  @media(max-width:900px){
+    .skill{grid-template-columns:1fr}
+    .grid3,.road{grid-template-columns:1fr}
+    .hero h1{font-size:32px}
+    .menu{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">🎁 全部 <b>MIT 开源 · 永久免费</b> — 数据与线上引擎同源导出，装进你的 AI 立即可用</div>
+
+<nav>
+  <a class="logo" href="/"><span class="dot">🤖</span>CrossBot <span style="color:var(--blue)">AI</span></a>
+  <div class="menu">
+    <div class="navitem"><a class="nav-a" href="/">首页</a></div>
+    <div class="navitem"><a class="nav-a" href="/pricing">定价</a></div>
+    <div class="navitem"><a class="nav-a" href="/gpsr-check">免费体检</a></div>
+    <div class="navitem"><a class="nav-a" href="/skills" style="color:var(--blue)">开源 Skills</a></div>
+  </div>
+  <div class="right">
+    <a class="login-link" href="/signin">登录</a>
+    <a href="/app"><button class="pill-nav ghost">打开工作台</button></a>
+    <a href="/signup"><button class="pill-nav">免费注册</button></a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero-wrap">
+  <div class="hero">
+    <div class="eyebrow">✦ MIT License · Free Forever</div>
+    <h1>把 CrossBot 的合规引擎<br><span class="accent">装进你自己的 AI</span></h1>
+    <p class="sub">两个开源 Agent Skill：<b>GPSR 合规检查器</b>和<b>欧洲 13 平台规则库</b>。复制一个文件夹即可安装到 Claude Code / Cursor / Codex 等任何支持 Agent Skill 的 AI 工作流——不用注册、不用付费、不用绑定任何工具。</p>
+    <div class="cta-row">
+      <a href="#skills"><button class="pill-blue">查看两个 Skill ↓</button></a>
+      <a href="/gpsr-check"><button class="pill-ghost">先在线免费体验 →</button></a>
+    </div>
+    <p class="tiny">✓ MIT 许可，可商用 &nbsp;·&nbsp; ✓ 规则数据与线上 SaaS 引擎同源 &nbsp;·&nbsp; ✓ 纯本地运行，产品数据不出你的电脑</p>
+  </div>
+</div>
+
+<!-- Skills -->
+<section id="skills">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Open Source Skills</div>
+    <h2 class="sec-title">两个 Skill，解决两类高频踩坑</h2>
+    <p class="sec-sub">安装后直接对 AI 说「检查这个 listing 是否符合 GPSR」或「Allegro 标题最多多少字符」</p>
+  </div>
+
+  <div class="skill">
+    <div>
+      <div class="ico">🛡️</div>
+      <h3>GPSR 合规检查器</h3>
+      <div class="path">skills/gpsr-compliance-checker/</div>
+      <p class="desc">把 EU 2023/988《通用产品安全法规》的上架检查清单交给 AI：识别产品是否属于 CE 类目，逐项核对欧盟责任人（欧代）、当地语言安全警示语、CE 标识、说明书与型号标识，并生成可直接粘贴进 listing 的多语言合规块。</p>
+      <ul class="feat">
+        <li>7 大 CE 类目自动识别（玩具/电子/纺织品/儿童用品等）</li>
+        <li>欧盟 27 国 + 英国 → 警示语语言自动映射（DE/FR/IT/ES/NL/PL…）</li>
+        <li>5 项法定缺失检测：欧代 / 警示语 / 说明书 / 型号 / CE 标识</li>
+        <li>生成含欧代占位与当地语言警示语的可粘贴合规块</li>
+        <li>内置 69 个安全词库（中英双语），差评安全事件预警同源</li>
+      </ul>
+      <div class="badges"><span class="hot">全网几乎零同类开源</span><span>数据版 JSON 随附</span><span>MIT</span></div>
+    </div>
+    <div>
+      <pre><span class="c"># 安装：复制到 Agent 的 skills 目录</span>
+<span class="g">git clone</span> https://github.com/YOUR_ORG/crossbot-ai
+<span class="g">cp -r</span> crossbot-ai/skills/gpsr-compliance-checker \
+      ~/.claude/skills/
+
+<span class="c"># 然后对 AI 说：</span>
+<span class="y">"检查这个 listing 是否符合 GPSR：
+ 产品名 Kids Building Blocks，
+ 卖往德国和法国"</span></pre>
+      <p class="codecap">↑ Claude Code 示例；Cursor / Codex 等同理放入对应 skills 目录</p>
+    </div>
+  </div>
+
+  <div class="skill">
+    <div>
+      <div class="ico">🌍</div>
+      <h3>欧洲平台规则库</h3>
+      <div class="path">skills/eu-marketplace-rules/</div>
+      <p class="desc">13 个欧洲及欧美电商平台的上架规则速查：标题字数上限、必需语言、GPSR 合规要点、覆盖国家。写 listing 之前问一句 AI，避免「Allegro 忘了翻译成波兰语」「Otto 标题超字数被拒审」这类高频返工。</p>
+      <ul class="feat">
+        <li>Amazon 欧洲站 + 美国站 / eBay / Cdiscount / Otto / Allegro / eMAG</li>
+        <li>TikTok Shop / Fruugo / Walmart / Kaufland / Zalando / bol.com</li>
+        <li>每平台：标题字数 / 五点数量 / 搜索词上限 / 默认语言</li>
+        <li>9 条高频踩坑点：EAN 唯一键、波兰语强制、zDirect 入驻审核…</li>
+        <li>规则数据由线上引擎自动导出（platforms.json），永不过期</li>
+      </ul>
+      <div class="badges"><span class="hot">13 平台 · 持续更新</span><span>中英双语规则卡</span><span>MIT</span></div>
+    </div>
+    <div>
+      <pre><span class="c"># 安装</span>
+<span class="g">cp -r</span> crossbot-ai/skills/eu-marketplace-rules \
+      ~/.claude/skills/
+
+<span class="c"># 然后对 AI 说：</span>
+<span class="y">"我要上 Allegro 和 Kaufland，
+ 标题分别能用几种语言、多少字符？
+ 生成前先按规则检查我的文案"</span></pre>
+      <p class="codecap">↑ 规则随 CrossBot 线上引擎同步更新，git pull 即最新</p>
+    </div>
+  </div>
+</section>
+
+<!-- 为什么开源 -->
+<div class="why">
+  <section>
+    <div class="sec-head">
+      <div class="sec-eyebrow">Why Open Source</div>
+      <h2 class="sec-title">为什么免费开源？</h2>
+      <p class="sec-sub">合规是信任生意——规则透明可见，你才敢把上架交给它</p>
+    </div>
+    <div class="grid3">
+      <div class="wcard">
+        <div class="ico">🔍</div>
+        <h4>规则完全透明</h4>
+        <p>7 个 CE 类目、每条警示语映射都是仓库里可读的 JSON，不接受黑箱判断。发现规则有问题？直接提 Issue 或 PR。</p>
+      </div>
+      <div class="wcard">
+        <div class="ico">🔄</div>
+        <h4>与线上引擎同源</h4>
+        <p>Skill 数据由 <code>tools/export_skill_data.py</code> 从 CrossBot 后端引擎自动导出——我们改了规则，Skill 跟着更新，不会出现两套说法。</p>
+      </div>
+      <div class="wcard">
+        <div class="ico">🚀</div>
+        <h4>想要全自动？升级 SaaS</h4>
+        <p>Skill 是手动检查；SaaS 版加 7x24 Listing 监控、每日风险日报、13 平台矩阵批量生成与差评安全预警闭环。</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 路线图 -->
+<section>
+  <div class="sec-head">
+    <div class="sec-eyebrow">Roadmap</div>
+    <h2 class="sec-title">更多 Skill 计划中</h2>
+  </div>
+  <div class="road">
+    <div class="rcard"><span class="tag">规划中</span><h4>📡 Listing 每日体检 Skill</h4><p>本地批量扫描 CSV listing 导出风险清单——SaaS 版已上线（监控 + 日报），本地版随缘发布。</p></div>
+    <div class="rcard"><span class="tag">规划中</span><h4>🚨 安全事件预警 Skill</h4><p>差评安全词扫描 + GPSR 第 35 条 15 天 Safety Gate 上报行动清单。引擎已在 SaaS 上线，欢迎催更。</p></div>
+    <div class="rcard"><span class="tag">社区投票</span><h4>💡 你想要什么 Skill？</h4><p>提 Issue 告诉我们你的高频痛点——得票最高的优先做。</p></div>
+  </div>
+</section>
+
+<!-- 底部 CTA -->
+<div class="cta-final">
+  <h2>不想手动检查？让 AI 每天帮你盯着</h2>
+  <p>CrossBot AI 工作台：Listing 仓库 + 每日定时合规体检 + 风险日报，7x24 不休息。</p>
+  <a href="/signup"><button class="pill-blue">免费注册 — 每天 5 次生成</button></a>
+  &nbsp;
+  <a href="/gpsr-check"><button class="pill-ghost" style="color:var(--ink);border-color:var(--border)">或先做 30 秒免费体检 →</button></a>
+</div>
+
+<footer>
+  <div class="cols">
+    <a href="/">首页</a><a href="/pricing">定价</a><a href="/gpsr-check">免费体检</a><a href="/skills">开源 Skills</a>
+  </div>
+  CrossBot AI — 欧洲全平台 Listing 质量 + 合规引擎 · Skills 以 MIT 许可开源 · <a href="/signin" style="color:var(--blue)">登录</a>
+</footer>
+
+</body>
+</html>
