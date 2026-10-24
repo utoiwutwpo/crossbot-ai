@@ -1,0 +1,17 @@
+# 排除本地虚拟环境与版本控制，加速 Railway 镜像构建
+.venv
+venv
+__pycache__/
+*.pyc
+.git
+.gitignore
+.workbuddy
+.github
+node_modules
+*.md
+docs/
+tests/
+skills/
+tools/
+.env
+.env.example
