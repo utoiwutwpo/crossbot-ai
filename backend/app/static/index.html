@@ -81,6 +81,7 @@
   <button data-tab="cs">AI 客服</button>
   <button data-tab="ad">广告文案</button>
   <button data-tab="review">🔄 差评改写</button>
+  <button data-tab="watch">📡 Listing 监控</button>
   <button data-tab="bill">订阅</button>
 </nav>
 <main>
@@ -199,6 +200,34 @@
     <div id="attrResult"></div>
   </div>
 
+  <!-- Listing 监控（7x24） -->
+  <div id="tab-watch" class="card hidden">
+    <h2>📡 Listing 监控 <span class="badge">7x24</span></h2>
+    <p class="hint">把 listing 存入监控仓库 → 引擎每天自动体检 GPSR 合规与平台规则 →
+      风险等级变化生成日报（可配 SMTP 邮件推送）。体检为确定性规则，不消耗生成额度。</p>
+    <div class="row" style="gap:8px;flex-wrap:wrap">
+      <button class="btn" id="btnWatchRun" style="margin:0">⚡ 立即体检并生成今日日报</button>
+      <button class="btn ghost" id="btnWatchRefresh" style="margin:0">刷新列表</button>
+      <button class="btn ghost" id="btnWatchReport" style="margin:0">查看最新日报</button>
+    </div>
+    <div id="watchReportBox" style="margin-top:12px"></div>
+    <h3 style="margin-top:18px">添加 listing 到监控仓库</h3>
+    <div class="row">
+      <div style="flex:1"><label>SKU / 标识</label><input id="w_sku" placeholder="SKU-001"></div>
+      <div style="flex:2"><label>产品名称 *</label><input id="w_name" placeholder="Kids Building Blocks Toy"></div>
+      <div style="flex:1"><label>平台 *</label><select id="w_platform"></select></div>
+    </div>
+    <label>核心关键词（逗号分隔）</label><input id="w_kw" placeholder="toy, building block, kids">
+    <label>现有标题（可选，用于字数校验）</label><input id="w_title" placeholder="粘贴当前 listing 标题">
+    <label>现有描述 / 五点（可选，用于 GPSR 要素检测）</label>
+    <textarea id="w_desc" style="min-height:70px" placeholder="粘贴当前 listing 描述，引擎会检测欧代、警示语、说明书等要素是否已写明"></textarea>
+    <button class="btn" id="btnWatchAdd">➕ 添加并立即体检</button>
+    <div id="watchMsg"></div>
+    <h3 style="margin-top:18px">监控列表 <span class="hint" id="watchCount"></span></h3>
+    <div id="watchList"></div>
+    <div id="watchDetail" style="margin-top:12px"></div>
+  </div>
+
   <!-- 订阅 -->
   <div id="tab-bill" class="card hidden">
     <h2>💳 订阅管理</h2>
@@ -252,7 +281,7 @@ async function auth(path){
     TOKEN=d.access_token; localStorage.setItem("cb_token",TOKEN);
     ME = await api("/users/me");
     document.getElementById("userbar").innerHTML=`<span>${ME.email} · ${ME.plan.toUpperCase()}（今日 ${d.usage_today}/${d.daily_limit}）</span> <button class="btn ghost" style="margin:0;padding:4px 12px" onclick="logout()">退出</button>`;
-    showApp(); loadSubscription();
+    showApp(); loadSubscription(); loadWatchList();
   }catch(e){ setMsg("authMsg", e.message, "err"); }
 }
 document.getElementById("btnLogin").onclick=()=>auth("/users/login");
@@ -262,7 +291,7 @@ document.getElementById("btnRegister").onclick=()=>auth("/users/register");
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
   b.classList.add("active");
-  ["desc","gpsr","cs","ad","review","bill"].forEach(t=>document.getElementById("tab-"+t).classList.toggle("hidden", t!==b.dataset.tab));
+  ["desc","gpsr","cs","ad","review","watch","bill"].forEach(t=>document.getElementById("tab-"+t).classList.toggle("hidden", t!==b.dataset.tab));
 });
 
 // 产品描述
@@ -485,8 +514,102 @@ document.querySelectorAll("[data-plan]").forEach(b=>b.onclick=async()=>{
   }catch(e){ setMsg("subInfo", e.message, "err"); }
 });
 
+// ===== Listing 监控（7x24）=====
+const LEVEL_BADGE = {high:"🔴", medium:"🟡", low:"🟢"};
+(async function initWatchPlatform(){
+  const sel=document.getElementById("w_platform");
+  try{
+    const reg=await (await fetch(API+"/products/platforms")).json();
+    sel.innerHTML=Object.entries(reg).map(([k,v])=>`<option value="${k}">${v.display}</option>`).join("");
+  }catch(e){ sel.innerHTML='<option value="amazon">Amazon 欧洲站</option>'; }
+})();
+async function loadWatchList(){
+  try{
+    const d=await api("/listings");
+    document.getElementById("watchCount").textContent=`（${d.listings.length} / ${d.limit} 条，按风险排序）`;
+    document.getElementById("watchList").innerHTML = d.listings.length ? `<table>
+      <tr><th>状态</th><th>SKU</th><th>产品</th><th>平台</th><th>风险分</th><th>问题数</th><th>上次体检</th><th></th></tr>
+      ${d.listings.map(w=>`<tr>
+        <td>${LEVEL_BADGE[w.risk_level]||""} ${w.risk_level}</td><td>${w.sku||"-"}</td>
+        <td>${w.product_name}</td><td>${w.platform}</td><td>${w.risk_score}</td>
+        <td>${w.risk_count}</td><td class="hint">${(w.last_checked_at||"").slice(0,16).replace("T"," ")}</td>
+        <td style="white-space:nowrap">
+          <button class="btn ghost" style="margin:0;padding:4px 10px" onclick="watchDetail('${w.id}')">详情</button>
+          <button class="btn ghost" style="margin:0;padding:4px 10px" onclick="watchRecheck('${w.id}')">重检</button>
+          <button class="btn ghost" style="margin:0;padding:4px 10px" onclick="watchDelete('${w.id}')">删除</button></td>
+      </tr>`).join("")}</table>`
+      : '<p class="hint">还没有监控中的 listing。添加第一条，引擎就会开始每天自动体检。</p>';
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
+}
+window.watchDetail = async id=>{
+  try{
+    const w=await api("/listings/"+id);
+    document.getElementById("watchDetail").innerHTML=`<div class="result">
+      <h3>${LEVEL_BADGE[w.risk_level]||""} ${w.product_name} <span class="badge">${w.platform}</span> <span class="badge">风险分 ${w.risk_score}</span></h3>
+      ${w.risk_items.length?`<ol>${w.risk_items.map((i,n)=>`<li><b>${i.severity==="high"?"🔴":i.severity==="medium"?"🟡":"🟢"} ${i.message}</b><br>
+        <span class="hint">修复：${(w.fix_hints.find(f=>f.code===i.code)||{}).fix||"-"}</span></li>`).join("")}</ol>`
+        :"<p>✅ 未发现风险项</p>"}
+      <h3>🛡️ GPSR 合规块（直接粘贴进 listing）</h3>
+      <pre style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px;white-space:pre-wrap;font-size:13px">${w.gpsr_block}</pre></div>`;
+    document.getElementById("watchDetail").scrollIntoView({behavior:"smooth"});
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
+};
+window.watchRecheck = async id=>{
+  try{ await api("/listings/"+id+"/recheck",{method:"POST"}); loadWatchList(); setMsg("watchMsg","已重新体检","ok"); }
+  catch(e){ setMsg("watchMsg", e.message, "err"); }
+};
+window.watchDelete = async id=>{
+  try{ await api("/listings/"+id,{method:"DELETE"}); loadWatchList();
+       document.getElementById("watchDetail").innerHTML=""; setMsg("watchMsg","已移除监控","ok"); }
+  catch(e){ setMsg("watchMsg", e.message, "err"); }
+};
+function renderWatchReport(r){
+  if(!r) return '<p class="hint">还没有日报。点击「立即体检并生成今日日报」。</p>';
+  return `<div class="result"><h3>📊 风险日报 ${r.report_date}
+    ${r.email_sent?'<span class="badge">📧 已邮件推送</span>':'<span class="badge">邮件未配置（SMTP）</span>'}</h3>
+    <p>监控 <b>${r.total_listings}</b> 条：🔴 ${r.high_count} · 🟡 ${r.medium_count} · 🟢 ${r.low_count}</p>
+    ${r.new_risks.length?`<h4>⚠️ 需处理（等级恶化/新增）</h4><ul>${r.new_risks.map(x=>`<li><b>${x.sku||x.product_name}</b>（${x.platform}）：${x.from} → <b style="color:var(--err)">${x.to}</b><br><span class="hint">${(x.top_items||[]).join("；")}</span></li>`).join("")}</ul>`:'<p>✅ 无新增风险</p>'}
+    ${r.improved.length?`<h4>🎉 改善</h4><ul>${r.improved.map(x=>`<li>${x.product_name}：${x.from} → ${x.to}</li>`).join("")}</ul>`:""}</div>`;
+}
+document.getElementById("btnWatchAdd").onclick=async()=>{
+  setMsg("watchMsg","");
+  const body={
+    sku:document.getElementById("w_sku").value.trim(),
+    product_name:document.getElementById("w_name").value.trim(),
+    platform:document.getElementById("w_platform").value,
+    keywords:document.getElementById("w_kw").value.split(",").map(s=>s.trim()).filter(Boolean),
+    title:document.getElementById("w_title").value.trim(),
+    description:document.getElementById("w_desc").value.trim(),
+  };
+  if(!body.product_name) return setMsg("watchMsg","请填写产品名称","err");
+  const btn=document.getElementById("btnWatchAdd"); btn.disabled=true; btn.textContent="体检中…";
+  try{
+    const d=await api("/listings",{method:"POST",body:JSON.stringify(body)});
+    setMsg("watchMsg",`已添加并完成首次体检：风险分 ${d.listing.risk_score}（${d.listing.risk_level}）`,"ok");
+    document.getElementById("w_name").value=""; document.getElementById("w_sku").value="";
+    loadWatchList(); window.watchDetail(d.listing.id);
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="➕ 添加并立即体检";
+};
+document.getElementById("btnWatchRun").onclick=async()=>{
+  const btn=document.getElementById("btnWatchRun"); btn.disabled=true; btn.textContent="体检中…";
+  try{
+    const r=await api("/watch/run",{method:"POST"});
+    document.getElementById("watchReportBox").innerHTML=renderWatchReport(r);
+    loadWatchList(); setMsg("watchMsg","体检轮完成，日报已生成","ok");
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
+  btn.disabled=false; btn.textContent="⚡ 立即体检并生成今日日报";
+};
+document.getElementById("btnWatchRefresh").onclick=loadWatchList;
+document.getElementById("btnWatchReport").onclick=async()=>{
+  try{
+    const d=await api("/watch/report/latest");
+    document.getElementById("watchReportBox").innerHTML=renderWatchReport(d.report);
+  }catch(e){ setMsg("watchMsg", e.message, "err"); }
+};
+
 // 自动恢复登录态
-if(TOKEN){ api("/users/me").then(u=>{ ME=u; showApp(); renderUserbar(); loadSubscription(); })
+if(TOKEN){ api("/users/me").then(u=>{ ME=u; showApp(); renderUserbar(); loadSubscription(); loadWatchList(); })
   .catch(()=>{ TOKEN=""; localStorage.removeItem("cb_token"); }); }
 </script>
 </body>

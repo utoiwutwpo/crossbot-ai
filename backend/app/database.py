@@ -131,6 +131,51 @@ class AnalyticsEvent(Base):
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
 
 
+class ListingWatch(Base):
+    """Listing 仓库：7x24 自动监控的 listing 快照（Phase 1 手动导入）"""
+    __tablename__ = "listing_watches"
+
+    id = Column(String(32), primary_key=True, default=gen_id)
+    user_id = Column(String(32), ForeignKey("users.id", ondelete="CASCADE"),
+                     index=True, nullable=False)
+    sku = Column(String(100), default="")             # 卖家自编 SKU/标识
+    product_name = Column(String(255), nullable=False)
+    platform = Column(String(50), nullable=False)
+    keywords = Column(JSON, default=list)
+    title = Column(Text, default="")
+    bullets = Column(JSON, default=list)
+    description = Column(Text, default="")
+
+    # 最近一次体检结果
+    risk_level = Column(String(10), default="low")    # low / medium / high
+    risk_score = Column(Float, default=100)
+    risk_items = Column(JSON, default=list)
+    fix_hints = Column(JSON, default=list)
+    gpsr_block = Column(Text, default="")
+    prev_risk_level = Column(String(10), default="")  # 上一次体检等级（变化检测用）
+    last_checked_at = Column(DateTime)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class RiskReport(Base):
+    """每日风险日报（每用户每天一份，由调度器或手动触发生成）"""
+    __tablename__ = "risk_reports"
+
+    id = Column(String(32), primary_key=True, default=gen_id)
+    user_id = Column(String(32), ForeignKey("users.id", ondelete="CASCADE"),
+                     index=True, nullable=False)
+    report_date = Column(Date, default=date.today, index=True)
+    total_listings = Column(Integer, default=0)
+    high_count = Column(Integer, default=0)
+    medium_count = Column(Integer, default=0)
+    low_count = Column(Integer, default=0)
+    new_risks = Column(JSON, default=list)      # 风险等级恶化/新增 blocker 的条目
+    improved = Column(JSON, default=list)       # 风险等级改善的条目
+    email_sent = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
 def init_db() -> None:
     Base.metadata.create_all(engine)
 

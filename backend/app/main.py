@@ -13,7 +13,9 @@ from fastapi.staticfiles import StaticFiles
 
 from .config import settings
 from .database import init_db
-from .routers import users, products, customer_service, ads, billing, analytics
+from .routers import (ads, analytics, billing, customer_service, listings,
+                      products, users)
+from .scheduler import start_scheduler, stop_scheduler
 
 logging.basicConfig(level=logging.INFO)
 
@@ -21,7 +23,9 @@ logging.basicConfig(level=logging.INFO)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
+    start_scheduler()   # 7x24 监控：每日定时体检 + 风险日报
     yield
+    stop_scheduler()
 
 
 app = FastAPI(
@@ -46,6 +50,7 @@ app.include_router(customer_service.router, prefix=f"{API_PREFIX}/customer-servi
 app.include_router(ads.router, prefix=f"{API_PREFIX}/ads", tags=["ads"])
 app.include_router(billing.router, prefix=f"{API_PREFIX}/billing", tags=["billing"])
 app.include_router(analytics.router, prefix=f"{API_PREFIX}/analytics", tags=["analytics"])
+app.include_router(listings.router, prefix=f"{API_PREFIX}", tags=["watch"])
 
 
 @app.get("/", include_in_schema=False)

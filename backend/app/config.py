@@ -39,6 +39,17 @@ class Settings(BaseSettings):
     stripe_price_pro: str = ""
     stripe_price_business: str = ""
 
+    # ===== Listing 监控（Phase 1：每日定时体检 + 风险日报）=====
+    watch_scheduler_enabled: bool = True   # 上线后如用外部 cron 可关闭
+    watch_daily_hour: int = 8              # 每日体检时间（UTC 小时）
+    # SMTP（不配置则日报只入库不发邮件）
+    smtp_host: str = ""
+    smtp_port: int = 587
+    smtp_ssl: bool = False
+    smtp_user: str = ""
+    smtp_password: str = ""
+    smtp_from: str = ""
+
     # ===== 应用 =====
     app_name: str = "CrossBot AI"
     app_url: str = "http://localhost:8000"
