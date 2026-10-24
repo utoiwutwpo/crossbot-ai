@@ -7,3 +7,5 @@ pyjwt==2.10.1
 httpx==0.28.1
 python-multipart==0.0.20
 stripe==11.4.1
+apscheduler==3.10.4
+pycryptodome==3.21.0

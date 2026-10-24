@@ -13,8 +13,8 @@ from fastapi.staticfiles import StaticFiles
 
 from .config import settings
 from .database import init_db
-from .routers import (ads, analytics, billing, customer_service, listings,
-                      products, users)
+from .routers import (ads, analytics, billing, customer_service, ebay,
+                      listings, products, users)
 from .scheduler import start_scheduler, stop_scheduler
 
 logging.basicConfig(level=logging.INFO)
@@ -49,6 +49,7 @@ app.include_router(products.router, prefix=f"{API_PREFIX}/products", tags=["prod
 app.include_router(customer_service.router, prefix=f"{API_PREFIX}/customer-service", tags=["customer-service"])
 app.include_router(ads.router, prefix=f"{API_PREFIX}/ads", tags=["ads"])
 app.include_router(billing.router, prefix=f"{API_PREFIX}/billing", tags=["billing"])
+app.include_router(ebay.router, prefix=f"{API_PREFIX}/ebay", tags=["eBay"])
 app.include_router(analytics.router, prefix=f"{API_PREFIX}/analytics", tags=["analytics"])
 app.include_router(listings.router, prefix=f"{API_PREFIX}", tags=["watch"])
 

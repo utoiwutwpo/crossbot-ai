@@ -221,7 +221,8 @@
         <a href="/app"><span>📦 Listing 生成器<small>标题 + 五点 + 详情 + 搜索词，按平台规则</small></span></a>
         <a href="/app"><span>🌍 多平台矩阵<small>一次输入 → 13 平台批量本地化</small></span></a>
         <a href="/app"><span>🔄 差评改写<small>主题定位 → 五点修复 + 安全事件预警</small></span></a>
-        <a href="/app"><span>🚨 AI 客服红线层<small>威胁/勒索识别 → 安抚 + 转人工留证</small></span></a>
+        <a href="/app"><span>💬 AI 客服 + eBay 接入<small>买家消息 webhook → LLM 回复 → GPSR 红线拦截</small></span></a>
+        <a href="/app"><span>🚨 政策安全红线层<small>威胁/勒索/伤害识别 → 安抚 + 转人工留证</small></span></a>
       </div>
     </div>
     <div class="navitem"><a class="solo" href="#sites">覆盖平台</a></div>
@@ -252,8 +253,8 @@
   <div class="hero">
     <div>
       <div class="eyebrow">✦ 欧洲全平台 Listing 质量 + 合规引擎</div>
-      <h1>文案只是入口，<br><span class="accent">合规与质量</span>才是付费理由</h1>
-      <p class="sub">CrossBot AI：一次输入 → 13 平台本地化 Listing + GPSR 合规块内嵌输出。不与免费官方工具拼写文案，专打 <b>合规 × 本地平台 × 语义评分</b>三个竞品空位。独立工作台，无需绑定店铺。</p>
+      <h1>文案只是入口，<br><span class="accent">合规 × 客服 × 质量</span>才是付费理由</h1>
+      <p class="sub">CrossBot AI：一次输入 → 13 平台本地化 Listing + GPSR 合规块内嵌输出 + AI 客服红线层自动拦截。eBay/Otto 官方 AI 只帮快回复，我们帮你<b>合规地</b>回复——少一个 GPSR 违规 = 少一次 15 天 Safety Gate 上报 = 少一次店铺封禁风险。</p>
       <div class="cta-row">
         <a href="/signup"><button class="pill-blue">免费开始 — 每天 5 次</button></a>
         <a href="/gpsr-check"><button class="pill-ghost">先做免费合规体检 →</button></a>
@@ -389,7 +390,7 @@
     <h2 class="sec-title">竞品都在做「写文案」，我们把合规也做完了</h2>
   </div>
   <div class="diffs">
-    <div class="diff d1"><div class="medal">🥇</div><h3>GPSR × Listing 一体化</h3><p>市面上没有工具在生成 listing 的同时内嵌 GPSR 合规块。EU 2023/988 强制执行后，缺欧代/警示语 = 直接下架。我们是唯一闭环。</p></div>
+    <div class="diff d1"><div class="medal">🥇</div><h3>GPSR × 客服 × Listing 三合一</h3><p>Amazon/eBay 官方 AI 客服只解决「快回复」，不管合规。CrossBot 在三处都做：生成 listing 时内嵌 GPSR 块，收到买家消息时做红线扫描，监控 listing 时报警风险。竞品要么管文案不管合规，要么管合规不管客服——我们把两者闭环。</p></div>
     <div class="diff d2"><div class="medal">🥈</div><h3>属性树硬阻断</h3><p>不是「建议填写」，而是像平台审核一样硬拦截：EAN 校验位错误、材质成分缺失直接标记 ready_to_list = false。</p></div>
     <div class="diff d3"><div class="medal">🥉</div><h3>语义搜索适配</h3><p>面向 Rufus / iZi 等 AI 购物助手优化：8 类买家问题语义覆盖度评分，让 AI 导购也推荐你的产品。</p></div>
   </div>
@@ -436,6 +437,8 @@
     <details><summary>生成质量如何保证？</summary><div class="a">每个平台的标题字数、语言、结构化要求内置为硬校验（如 Otto 70 字符、Allegro 75 字符），生成后自动评分并标记违规项；属性树对 EAN 校验位等做硬阻断，上架前就能发现会被拒审的问题。</div></details>
     <details><summary>免费版和付费版差别？</summary><div class="a">免费版每天 5 次生成 + 免费合规体检（只报问题）。付费版解锁合规块全文、属性树校验、多平台矩阵，Pro 起含 AI 客服与广告文案。详见<a href="/pricing" style="color:var(--blue)">定价页</a>。</div></details>
     <details><summary>支持哪些语言？</summary><div class="a">Listing 生成支持 16 种语言，GPSR 警示语内置 7 种（德/法/意/西/波/罗/英）。语言按平台自动匹配，也可手动指定。</div></details>
+    <details><summary>eBay / Cdiscount 等小平台也支持吗？</summary><div class="a">支持。目前 CrossBot 已覆盖 13 个平台（Amazon EU+US、eBay、Cdiscount、Otto、Allegro、eMAG、Fruugo、Walmart、Kaufland、Zalando、bol.com、TikTok Shop）。其中 Cdiscount、Allegro、eMAG、Fruugo 在竞品中覆盖率为零，我们率先补齐。</div></details>
+    <details><summary>AI 客服需要绑定店铺吗？</summary><div class="a">第一阶段（开发中）：eBay 卖家授权后，买家消息通过 webhook 推送到 CrossBot，AI 生成回复草稿，你确认后再发回。不需要第三方工具介入，所有数据在你的 CrossBot 账户内。</div></details>
   </div>
 </section>
 

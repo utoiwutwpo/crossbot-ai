@@ -176,6 +176,60 @@ class RiskReport(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
+class eBayConnection(Base):
+    """eBay 平台授权连接（卖家 OAuth 成功后存储 token）"""
+    __tablename__ = "ebay_connections"
+
+    id = Column(String(32), primary_key=True, default=gen_id)
+    user_id = Column(String(32), ForeignKey("users.id", ondelete="CASCADE"),
+                     index=True, nullable=False, unique=True)
+    access_token = Column(Text, nullable=False)      # 加密存储
+    refresh_token = Column(Text, default="")         # 加密存储
+    expires_at = Column(Float, nullable=False)       # Unix timestamp
+    marketplace_id = Column(String(50), default="")  # 如 EBAY_US, EBAY_DE
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class IncomingMessage(Base):
+    """eBay 推送过来的买家原始消息"""
+    __tablename__ = "ebay_incoming_messages"
+
+    id = Column(String(32), primary_key=True, default=gen_id)
+    user_id = Column(String(32), ForeignKey("users.id", ondelete="CASCADE"),
+                     index=True, nullable=False)
+    platform = Column(String(20), default="ebay")     # 预留多平台扩展
+    message_id = Column(String(100), default="")      # eBay messageId
+    thread_id = Column(String(100), default="")       # eBay threadId
+    buyer_id = Column(String(100), default="")        # eBay userId
+    raw_payload = Column(Text)                        # 完整 JSON（便于调试）
+    customer_message = Column(Text)                   # 买家原文
+    status = Column(String(20), default="received")   # received / processed / failed
+    processed_at = Column(DateTime)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class OutgoingReply(Base):
+    """AI 生成的回复草稿 + 发送状态"""
+    __tablename__ = "ebay_outgoing_replies"
+
+    id = Column(String(32), primary_key=True, default=gen_id)
+    user_id = Column(String(32), ForeignKey("users.id", ondelete="CASCADE"),
+                     index=True, nullable=False)
+    message_id = Column(String(32), ForeignKey("ebay_incoming_messages.id", ondelete="CASCADE"),
+                        nullable=False)
+    ai_reply = Column(Text)                           # AI 生成原文
+    intent = Column(String(30), default="other")      # tracking/return/complaint/product_info
+    sentiment = Column(String(20), default="neutral")
+    needs_escalation = Column(Boolean, default=False)
+    policy_flags = Column(JSON, default=list)         # 命中的红线类型
+    guardrail = Column(Text, default="")              # 红线模式提示
+    status = Column(String(20), default="draft")      # draft / sent / deleted
+    sent_at = Column(DateTime)
+    ebay_response = Column(Text)                      # eBay API 返回
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
 def init_db() -> None:
     Base.metadata.create_all(engine)
 

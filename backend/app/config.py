@@ -48,6 +48,11 @@ class Settings(BaseSettings):
     paypal_plan_pro: str = ""
     paypal_plan_business: str = ""
 
+    # ===== eBay 接入（上线时填）=====
+    ebay_client_id: str = ""
+    ebay_client_secret: str = ""
+    ebay_encryption_key: str = ""        # AES-256 加密密钥（base64），未配置则用固定 dev key
+
     # ===== Listing 监控（Phase 1：每日定时体检 + 风险日报）=====
     watch_scheduler_enabled: bool = True   # 上线后如用外部 cron 可关闭
     watch_daily_hour: int = 8              # 每日体检时间（UTC 小时）
